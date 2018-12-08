@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter|Catamaran|Merriweather|Noto+Serif');
+.custom_navbar{
+    background: wheat !important;
+}
+
+.custom_title{
+    font-family: 'Bitter', serif;
+    color: brown;
+    font-size: 38px;
+}
