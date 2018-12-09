@@ -13,24 +13,15 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li> <a class=" waves-effect waves-dark" href="/admin/dashboard" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard </span></a>
-
-                </li>
-
-                <li> <a class="waves-effect waves-dark" href="/admin/workfields"><i class="fa fa-gavel"></i><span class="hide-menu">Work Areas<span class="badge badge-pill ml-5 badge-cyan">{{\App\WorkFields::count()}}</span></span></a>
-
-                </li>
-                <li> <a class=" waves-effect waves-dark" href="/admin/orders" aria-expanded="false"><i class="	fa fa-address-card-o"></i><span class="hide-menu">Clients Requests <span class="badge badge-pill ml-4 badge-primary text-white">{{\App\Orders::count()}}</span></span></a>
-
-                </li>
-
-                <li> <a class="waves-effect waves-dark" href="/admin/admins"><i class="fa fa-user-o"></i><span class="hide-menu">Admins</span></a>
-
-                </li>
-
-                <li> <a class=" waves-effect waves-dark" href="/admin/materials" aria-expanded="false"><i class="fa fa-building-o"></i><span class="hide-menu">Materials</span></a>
-
                 </li>
                 <li class="nav-small-cap"></li>
+                <li> <a class=" waves-effect waves-dark" href="/admin/apartments" aria-expanded="false"><i class="fas fa-building"></i><span class="hide-menu">Apartments </span></a>
+                </li>
+
+
+
+
+
                 <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-gallery"></i><span class="hide-menu">Page Layout</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="layout-single-column.html">1 Column <i class="ti-layout-menu-separated"></i></a></li>

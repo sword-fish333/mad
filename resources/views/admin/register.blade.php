@@ -1,4 +1,4 @@
-@extends('admin.template.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <div class="card col-md-8 offset-2" style="margin-top: 80px;">

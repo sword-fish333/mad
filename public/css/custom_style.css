@@ -8,3 +8,73 @@
     color: brown;
     font-size: 38px;
 }
+
+.dashboard_title{
+    text-align: center;
+    font-family: 'Merriweather';
+    font-weight: bold;
+    margin-top: 180px;
+    color: darkred;
+    font-size: 42px;
+
+}
+
+.dashboard_subtitle{
+    text-align: center;
+    font-family: 'Catamaran';
+    font-weight: bold;
+    margin-top: 10px;
+    color: darkred;
+    font-size: 32px;
+
+}
+
+.dashboard_parallax{
+
+    /* The image used */
+    background-image: url("../images/dashboard.png");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.apartments_parallax{
+    /* The image used */
+    background-image: url("../images/apartment.jpg");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.apartments_title{
+    text-align: center;
+    color: black;
+    margin-top: 190px;
+    font-family: 'Bitter';
+    font-size: 50px;
+    text-decoration: underline;
+}
+.apartments_table_title{
+    font-family: 'Bitter', serif;
+    color: darkred;
+    font-size: 38px;
+}
+
+.custom_modal_title{
+    font-family: 'Catamaran';
+    text-decoration: underline;
+    margin-top: 10px;
+    color: darkred;
+    font-size: 28px;
+}

@@ -8,15 +8,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 class AdminController extends Controller
 {
-    function showLogin(){
+   public function showLogin(){
 
         return view('admin.login');
     }
-    function showRegister(){
+    public   function showRegister(){
 
         return view('admin.register');
     }
 
+    function showDashboard(){
+
+        return view('admin.admin_dashboard');
+    }
 
     public function adminLogin(Request $request){
         $user=Admin::where("email","=",$request->email)->get();
@@ -33,7 +37,7 @@ class AdminController extends Controller
         Session::put("user",$user[0]);
         Session::put("ok",1);
         Session::put("is_admin",1);
-        return back()->with('success','You are now logedin!');
+        return redirect('/admin/dashboard')->with('success','You are now logedin!');
     }
 
     function adminRegister(Request $request){
@@ -56,9 +60,9 @@ class AdminController extends Controller
 
     }
 
-    function logout(){
+    function Logout(){
         Session::flush();
-        return redirect('admin/login');
+        return redirect('admin/login')->with('success','You are now logged out');
     }
 
 }
