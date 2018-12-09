@@ -25,3 +25,4 @@ Route::get('admin/logout', 'AdminController@Logout');
 
 //Routes for apartments
 Route::get('/admin/apartments', 'ApartmentsController@showApartmentsTable');
+Route::post('/admin/apartments/add', 'ApartmentsController@addApartment');

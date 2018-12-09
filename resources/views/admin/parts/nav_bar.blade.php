@@ -2,7 +2,7 @@
 <!-- ============================================================== -->
 
 <header class="topbar " style="top: 0;">
-    <nav class="navbar top-navbar navbar-expand-md navbar-dark custom_navbar">
+    <nav class="navbar top-navbar navbar-expand-md custom_navbar">
         <!-- ============================================================== -->
         <!-- Logo -->
         <!-- ============================================================== -->
@@ -24,7 +24,7 @@
 
             <!-- ============================================================== -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link  dropdown-toggle text-muted waves-effect waves-dark" href=""  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle mt-2" style="font-size:36px; color:black;"></i></a>
+                    <a class="nav-link  dropdown-toggle text-muted waves-effect waves-dark" href=""  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle mt-2" style="font-size:36px; color:white;"></i></a>
 
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                         <span class="with-arrow"><span class="bg-primary"></span></span>

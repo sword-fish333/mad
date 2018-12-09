@@ -16,6 +16,7 @@
     <link href="{{asset('assets/node_modules/morrisjs/morris.css')}}" rel="stylesheet">
     <!--Toaster Popup message CSS -->
     <link rel="stylesheet" href="{{asset('css/custom_style.css')}}">
+
     <link href="{{asset('assets/node_modules/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
     <!--c3 plugins CSS -->
     <link href="{{asset('assets/node_modules/c3-master/c3.min.css')}}" rel="stylesheet">

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Bitter|Catamaran|Merriweather|Noto+Serif');
 .custom_navbar{
-    background: wheat !important;
+    background:  #2b2f3a !important;
 }
 
 .custom_title{
@@ -14,7 +14,7 @@
     font-family: 'Merriweather';
     font-weight: bold;
     margin-top: 180px;
-    color: darkred;
+    color: white;
     font-size: 42px;
 
 }
@@ -24,7 +24,7 @@
     font-family: 'Catamaran';
     font-weight: bold;
     margin-top: 10px;
-    color: darkred;
+    color: white;
     font-size: 32px;
 
 }
@@ -77,4 +77,14 @@
     margin-top: 10px;
     color: darkred;
     font-size: 28px;
+}
+
+.new_apartment_label{
+    font-family: 'Noto Serif';
+    font-size: 22px;
+}
+
+. price_label{
+    font-family: 'Noto Serif';
+    font-size: 18px;
 }

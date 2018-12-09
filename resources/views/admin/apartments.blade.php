@@ -7,7 +7,7 @@
         #map {
             margin-left: 100px;
             margin-top: 20px;
-            height: 500px;
+            height: 300px;
             width: 500px;
         }
     </style>
@@ -17,6 +17,7 @@
         </div>
             @include('admin.parts.messages.success')
             @include('admin.parts.messages.error')
+        @include('admin.parts.messages.custom_error')
         <div class="card">
             <div class="card-header">
                 <!-- Button trigger modal -->
