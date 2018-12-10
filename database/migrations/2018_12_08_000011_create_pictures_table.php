@@ -34,8 +34,11 @@ class CreatePicturesTable extends Migration
 
             $table->foreign('apartments_id', 'fk_pictures_apartments1_idx')
                 ->references('id')->on('apartments')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+
         });
     }
 

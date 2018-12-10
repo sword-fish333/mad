@@ -29,6 +29,9 @@ class CreatePromotionsTable extends Migration
             $table->string('picture', 145)->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 

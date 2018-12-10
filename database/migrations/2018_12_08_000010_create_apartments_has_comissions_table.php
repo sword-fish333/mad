@@ -36,13 +36,16 @@ class CreateApartmentsHasComissionsTable extends Migration
 
             $table->foreign('commissions_id', 'fk_commissions_has_apartments_commissions1_idx')
                 ->references('id')->on('commissions')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('apartments_id', 'fk_commissions_has_apartments_apartments1_idx')
                 ->references('id')->on('apartments')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+
         });
     }
 

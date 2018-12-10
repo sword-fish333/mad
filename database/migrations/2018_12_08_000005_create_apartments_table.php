@@ -35,6 +35,10 @@ class CreateApartmentsTable extends Migration
             $table->string('kind_increment_price', 45)->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+
+            $table->timestamps();
+
         });
     }
 

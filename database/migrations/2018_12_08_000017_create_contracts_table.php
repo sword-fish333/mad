@@ -34,8 +34,11 @@ class CreateContractsTable extends Migration
 
             $table->foreign('reservations_id', 'fk_contracts_reservations1_idx')
                 ->references('id')->on('reservations')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+
         });
     }
 

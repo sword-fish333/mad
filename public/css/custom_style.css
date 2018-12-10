@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter|Catamaran|Merriweather|Noto+Serif');
+@import url('https://fonts.googleapis.com/css?family=Saira');
+
+.custom_navbar{
+    background:  #2b2f3a !important;
+}
+
+.custom_title{
+    font-family: 'Bitter', serif;
+    color: brown;
+    font-size: 38px;
+}
+
+.dashboard_title{
+    text-align: center;
+    font-family: 'Merriweather';
+    font-weight: bold;
+    margin-top: 180px;
+    color: white;
+    font-size: 42px;
+
+}
+
+.dashboard_subtitle{
+    text-align: center;
+    font-family: 'Catamaran';
+    font-weight: bold;
+    margin-top: 10px;
+    color: white;
+    font-size: 32px;
+
+}
+
+.dashboard_parallax{
+
+    /* The image used */
+    background-image: url("../images/dashboard.png");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.apartments_parallax{
+    /* The image used */
+    background-image: url("../images/apartment.jpg");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.apartments_title{
+    text-align: center;
+    color: black;
+    margin-top: 190px;
+    font-family: 'Bitter', sans-serif;
+    font-size: 50px;
+    text-decoration: underline;
+}
+.apartments_table_title{
+    font-family: 'Bitter', serif;
+    color: darkred;
+    font-size: 38px;
+}
+
+.custom_modal_title{
+    font-family: 'Catamaran', sans-serif;
+    text-decoration: underline;
+    margin-top: 10px;
+    font-weight: bold;
+    color: white;
+    font-size: 28px;
+}
+
+.new_apartment_label{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 22px;
+}
+
+. price_label{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 18px;
+}
+
+.stars_label{
+    color: darkred;
+        font-family: 'Catamaran', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.custom_apartments_table_head{
+    font-family: 'Saira', sans-serif;
+    font-size: 18px;
+    color: white;
+}
+
+.modal_title_ap{
+    font-family: 'Saira', sans-serif;
+    font-size: 28px;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.info_apartment{
+    font-family: 'Saira', sans-serif;
+    font-size: 22px;
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.apartment_data{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 20px;
+}
+
+.custom_background{
+    background-color: rgba(77, 121, 178, 0.5);
+    transition: background-color 1s;
+}
+
+.custom_background:hover{
+    background-color: rgba(77, 121, 178, 0.8);
+}
+.edit_apartment_pictures{
+    background-color: rgba(67, 133, 225,0.5);
+    border-radius: 40px;
+    border:2px solid black;
+}
+.edit_apartment_pictures:hover{
+    background-color: rgba(67, 133, 225,0.8);
+}
+
+.attention_edit_apartment{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 26px;
+    margin-left: 40px;
+    color: darkred;
+}

@@ -32,6 +32,9 @@ class CreatePersonsTable extends Migration
             $table->string('document_picture', 145)->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 

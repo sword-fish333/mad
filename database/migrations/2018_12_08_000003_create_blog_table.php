@@ -28,6 +28,9 @@ class CreateBlogTable extends Migration
             $table->text('content')->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 

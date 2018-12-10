@@ -36,13 +36,16 @@ class CreateApartmentsHasFeaturesTable extends Migration
 
             $table->foreign('apartments_id', 'fk_apartments_has_features_apartments1_idx')
                 ->references('id')->on('apartments')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('features_id', 'fk_apartments_has_features_features1_idx')
                 ->references('id')->on('features')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+
         });
     }
 

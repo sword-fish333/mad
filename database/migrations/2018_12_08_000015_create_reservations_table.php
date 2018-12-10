@@ -52,13 +52,16 @@ class CreateReservationsTable extends Migration
 
             $table->foreign('languages_id', 'fk_reservations_languages1_idx')
                 ->references('id')->on('languages')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('persons_id', 'fk_reservations_persons1_idx')
                 ->references('id')->on('persons')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->timestamps();
+
         });
     }
 

@@ -28,6 +28,10 @@ class CreateFeaturesTable extends Migration
             $table->string('icon', 45)->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+
+            $table->timestamps();
+
         });
     }
 

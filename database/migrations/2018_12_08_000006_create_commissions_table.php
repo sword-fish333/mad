@@ -28,6 +28,9 @@ class CreateCommissionsTable extends Migration
             $table->double('comission')->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 

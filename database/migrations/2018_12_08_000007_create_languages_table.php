@@ -27,6 +27,9 @@ class CreateLanguagesTable extends Migration
             $table->string('name', 190)->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 

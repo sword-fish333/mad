@@ -30,6 +30,9 @@ class CreateAdminsTable extends Migration
             $table->text('password')->nullable();
 
             $table->unique(["id"], 'id_UNIQUE');
+
+            $table->timestamps();
+
         });
     }
 
