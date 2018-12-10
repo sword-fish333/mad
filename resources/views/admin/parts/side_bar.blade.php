@@ -15,7 +15,10 @@
                 <li> <a class=" waves-effect waves-dark" href="/admin/dashboard" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard </span></a>
                 </li>
                 <li class="nav-small-cap"></li>
-                <li> <a class=" waves-effect waves-dark" href="/admin/apartments" aria-expanded="false"><i class="fas fa-building"></i><span class="hide-menu">Apartments </span></a>
+                <li> <a class=" waves-effect waves-dark" href="/admin/apartments" aria-expanded="false"><i class="fas fa-building"></i><span class="hide-menu">Apartments</span> <span class="badge badge-pill badge-info float-right">{{\App\Apartment::count()}}</span></a>
+                </li>
+                <li class="nav-small-cap"></li>
+                <li> <a class=" waves-effect waves-dark" href="/admin/features" aria-expanded="false"><i class="fas fa-swatchbook"></i><span class="hide-menu">Features of <br> Apartments</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Feature::count()}}</span></a>
                 </li>
 
 

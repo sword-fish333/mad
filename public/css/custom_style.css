@@ -151,3 +151,28 @@
     margin-left: 40px;
     color: darkred;
 }
+
+.features_parallax{
+    /* The image used */
+    background-image: url("../images/minimal_apartment.jpg");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.custom_head_modal_feature{
+    background-color: rgba(60, 118, 198, 0.8);
+}
+
+.feature_label{
+    font-family: 'Saira', sans-serif;
+    font-size: 19px;
+    color:black;
+    text-decoration: underline;
+}

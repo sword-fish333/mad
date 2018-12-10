@@ -33,4 +33,10 @@ Route::get('/admin/apartments/photos/delete/{id}', 'ApartmentsController@deleteA
 Route::get('/admin/apartments/delete/{id}', 'ApartmentsController@deleteApartment');
 
 
+//Routes for CRUD on features of the Apartment
+Route::get('/admin/features', 'FeaturesController@showFeatures');
+Route::post('/admin/features/add', 'FeaturesController@addFeature');
+Route::post('/admin/features/edit/{id}', 'FeaturesController@editFeature');
+Route::get('/admin/features/delete/{id}', 'FeaturesController@deleteFeature');
+
 
