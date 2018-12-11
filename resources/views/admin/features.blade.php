@@ -73,7 +73,7 @@
                             <i class="fas fa-edit"></i>
                         </button>
                     </td>
-                    <td><a href="/admin/features/delete/{{$feature->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('are you sure you want to delete this Apartment?')"><i class="fas fa-eraser"></i></a></td>
+                    <td><a href="/admin/features/delete/{{$feature->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Feature?')"><i class="fas fa-eraser"></i></a></td>
                 </tr>
 
             @endforeach

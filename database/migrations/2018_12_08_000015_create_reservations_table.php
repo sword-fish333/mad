@@ -31,7 +31,6 @@ class CreateReservationsTable extends Migration
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
             $table->unsignedInteger('languages_id');
-            $table->string('id_document_picture', 145)->nullable();
             $table->unsignedInteger('persons_id');
             $table->tinyInteger('status')->nullable();
             $table->text('token')->nullable();

@@ -34,9 +34,10 @@
                 <h4 class="apartments_table_title"><u>Apartments Table</u>&nbsp;&nbsp;<i class="fas fa-person-booth"></i></h4>
             </div>
         </div>
-                <table class="table table-hover table-bordered" style="margin-left: -80px !important;">
+                <table class="table table-hover  table-bordered" style="margin-left: -20px !important; width:100px !important;">
                     <thead>
                     <tr class="bg-dark custom_apartments_table_head  text-center"  >
+                        <th>#</th>
                         <th>Photo</th>
                         <th>Address</th>
                         <th>Description</th>
@@ -52,8 +53,12 @@
                     </tr>
                     </thead>
                     <tbody class="text-center">
+                    @php
+                    $increment=1
+                    @endphp
                 @foreach($apartments as $apartment)
                     <tr>
+                        <td>{{$increment}}</td>
                     @php
                     $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
                     @endphp
@@ -72,11 +77,22 @@
                         $ap_features=\App\Feature::whereIn('id', $apartments_features)->get();
                         @endphp
                         <td>
+                            @php
+                            $i=0;
+                            @endphp
                             <ul>
                                 @foreach($ap_features as $apartment_feature)
+                                    @if($i<4)
                                     <li>{{$apartment_feature->name}}
                                     </li>
                                     <hr>
+                                    @else
+                                        <p>and more.....</p>
+                                        @break;
+                                    @endif
+                                    @php
+                                    $i++;
+                                    @endphp
                                     @endforeach
                             </ul>
                         </td>
@@ -93,8 +109,12 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                         </td>
-                        <td><a href="/admin/apartments/delete/{{$apartment->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('are you sure you want to delete this Apartment?')"><i class="fas fa-eraser"></i></a></td>
+                        <td><a href="/admin/apartments/delete/{{$apartment->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Apartment?')"><i class="fas fa-eraser"></i></a></td>
                     </tr>
+
+                    @php
+                    $increment++;
+                    @endphp
                     @endforeach
                     </tbody>
                 </table>

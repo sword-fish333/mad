@@ -15,22 +15,39 @@
     text-align: center;
     font-family: 'Merriweather';
     font-weight: bold;
-    margin-top: 180px;
+    margin-top: 120px;
     color: white;
     font-size: 42px;
 
 }
+
 
 .dashboard_subtitle{
     text-align: center;
     font-family: 'Catamaran';
     font-weight: bold;
     margin-top: 10px;
-    color: white;
     font-size: 32px;
-
+    color: white;
 }
 
+/* Position text in the middle of the page/image */
+.dashboard_titles {
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.5); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    padding-bottom: 50px;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 60%;
+   border-radius: 10px;
+
+}
 .dashboard_parallax{
 
     /* The image used */
@@ -38,7 +55,6 @@
 
     /* Set a specific height */
     height: 500px;
-
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
@@ -50,7 +66,7 @@
     background-image: url("../images/apartment.jpg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 600px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -103,7 +119,8 @@
 
 .custom_apartments_table_head{
     font-family: 'Saira', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
+    padding: -10px;
     color: white;
 }
 
@@ -175,4 +192,87 @@
     font-size: 19px;
     color:black;
     text-decoration: underline;
+}
+
+.reservations_parallax{
+    /* The image used */
+    background-image: url("../images/reservation.jpeg");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.custom_reservations_table_head{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.custom_reservation_table_body{
+    font-family: 'Merriweather', sans-serif;
+    font-size: 15px;
+    padding: 0px;
+
+}
+.view_reservation_modal_header{
+    background-color: rgba(23, 230, 255, 0.9);
+    color: black;
+}
+
+.reservations_title{
+    text-align: center;
+    font-family:'Saira', sans-serif ;
+    font-size:4rem;
+    margin-top: 180px;
+    color: white;
+
+}
+.title_apartment{
+    text-align: center;
+    margin-top: 30px;
+    font-family:'Saira', sans-serif ;
+    text-decoration: underline;
+    font-size:2rem;
+}
+
+.info_reservations{
+    margin-left: 30px;
+    font-family: 'Saira', sans-serif;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+
+.data_reservation{
+    margin-top: 5px;
+    font-family: 'Catamaran', sans-serif;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.add_reservation_title{
+
+    font-family: 'Catamaran', sans-serif;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.add_reservation_modal_header{
+    background-color: rgba(0,139,139, 0.8);
+}
+
+.apartment_reservation{
+    margin-top: 5px;
+    font-family: 'Catamaran', sans-serif;
+    margin-left: 10px;
+    font-size: 22px;
+    font-weight: bold;
 }

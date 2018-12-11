@@ -19,7 +19,7 @@
                 <!-- ============================================================== -->
                 <!-- mega menu -->
                 @if(Session::get('ok')!=1)
-                    <li class="nav-link mt-3"><strong><a href="/admin/register" style="color:blue;">Register</a></strong></li>
+                    <li class="nav-link mt-3"><strong><a href="/admin/register" style="color:white;" class="lead">Register</a></strong></li>
             @endif
 
             <!-- ============================================================== -->
