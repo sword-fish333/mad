@@ -7,6 +7,7 @@ $factory->define(\App\Person::class, function (Faker $faker) {
     return [
         'name'=>$faker->name,
         'document_type'=>$document_type[array_rand($document_type)],
+        'reservation_id'=>1,
         'document_nr'=>str_shuffle('12348675'),
         'document_serial_nr'=>str_shuffle('1234567890123'),
         'nationality'=>$faker->country,

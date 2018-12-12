@@ -72,7 +72,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Close &nbsp;<i class="far fa-times-circle"></i></button>
-
             </div>
         </div>
     </div>

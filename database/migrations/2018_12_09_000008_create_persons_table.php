@@ -30,9 +30,9 @@ class CreatePersonsTable extends Migration
             $table->string('document_serial_nr', 145)->nullable();
             $table->string('nationality', 145)->nullable();
             $table->string('document_picture', 145)->nullable();
-
+            $table->integer('reservation_id')->unsigned()->nullable();
             $table->unique(["id"], 'id_UNIQUE');
-
+            $table->foreign('reservation_id')->references('id')->on('reservations')  ->onDelete('cascade');
             $table->timestamps();
 
         });

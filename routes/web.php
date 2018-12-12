@@ -39,13 +39,16 @@ Route::post('/admin/features/add', 'FeaturesController@addFeature');
 Route::post('/admin/features/edit/{id}', 'FeaturesController@editFeature');
 Route::get('/admin/features/delete/{id}', 'FeaturesController@deleteFeature');
 
-
+//ReservationsController@changeClientImage'
 //Routes for CRUD on reservations
 Route::get('/admin/reservations', 'ReservationsController@showReservations');
 Route::post('admin/reservations/add', 'ReservationsController@addReservation');
-Route::post('/admin/reservations/edit/{id}', 'ReservationsController@editReservations');
+Route::post('admin/reservations/edit/{id}', 'ReservationsController@editReservations');
 Route::get('/admin/reservations/delete/{id}', 'ReservationsController@deleteReservations');
 Route::get('/admin/reservations/status/{id}', 'ReservationsController@changeStatus');
+Route::post('/admin/reservations/client/image/{id}', function($id, Request $request){
+    return $request;
+});
 
 
 

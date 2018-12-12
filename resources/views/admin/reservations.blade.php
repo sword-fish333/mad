@@ -5,6 +5,7 @@
         <div class="jumbotron reservations_parallax">
             <h1 class="reservations_title">Reservations</h1>
         </div>
+
         @include('admin.parts.messages.success')
         @include('admin.parts.messages.error')
         @include('admin.parts.messages.custom_error')
@@ -51,12 +52,17 @@
                     </td>
                     <td>{{$reservation->email}}</td>
                     <td>{{$reservation->phone}}</td>
+
                     @php
                     $apartment=\App\Apartment::where('id', $reservation->apartment_id)->first();
+                    if($apartment){
                       $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
+                    }
                     @endphp
                     <td>
+                        @if(!empty($apartment->location))
                         {{$apartment->location}}
+                        @endif
                         <hr>
                         @if($apartment_photo)
                             <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="" style="width:120px !important; height: auto;">
@@ -87,6 +93,7 @@
                         <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#editReservation-{{$reservation->id}}">
                             <i class="fas fa-edit"></i>
                         </button>
+
                     </td>
                     <td><a href="/admin/reservations/delete/{{$reservation->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Reservation?')"><i class="fas fa-eraser"></i></a></td>
                 </tr>
@@ -104,9 +111,9 @@
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.view.reservation')
     @endforeach
-    {{--@foreach($reservations as $reservation)--}}
-        {{--@include('admin.parts.modals.edit.reservation')--}}
-    {{--@endforeach--}}
+    @foreach($reservations as $reservation)
+        @include('admin.parts.modals.edit.reservation')
+    @endforeach
 
 
 @endsection

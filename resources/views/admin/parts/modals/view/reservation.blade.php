@@ -1,10 +1,10 @@
 
 <!-- Modal -->
-<div class="modal fade" id="viewReservationDetails-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal fade" id="viewReservationDetails-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="viewReservationDetails-{{$reservation->id}}" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white view_reservation_modal_header">
-                <h5 class="modal-title" id="exampleModalLabel">View Reservations Details</h5>
+                <h5 class="modal-title" >View Reservations Details</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -44,18 +44,26 @@
 
 
                     @php
-                    $apartment=\App\Apartment::where('id',3)->first();
+                    $apartment=\App\Apartment::where('id',$reservation->apartment_id)->first();
                     @endphp
                 <h3 class="title_apartment">Apartment</h3>
                 <div class="row ml-2">
 
                         <p class="info_reservations">Address:</p>
-                    <p class="data_reservation">{{$apartment->location}}</p>
+                    <p class="data_reservation">
+                        @if(!empty($apartment->location))
+                        {{$apartment->location}}
+                    </p>
+                            @else
+                            <p class="lead"> There is no location available for this location</p>
+                        @endif
+
                     </div>
+                @if(!empty($apartment))
                     @php
                         $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
                     @endphp
-
+                    @endif
                         @if($apartment_photo)
                         <div class="row">
                             <p class="info_reservations">Photo of the apartment:</p>
@@ -65,6 +73,7 @@
                             <p>There is no Image available</p>
                         </div>
                         @endif
+                @if(!empty($apartment))
                 <div class="row ml-5">
                     <div class="col-md-10">
                     <p ><u class="lead">Description:&nbsp;</u>{{$apartment->description}}</p>
@@ -74,13 +83,14 @@
                         <p><u class="lead">Stars:&nbsp;</u>{{$apartment->stars}}&nbsp;<span style="color:darkred !important;"><i class="fas fa-star"></i></span></p>
                     </div>
                 </div>
+                    @endif
             </div>
 
 
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close &nbsp;<i class="fas fa-times"></i></button>
-
+                </div>
                 </div>
             </div>
         </div>
