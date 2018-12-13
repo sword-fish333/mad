@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group col-md-5">
                         <p class="edit_reservation_info">Choose another Image for his Profile </p>
-                        <input type="file" name="main_profie_image">
+                        <input type="file" name="main_profile_image">
                     </div>
                     </div>
                     @php
@@ -118,25 +118,10 @@
                     @endphp
                     @endforeach
                         <div class="row">
-                            <div class="col-md-6" style="margin-top: 50px;">
+                            <div class=" mt-2 ml-5 col-md-8" >
                                 <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
-
-                                @php
-                                    $current_apartment=\App\Apartment::where('id', $reservation->apartment_id)->first();
-                                    $apartments=\App\Apartment::all()
-                                @endphp
-
-                                <div class="form-group">
-                                    <select  name="apartment" class="form-control" >
-                                        @if(!empty($apartment))
-                                        <option value="{{$current_apartment->id}}">{{$current_apartment->location}}</option>
-                                        @endif
-                                    @foreach($apartments as $apartment)
-                                            <option value="{{$apartment->id}}">{{$apartment->location}}
-
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                {{--Slick dropdown for selecting Apartment--}}
+                                    <select class="edit_slick_apartments" name="apartment"></select>
                                 </div>
                             </div>
                             <div class="col-md-5 mt-4">
@@ -151,7 +136,7 @@
                                     <input type="datetime-local" name="check_out" value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}" class="form-control" autocomplete="off" >
                                 </div>
                             </div>
-                        </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -190,4 +175,40 @@
 
         }
     </script>
+
+<script>
+            @php
+                $apartments=\App\Apartment::all()
+            @endphp
+
+
+
+    var ddData=[
+                    @foreach($apartments as $apartment)
+                    @php
+                        $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
+                    @endphp
+            {
+            text: "{{$apartment->location}}",
+            value:{{$apartment->id}},
+            selected: false,
+            description: "{{str_limit($apartment->description,200,'...')}}",
+                @if($apartment_photo)
+                imageSrc: "{{asset("storage/apartments_photos/$apartment_photo->filename")}}"
+                @endif
+            },
+                @endforeach
+        ];
+
+    $('.edit_slick_apartments').ddslick({
+        data: ddData,
+        width: 300,
+        imagePosition: "right",
+        selectText: "Select Apartment for client",
+        defaultSelectedIndex:{{$reservation->apartment_id}},
+        onSelected: function (data) {
+            console.log(data);
+        }
+    });
+</script>
 </div>

@@ -12,76 +12,71 @@
             <div class="modal-body">
                 <form action="/admin/reservations/add" method="post" enctype="multipart/form-data">
                 @csrf
-                    <div class="form-group col-md-8">
-                        <label for="">Person for which the reservation will be made</label>
+                    <div class="row">
+                        <div class="col-md-5 mt-3 ml-4">
+                    <div class="form-group">
+                        <label class="add_reservatio_info">Person for which the reservation will be made</label>
                         <input type="text" name="main_name" class="form-control" placeholder="..." required>
-                    </div>
-                    <div class="form-group col-md-8">
-                        <p for=""><strong><u> Document Type</u></strong></p>
+
+                        <p class="mt-3"><strong><u> Document Type</u></strong></p>
                         <input type="radio" name="main_document_type" class="ml-3" value="id_card" placeholder="..." required>ID Card
                         <input type="radio" name="main_document_type" class="ml-3" value="passport" placeholder="..." required>Passport
                         <input type="radio" name="main_document_type" class="ml-3" value="other" placeholder="..." required>Other
 
                     </div>
+                        </div>
+                    {{--Slick dropdown for selecting Apartment--}}
+                    <div class=" mt-2 ml-5 col-md-5" >
+                        <label class="apartment_reservation "><u>Choose apartment for which you want to make reservation</u></label>
+
+                        <select id="slick_apartments" name="apartment"></select>
+                    </div>
+                    </div>
                     <div class="form-group col-md-8">
-                        <label for="">Email</label>
+                        <label for="main_email" class="add_reservatio_info">Email</label>
                         <input type="email" name="main_email" class="form-control" placeholder="..." required>
                     </div>
                     <div class="form-group col-md-8">
-                        <label for="">Phone</label>
+                        <label for="main_phone" class="add_reservatio_info">Phone</label>
                         <input type="number" name="main_phone" min="0" class="form-control" placeholder="..." required>
                     </div>
                     <div class="form-group col-md-8">
-                        <label for="">Document Nr</label>
+                        <label for="main_document_nr" class="add_reservatio_info">Document Nr</label>
                         <input type="text" name="main_document_nr" class="form-control" placeholder="..." required>
                     </div>
                     <div class="form-group col-md-8">
-                        <label for="">Document Serial Nr</label>
+                        <label for="main_document_serial_nr" class="add_reservatio_info" >Document Serial Nr</label>
                         <input type="number" name="main_document_serial_nr" min="0" class="form-control" placeholder="..." required>
                     </div>
                     <div class="form-group col-md-8">
-                        <label for="">Nationality of The main Client</label>
+                        <label for="main_nationality" class="add_reservatio_info">Nationality of The main Client</label>
                         <input type="text" name="main_nationality"  class="form-control" placeholder="..." required>
                     </div>
                     <div class="form-group col-md-8">
-                        <label for="">Document Picture</label>
+                        <label for="main_document_picture" class="add_reservatio_info">Document Picture</label>
                         <input type="file" name="main_document_picture" class="form-control" required>
                     </div>
 
 
-                    <button type="button" id="add_input" class="btn btn-primary">Add person for reservation&nbsp;&nbsp;<i class="fas fa-plus-circle"></i></button>
+                    <button type="button" id="add_input" class="btn btn-primary ml-4  mt-4">Add person for reservation&nbsp;&nbsp;<i class="fas fa-plus-circle"></i></button>
             <div class="row">
                 <div id="add_data" class="col-md-8 ml-5">
 
                 </div>
-                    <label class="apartment_reservation col-md-8 ml-5">Choose apartment for which you want to make<br> reservation</label>
-                    <div class=" mt-2 ml-5 col-md-5" style="float: right">
-
-                            @php
-                            $apartments=\App\Apartment::all()
-                            @endphp
-
-                                    <div class="form-group">
-                                    <select required name="apartment" class="form-control" >
-                                        <option value="">Select an Apartment</option>
-                                        @foreach($apartments as $apartment)
-                                        <option value="{{$apartment->id}}">{{$apartment->location}}
-
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                    </div>
+            </div>
+                    <div class="row  mt-5">
+                <div class="col-md-5"></div>
                 <div class="col-md-6">
                         <div class="form-group ">
-                            <label for=""><u>Check In</u></label>
+                            <label for="check_in" class="add_reservatio_info"><u>Check In</u></label>
                             <input type="datetime-local" name="check_in" class="form-control" autocomplete="off" required>
                         </div>
                 <div class="form-group ">
-                    <label for=""><u>Check Out</u></label>
+                    <label for="check_out" class="add_reservatio_info"><u>Check Out</u></label>
                     <input type="datetime-local" name="check_out" class="form-control" autocomplete="off" required>
                 </div>
                 </div>
+                    </div>
             </div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close &nbsp;<i class="fas fa-times"></i></button>
@@ -111,4 +106,43 @@
            i++;
             });
         </script>
+
+    <script>
+                @php
+                    $apartments=\App\Apartment::all()
+                @endphp
+
+
+
+        var ddData=[
+                        @foreach($apartments as $apartment)
+                        @php
+                            $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
+
+                        @endphp
+            {
+
+                text: "{{$apartment->location}}",
+                value:{{$apartment->id}},
+                selected: false,
+                description: "{{str_limit($apartment->description,200,'...')}}",
+                @if($apartment_photo)
+                imageSrc: "{{asset("storage/apartments_photos/$apartment_photo->filename")}}"
+                @endif
+            },
+
+
+                    @endforeach
+        ];
+
+$('#slick_apartments').ddslick({
+            data: ddData,
+            width: 300,
+            imagePosition: "right",
+            selectText: "Select Apartment for client",
+            onSelected: function (data) {
+                console.log(data);
+            }
+        });
+    </script>
 </div>

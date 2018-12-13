@@ -103,13 +103,14 @@ class ReservationsController extends Controller
     }
 
     public function editReservations($id, Request $request){
+
         $rules=[
             'main_name'=>'string|max:255',
             'main_nationality'=>'string|max:255',
             'main_email'=>'email',
             'main_phone'=>'digits_between:8,14',
-            'check_in' => 'after:yesterday',
-            'check_out' => 'after_or_equal:check_in'
+            'check_in' => 'required|after:yesterday',
+            'check_out' => 'required|after_or_equal:check_in'
         ];
 
         $custom_messages=[
@@ -139,7 +140,7 @@ class ReservationsController extends Controller
         $main_client->nationality=$request->main_nationality;
 
         if($request->main_profie_image){
-            $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'main_profie_image', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
+            $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'main_profile_image', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
                 $main_client->document_picture=$photo;
         }
         $main_client->save();
