@@ -46,9 +46,7 @@ Route::post('/admin/reservations/add', 'ReservationsController@addReservation');
 Route::post('admin/reservations/edit/{id}', 'ReservationsController@editReservations');
 Route::get('/admin/reservations/delete/{id}', 'ReservationsController@deleteReservations');
 Route::get('/admin/reservations/status/{id}', 'ReservationsController@changeStatus');
-Route::post('/admin/reservations/client/image/{id}', function($id, Request $request){
-    return $request;
-});
-
+//Route::post('/admin/reservations/client/image', 'ReservationsController@saveClientImage');
+Route::post('/admin/reservations/client/image/{id}','ReservationsController@saveClientImage');
 
 

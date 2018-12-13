@@ -10,19 +10,31 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/reservations/edit/{{$reservation->id}}" method="post" enctype="multipart/form-data">
+                @php
+                $data_reservation=$reservation;
+                @endphp
+                <form action="/admin/reservations/edit/{{$reservation->id}}" method="post" id="main_form_{{$data_reservation->id}}"  enctype="multipart/form-data">
                     @csrf
                     <h4 class="mt-3 clients_edit_title">Client for which the reservation was made</h4>
-                <div class="form-group col-md-8">
-                    <label for="">Name</label>
+                    <div class="row">
+                <div class="ml-3 col-md-5 mt-3">
+                   <div class="form-group">
+                    <label for="main_client_name" class="add_reservatio_info">Name</label>
                     <input type="text" class="form-control" name="main_client_name" value="{{$reservation->name}}">
-                </div>
-                    <div class="form-group col-md-8">
-                        <label for="">Email</label>
+                   </div>
+                    <div class="form-group mt-3">
+                        <label for="main_client_email" class="add_reservatio_info">Email</label>
                         <input type="email" class="form-control" name="main_client_email" value="{{$reservation->email}}">
                     </div>
-                    <div class="form-group col-md-8">
-                        <label for="">Phone</label>
+                    </div>
+                        <div class=" mt-2 ml-3 col-md-5" >
+                            <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
+                            {{--Slick dropdown for selecting Apartment--}}
+                            <select class="edit_slick_apartments" name="apartment"></select>
+                        </div>
+                    </div>
+                        <div class="form-group col-md-8">
+                        <label for="main_client_phone">Phone</label>
                         <input type="number" min="0" class="form-control" name="main_client_phone" value="{{$reservation->phone}}">
                     </div>
                     @php
@@ -38,17 +50,31 @@
                         <input type="radio"  class="ml-3" name="main_document_type" value="other"
                                 {{$main_client->document_type==='other' ? 'checked': ''}}>&nbsp;Other
                     </div>
-                    <div class="form-group col-md-8">
-                        <label for="">Document Nr:</label>
+                    <div class="row">
+                    <div class="form-group ml-4 col-md-5">
+                        <label class="add_reservatio_info mt-3">Document Nr:</label>
                         <input type="text"  class="form-control" name="main_document_nr" value="{{$main_client->document_nr}}">
-                    </div>
-                    <div class="form-group col-md-8">
-                    <label for="">Document Serial Nr:</label>
+                    <div class="form-group mt-3">
+                    <label for="" class="add_reservatio_info">Document Serial Nr:</label>
                     <input type="text"  class="form-control" name="main_document_serial_nr" value="{{$main_client->document_serial_nr}}">
-                      </div>
-                    <div class="form-group col-md-8">
-                        <label for="">Nationality:</label>
+                    </div>
+                        <div class="form-group mt-3">
+                        <label class="add_reservatio_info">Nationality:</label>
                         <input type="text"  class="form-control" name="main_nationality" value="{{$main_client->nationality}}">
+                        </div>
+                        </div>
+                        <div class="col-md-6 ml-3 mt-4">
+                            <div class="form-group ">
+                                <label for=""><u>Check In <strong>(You have to enter it again)</strong></u></label>
+                                <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" readonly>
+                                <input type="date" name="check_in"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group mt-4">
+                                <label for=""><u>Check Out <strong>(You have to enter it again)</strong></u></label>
+                                <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}" readonly>
+                                <input type="date" name="check_out" value="{{$reservation->check_in}}" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
                     </div>
                     <div class="row my-4 ml-5">
                     <div class="col-md-5">
@@ -71,7 +97,7 @@
                         <h4 class="ml-4 mt-2 client_nr"><u>{{$client_nr}}.</u></h4>
                     <div class="row ml-3">
                         <div class="form-group col-md-5">
-                            <label for="">Client name:</label>
+                            <label class="add_reservatio_info">Client name:</label>
                             <input type="text"  class="form-control" name="client_name[]" value="{{$client->name}}">
                         </div>
                         <div class="form-group col-md-6">
@@ -84,106 +110,97 @@
                                     {{$client->document_type==='other' ? 'checked': ''}}>&nbsp;Other
                         </div>
                         <div class="form-group col-md-5">
-                            <label for="">Client Document Nr:</label>
+                            <label class="add_reservatio_info">Client Document Nr:</label>
                             <input type="text"  class="form-control" name="client_document_nr[]" value="{{$client->document_nr}}">
                         </div>
                         <div class="form-group col-md-5">
-                            <label for="">Client Document Serial Nr:</label>
+                            <label class="add_reservatio_info">Client Document Serial Nr:</label>
                             <input type="text"  class="form-control" name="client_document_serial_nr[]" value="{{$client->document_serial_nr}}">
                         </div>
                         <div class="form-group col-md-5">
-                            <label for="">Nationality:</label>
+                            <label for="nationality" class="add_reservatio_info">Nationality:</label>
                             <input type="text"  class="form-control" name="nationality[]" value="{{$client->nationality}}">
-                        </div>
-                    <div class="col-md-5">
-                        <p>Current Profile Image</p>
-                        <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail" style="width:110px !important; height: auto;">
-                    </div>
-                        <div class="col-md-5">
-                            <form action="" id="frm{{$client->id}}" enctype="multipart/form-data">
-                                @csrf
-                            <p class="edit_reservation_info">Choose another Image for his Profile</p>
-                            <input type="file" name="client_image{{$client->id}}" class="client_img{{$client->id}}" class="form-control">
-
-                            <div class="form-group mt-4">
-                                <input type="button" id="btn_img_frm" onclick="addImage({{$client->id}})" value="Submit Image" class=" btn btn-primary btn-block">
-                            </div>
-                            </form>
                         </div>
                     </div>
                         <hr>
-                    @php
+
+                @php
 
                     $client_nr++;
-                    @endphp
-                    @endforeach
-                        <div class="row">
-                            <div class=" mt-2 ml-5 col-md-8" >
-                                <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
-                                {{--Slick dropdown for selecting Apartment--}}
-                                    <select class="edit_slick_apartments" name="apartment"></select>
-                                </div>
+                @endphp
+                @endforeach
+                </form>
+                <hr>
+                <hr>
+                <h4 class="clients_document_photos">Clients Document Photos</h4>
+                @foreach($clients as $client)
+                <div class="row">
+
+                    <div class="col-md-5 ml-5">
+                        <p class="client_edit_name ml-4">{{$client->name}}</p>
+                        <p>Current Profile Image</p>
+                        <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail" style="width:110px !important; height: auto;">
+                    </div>
+
+                        <div class="col-md-5">
+                            <form id="client_form{{$client->id}}" action="" role="form"  enctype="multipart/form-data">
+                                @csrf
+
+
+                            <p class="edit_reservation_info">Choose another Image for his Profile</p>
+                            <input type="file" id="client_image" name="client_image" class="form-control">
+
+                            <div class="form-group mt-4">
+                                <input type="button"   value="Submit Image"  id="upload_image{{$client->id}}" class=" btn btn-primary btn-block">
                             </div>
-                            <div class="col-md-5 mt-4">
-                                <div class="form-group ">
-                                    <label for=""><u>Check In <strong>(You have to enter it again)</strong></u></label>
-                                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" readonly>
-                                    <input type="datetime-local" name="check_in" value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" class="form-control" autocomplete="off" >
-                                </div>
-                                <div class="form-group ">
-                                    <label for=""><u>Check Out <strong>(You have to enter it again)</strong></u></label>
-                                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}" readonly>
-                                    <input type="datetime-local" name="check_out" value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}" class="form-control" autocomplete="off" >
-                                </div>
-                            </div>
+                            </form>
+                        </div>
+                </div>
+                        <hr>
+                        @endforeach
+
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes&nbsp;<i class="fas fa-save"></i></button>
-                </form>
+                <button type="submit" id="submit_btn{{$data_reservation->id}}"  class=" btn btn-primary">Save changes&nbsp;<i class="fas fa-save"></i></button>
+            </div>
             </div>
         </div>
     </div>
-    <script>
+    <script >
+        $("#submit_btn{{$data_reservation->id}}").click(function(){
+            $('#main_form_{{$data_reservation->id}}').submit();
+        });
 
 
-        function addImage(id) {
-                    @php
-                        $clients=\App\Person::where('reservation_id' , $reservation->id)->get();
-                    @endphp
-                @foreach($clients as $client)
-            var img=$('.client_img{{$client->id}}').val();
-                console.log(img);
-
-            var frm=document.getElementById('frm{{$client->id}}');
-            var formData = new FormData(frm);
-               formData.append('data',img);
-            @endforeach
+@foreach($clients as $client )
+        /*Add new catagory Event*/
+        $("#upload_image{{$client->id}}").click(function(e){
+            e.preventDefault();
+            var form=new FormData(document.getElementById('client_form{{$client->id}}'));
             $.ajax({
-                method:'post',
-                data:formData,
-                contentType: false,
+                url:'/admin/reservations/client/image/{{$client->id}}',
+                data:form,
+                async:false,
+                type:'post',
                 processData: false,
-                url:'/admin/reservations/client/image/'+id,
-                success:function (data) {
-                    alert('success');
+                contentType: false,
+                success:function(response){
+                   alert('success , Image Saved');
+                },
+            });
+        });
 
-                }
-
-            })
-
-        }
+        @endforeach
+        /*Add new catagory Event*/
     </script>
 
-<script>
+        <script>
             @php
                 $apartments=\App\Apartment::all()
             @endphp
-
-
-
-    var ddData=[
+            var ddData=[
                     @foreach($apartments as $apartment)
                     @php
                         $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
@@ -205,9 +222,9 @@
         width: 300,
         imagePosition: "right",
         selectText: "Select Apartment for client",
-        defaultSelectedIndex:{{$reservation->apartment_id}},
+        defaultSelectedIndex:{{$reservation->apartment_id}}-1,
         onSelected: function (data) {
-            console.log(data);
+
         }
     });
 </script>

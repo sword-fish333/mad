@@ -323,3 +323,17 @@
     text-decoration: underline;
     font-size: 18px;
 }
+
+.clients_document_photos{
+    font-family: 'Saira', sans-serif;
+    color: darkgoldenrod;
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 30px;
+}
+
+.client_edit_name{
+    font-family: 'Catamaran', sans-serif;
+    text-decoration: underline;
+    font-size: 20px;
+}

@@ -6,7 +6,7 @@ use App\Person;
 use App\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class ReservationsController extends Controller
 {
     public function showReservations(){
@@ -44,10 +44,28 @@ class ReservationsController extends Controller
             ];
         $custom_messages=[
             'after'=>'The check in may not be before today!',
-            'after_or_equal'=>'The check out may not e before the check In '
+            'after_or_equal'=>'The check out may not be before the check In '
         ];
         $this->validate($request, $rules, $custom_messages);
+                $reservations =Reservation::where('apartment_id', $request->apartment)->get();
+                $ok=1;
+                $data=[];
+                foreach ($reservations as $res){
+                    if(($request->check_in >=$res->check_in && $request->check_in<=$res->check_out)||
+                        ($request->check_out >=$res->check_in && $request->check_out<=$res->check_out)){
+                            $ok=0;
+                            $data['in']=$res->check_in;
+                        $data['out']=$res->check_out;
 
+                        break;
+                    }
+                }
+
+                if($ok===0){
+                    $date['in']=Carbon::parse( $data['in'])->format('d/m/Y');
+                    $date['out']=Carbon::parse( $data['out'])->format('d/m/Y');
+                    return back()->with('error', 'The apartment has been taken between '.$data['in'].' and '.$data['out']);
+                }
             $main_photo=  \App\Http\Controllers\FilesController::uploadFile($request, 'main_document_picture', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
             $reservation=new  Reservation();
             $reservation->name=$request->main_name;
@@ -109,19 +127,38 @@ class ReservationsController extends Controller
             'main_nationality'=>'string|max:255',
             'main_email'=>'email',
             'main_phone'=>'digits_between:8,14',
-            'check_in' => 'required|after:yesterday',
-            'check_out' => 'required|after_or_equal:check_in'
+            'check_in'=>'required|after:yesterday',
+            'check_out'=>'required|after:check_in'
         ];
 
         $custom_messages=[
-            'after'=>'The check in may not be before today!',
-            'after_or_equal'=>'The check out may not be before the check In '
+            'check_in.after'=>'The check in may not be before today!',
+            'after'=>'The check out may not be before the check In '
         ];
         $this->validate($request, $rules, $custom_messages);
         if(!empty($request->document_type)) {
             if (count($request->document_type) != count($request->client_name)) {
                 return back()->with('error', 'You may choose only one type of ID');
             }
+        }
+        $reservations =Reservation::where('apartment_id', $request->apartment)->get();
+        $ok=1;
+        $data=[];
+        foreach ($reservations as $res){
+            if(($request->check_in >=$res->check_in && $request->check_in<=$res->check_out)||
+                ($request->check_out >=$res->check_in && $request->check_out<=$res->check_out)){
+                $ok=0;
+                $data['in']=$res->check_in;
+                $data['out']=$res->check_out;
+
+                break;
+            }
+        }
+
+        if($ok===0){
+            $date['in']=Carbon::parse( $data['in'])->toDateString();
+            $date['out']=Carbon::parse( $data['out'])->toDateString();
+            return back()->with('error', 'The apartment has been taken between '.$data['in'].' and '.$data['out']);
         }
         $reservation=Reservation::find($id);
 
@@ -139,7 +176,7 @@ class ReservationsController extends Controller
         $main_client->document_serial_nr=$request->main_document_serial_nr;
         $main_client->nationality=$request->main_nationality;
 
-        if($request->main_profie_image){
+        if($request->main_profile_image){
             $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'main_profile_image', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
                 $main_client->document_picture=$photo;
         }
@@ -150,38 +187,48 @@ class ReservationsController extends Controller
 
 
             $clients=Person::where('reservation_id', $id)->get();
-        if($request->client_image) {
-            $client_photos = \App\Http\Controllers\FilesController::uploadFile($request, 'client_image', 'document_photos', array("jpg", "jpeg", "png", "gif"), true);
-        }
 
 
-            if(!empty($request->client_name)) {
-                for ($i = 0; $i < count($request->client_name); $i++) {
+
+
+                for ($i = 0; $i < count($clients); $i++) {
 
                     $clients[$i]->name = $request->client_name[$i];
                     $clients[$i]->document_type = $request->document_type[$i];
                     $clients[$i]->document_nr = $request->client_document_nr[$i];
                     $clients[$i]->document_serial_nr = $request->client_document_serial_nr[$i];
                     $clients[$i]->nationality = $request->nationality[$i];
-                   // $clients[$i]->document_picture = $client_photos[$i];
                     $clients[$i]->reservation_id = $reservation->id;
                     $clients[$i]->save();
                 }
-            }
+
 
         return back()->with('success', 'The Reservation has been edited successfully!');
     }
 
-    public function changeClientImage($id, Request $request){
-        dd($id);
+    public function saveClientImage($id, Request $request)
+    {
 
-          $client=Person::where('id', $id)->first();
-        $client_photo = \App\Http\Controllers\FilesController::uploadFile($request, 'client_image'.$id, 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
-   $client->document_picture=$client_photo;
-     $client->save();
+              $validator = Validator::make($request->all(), [
 
-     return 1;
-    }
+            'client_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $client=Person::where('id', $id)->first();
+
+        if ($validator->passes()) {
+
+            $client_photo= \App\Http\Controllers\FilesController::uploadFile($request, 'client_image', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
+            $client->document_picture=$client_photo;
+            $client->save();
+
+            return back()->with('success', 'Profile Image of the client has been updated');
+        }
+
+
+        return back()->with('error', 'Something went wrong please try again');
+        }
+
 
 
 }

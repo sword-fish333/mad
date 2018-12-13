@@ -105,6 +105,7 @@
             </tbody>
         </table>
         </div>
+
         @include('admin.parts.modals.add.reservation')
     </section>
 

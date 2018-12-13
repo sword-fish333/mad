@@ -29,7 +29,7 @@
                     <div class=" mt-2 ml-5 col-md-5" >
                         <label class="apartment_reservation "><u>Choose apartment for which you want to make reservation</u></label>
 
-                        <select id="slick_apartments" name="apartment"></select>
+                        <select id="slick_apartments" name="apartment" required></select>
                     </div>
                     </div>
                     <div class="form-group col-md-8">
@@ -57,23 +57,23 @@
                         <input type="file" name="main_document_picture" class="form-control" required>
                     </div>
 
-
-                    <button type="button" id="add_input" class="btn btn-primary ml-4  mt-4">Add person for reservation&nbsp;&nbsp;<i class="fas fa-plus-circle"></i></button>
+{{--Add persons which will stay in the room Div (with jQuery)--}}
             <div class="row">
                 <div id="add_data" class="col-md-8 ml-5">
-
                 </div>
+                <button type="button" id="add_input" class="btn btn-primary ml-4  mt-4">Add person for reservation&nbsp;&nbsp;<i class="fas fa-plus-circle"></i></button>
+
             </div>
                     <div class="row  mt-5">
                 <div class="col-md-5"></div>
                 <div class="col-md-6">
                         <div class="form-group ">
                             <label for="check_in" class="add_reservatio_info"><u>Check In</u></label>
-                            <input type="datetime-local" name="check_in" class="form-control" autocomplete="off" required>
+                            <input type="date" name="check_in" class="form-control" autocomplete="off" required>
                         </div>
                 <div class="form-group ">
                     <label for="check_out" class="add_reservatio_info"><u>Check Out</u></label>
-                    <input type="datetime-local" name="check_out" class="form-control" autocomplete="off" required>
+                    <input type="date" name="check_out" class="form-control" autocomplete="off" required>
                 </div>
                 </div>
                     </div>
@@ -141,7 +141,7 @@ $('#slick_apartments').ddslick({
             imagePosition: "right",
             selectText: "Select Apartment for client",
             onSelected: function (data) {
-                console.log(data);
+
             }
         });
     </script>
