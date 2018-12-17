@@ -18,7 +18,7 @@
                 <h4 class="apartments_table_title"><u>Features Table</u>&nbsp;&nbsp;<i class="fas fa-swatchbook"></i></h4>
             </div>
         </div>
-        <table class="table table-hover table-bordered" >
+        <table class="data_table table table-hover table-bordered" >
             <thead>
             <tr class="bg-dark custom_apartments_table_head  text-center"  >
                 <th>#</th>

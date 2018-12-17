@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\Apartment;
+use App\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -18,8 +21,9 @@ class AdminController extends Controller
     }
 
     function showDashboard(){
-
-        return view('admin.admin_dashboard');
+            $reservations_in=Reservation::where('check_in','>=',Carbon::today())->where('check_in','<=',Carbon::today()->addDays(5))->get();
+              $reservations_out=Reservation::where('check_out','>=',Carbon::today())->where('check_out','<=',Carbon::today()->addDays(5))->get();
+        return view('admin.admin_dashboard',array( 'reservations_in'=>$reservations_in, 'reservations_out'=>$reservations_out));
     }
 
     public function adminLogin(Request $request){

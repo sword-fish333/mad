@@ -48,5 +48,7 @@ Route::get('/admin/reservations/delete/{id}', 'ReservationsController@deleteRese
 Route::get('/admin/reservations/status/{id}', 'ReservationsController@changeStatus');
 //Route::post('/admin/reservations/client/image', 'ReservationsController@saveClientImage');
 Route::post('/admin/reservations/client/image/{id}','ReservationsController@saveClientImage');
-
+Route::post('/admin/reservations/fee/add/{id}', 'ReservationsFeeController@addFee');
+Route::get('/admin/reservations/fee/delete/{id}', 'ReservationsFeeController@deleteFee');
+Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@editFee');
 

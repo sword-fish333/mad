@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Person;
 use App\Reservation;
+use App\ReservationCost;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -39,25 +40,28 @@ class ReservationsController extends Controller
             'main_nationality'=>'required',
             'main_document_picture'=>'required',
             'apartment' => 'required',
-            'check_in' => 'required|after:yesterday',
-            'check_out' => 'required|after_or_equal:check_in'
+
             ];
-        $custom_messages=[
-            'after'=>'The check in may not be before today!',
-            'after_or_equal'=>'The check out may not be before the check In '
-        ];
-        $this->validate($request, $rules, $custom_messages);
+        $this->validate($request, $rules);
+
+        if( Carbon::parse($request->check_in)->toDateTimeString()<Carbon::today() || Carbon::parse($request->check_out)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
+            return back()->with('error',' The check in may only start from today and the check out must be after the check in!');
+        }
                 $reservations =Reservation::where('apartment_id', $request->apartment)->get();
+
                 $ok=1;
                 $data=[];
-                foreach ($reservations as $res){
-                    if(($request->check_in >=$res->check_in && $request->check_in<=$res->check_out)||
-                        ($request->check_out >=$res->check_in && $request->check_out<=$res->check_out)){
-                            $ok=0;
-                            $data['in']=$res->check_in;
-                        $data['out']=$res->check_out;
+                if($reservations) {
+                    foreach ($reservations as $res) {
+                        if (($request->check_in >= $res->check_in && $request->check_in <= $res->check_out) ||
+                            ($request->check_out >= $res->check_in && $request->check_out <= $res->check_out)
+                        ) {
+                            $ok = 0;
+                            $data['in'] = $res->check_in;
+                            $data['out'] = $res->check_out;
 
-                        break;
+                            break;
+                        }
                     }
                 }
 
@@ -66,14 +70,17 @@ class ReservationsController extends Controller
                     $date['out']=Carbon::parse( $data['out'])->format('d/m/Y');
                     return back()->with('error', 'The apartment has been taken between '.$data['in'].' and '.$data['out']);
                 }
-            $main_photo=  \App\Http\Controllers\FilesController::uploadFile($request, 'main_document_picture', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
+            $main_photo=\App\Http\Controllers\FilesController::uploadFile($request, 'main_document_picture', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
+
+
             $reservation=new  Reservation();
             $reservation->name=$request->main_name;
              $reservation->email=$request->main_email;
            $reservation->phone=$request->main_phone;
-            $reservation->check_in=$request->check_in;
-            $reservation->check_out=$request->check_out;
+            $reservation->check_in= Carbon::parse($request->check_in)->toDateString();
+            $reservation->check_out=Carbon::parse($request->check_out)->toDateString();
             $reservation->apartment_id=$request->apartment;
+
             $person=new Person();
             $person->name=$request->main_name;
             $person->document_type=$request->main_document_type;
@@ -85,6 +92,7 @@ class ReservationsController extends Controller
             $person->save();
             $reservation->persons_id=$person->id;
             $reservation->save();
+
 
 
         if($request->client_name) {
@@ -104,7 +112,7 @@ class ReservationsController extends Controller
             for ($i=0; $i<count($request->client_name);$i++){
                 $client=new Person();
                 $client->name=$request->client_name[$i];
-                $client->document_type=$request->document_type[$i];
+                $client->document_type=$request->document_type[$i][$i+1];
                 $client->document_nr=$request->document_nr[$i];
                 $client->document_serial_nr=$request->document_serial_nr[$i];
                 $client->nationality=$request->nationality[$i];
@@ -127,15 +135,12 @@ class ReservationsController extends Controller
             'main_nationality'=>'string|max:255',
             'main_email'=>'email',
             'main_phone'=>'digits_between:8,14',
-            'check_in'=>'required|after:yesterday',
-            'check_out'=>'required|after:check_in'
+
         ];
 
-        $custom_messages=[
-            'check_in.after'=>'The check in may not be before today!',
-            'after'=>'The check out may not be before the check In '
-        ];
-        $this->validate($request, $rules, $custom_messages);
+
+        $this->validate($request, $rules);
+
         if(!empty($request->document_type)) {
             if (count($request->document_type) != count($request->client_name)) {
                 return back()->with('error', 'You may choose only one type of ID');
@@ -144,14 +149,17 @@ class ReservationsController extends Controller
         $reservations =Reservation::where('apartment_id', $request->apartment)->get();
         $ok=1;
         $data=[];
-        foreach ($reservations as $res){
-            if(($request->check_in >=$res->check_in && $request->check_in<=$res->check_out)||
-                ($request->check_out >=$res->check_in && $request->check_out<=$res->check_out)){
-                $ok=0;
-                $data['in']=$res->check_in;
-                $data['out']=$res->check_out;
+        if($reservations) {
+            foreach ($reservations as $res) {
+                if (($request->check_in >= $res->check_in && $request->check_in <= $res->check_out) ||
+                    ($request->check_out >= $res->check_in && $request->check_out <= $res->check_out)
+                ) {
+                    $ok = 0;
+                    $data['in'] = $res->check_in;
+                    $data['out'] = $res->check_out;
 
-                break;
+                    break;
+                }
             }
         }
 
@@ -162,11 +170,19 @@ class ReservationsController extends Controller
         }
         $reservation=Reservation::find($id);
 
+        if(empty($request->check_in) &&  !empty($request->check_out)) {
+            return back()->with('error', 'If you entered check in date you have to enter the check out date to !');
+        }else if(!empty($request->check_in) && empty($request->check_out)){
+            return back()->with('error', 'If you entered check out date you have to enter the check in date to !');
+        }else if(!empty($request->check_in) && !empty($request->check_out)){
+            $reservation->check_in=$request->check_in;
+            $reservation->check_out=$request->check_out;
+        }
+
         $reservation->name=$request->main_client_name;
         $reservation->email=$request->main_client_email;
         $reservation->phone=$request->main_client_phone;
-        $reservation->check_in=$request->check_in;
-        $reservation->check_out=$request->check_out;
+
         $reservation->apartment_id=$request->apartment;
         $reservation->save();
         $main_client=Person::where('id', $reservation->persons_id)->first();
@@ -187,9 +203,6 @@ class ReservationsController extends Controller
 
 
             $clients=Person::where('reservation_id', $id)->get();
-
-
-
 
                 for ($i = 0; $i < count($clients); $i++) {
 

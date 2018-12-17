@@ -10,7 +10,6 @@ class Apartment extends Model
     protected $guarded=[];
 
     public function pictures(){
-
         return $this->hasMany('App\Picture','apartments_id','id');
     }
 

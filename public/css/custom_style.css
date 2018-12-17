@@ -34,12 +34,12 @@
 /* Position text in the middle of the page/image */
 .dashboard_titles {
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0, 0.5); /* Black w/opacity/see-through */
+    background-color: rgba(0,0,0, 0.6); /* Black w/opacity/see-through */
     color: white;
     font-weight: bold;
     border: 3px solid #f1f1f1;
     position: absolute;
-    top: 25%;
+    top: 250px;
     left: 50%;
     padding-bottom: 30px;
     transform: translate(-50%, -40%);
@@ -51,7 +51,7 @@
 .dashboard_parallax{
 
     /* The image used */
-    background-image: url("../images/dashboard.png");
+    background-image: url("../images/dashboard_jumbo.jpeg");
 
     /* Set a specific height */
     height: 500px;
@@ -86,7 +86,7 @@
 .apartments_table_title{
     font-family: 'Bitter', serif;
     color: darkred;
-    font-size: 38px;
+    font-size: 30px;
 }
 
 .custom_modal_title{
@@ -318,6 +318,13 @@
     font-size: 1rem;
 }
 
+#slick_fees{
+    color: darkred;
+    font-family: 'Saira', sans-serif;
+    list-style-type: circle;
+    font-size: 1rem;
+}
+
 .add_reservatio_info{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
@@ -336,4 +343,73 @@
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
     font-size: 20px;
+}
+
+.fee_header{
+    background: rgba(250,235,215,0.8);
+}
+
+.fee_modal_title{
+    font-family: 'Saira', sans-serif;
+    color: darkgoldenrod;
+    font-size: 32px;
+    color: black;
+}
+
+.fee_info{
+    font-family: 'Catamaran', sans-serif;
+    text-decoration: underline;
+    font-size: 20px;
+}
+
+#tabContent{
+    font-family: 'Catamaran', sans-serif;
+   font-size: 18px;
+}
+
+#main_person_reservation_title{
+    font-family: 'Saira', sans-serif;
+    text-decoration: underline;
+    font-size: 38px;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: darkcyan;
+}
+.table_head_add_reservation{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 18px;
+}
+.custom_file_input[type="file"] {
+    display: none;
+}
+.custom-file-upload{
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 14px;
+    margin-left: 40px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 90%;
+        max-width:1300px !important;
+    }
+}
+
+.custom_table_add input{
+    font-family: 'Saira', sans-serif;
+
+    font-size: 12px;
+}
+
+.apartment_fee_title{
+    font-family: 'Saira', sans-serif;
+    text-decoration: underline;
+    font-size: 28px;
+    text-align: center;
 }

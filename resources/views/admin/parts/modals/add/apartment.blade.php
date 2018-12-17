@@ -11,22 +11,29 @@
                 </button>
             </div>
             <div class="modal-body">
+                <ul class="nav nav-tabs" id="tabContent" >
+                    <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics" data-toggle="tab" > Apartment Characteristics</a></li>
+                    <li class="nav-item"><a class="nav-link"   href="#apartment_fee" data-toggle="tab">Apartment Fee</a></li>
+
+                </ul>
                 <form action="/admin/apartments/add" method="post" class="row" enctype="multipart/form-data">
                     @csrf
-                <div class="form-group">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="apartment_characteristics">
+                <div class="form-group mt-5">
                     <label for="map" class="ml-5 new_apartment_label"><u>Select address of the new apartment </u> &nbsp;<i class="fas fa-map-marked-alt"></i></label>
                     <div id="map"></div>
                 </div>
-
-                    <div class="form-group ml-5 col-md-4">
+                    <div class="row">
+                    <div class="form-group ml-5 col-md-5">
                         <label for="lat" class="ml-5 new_apartment_label"><u>Latitude</u></label>
                         <input type="text" id="latbox" name="lat"  class="form-control" readonly required>
                     </div>
-                    <div class="form-group offset-1 col-md-4">
+                    <div class="form-group ml-3 col-md-5">
                         <label for="lng" class="ml-5 new_apartment_label"><u>Longitude</u></label>
                         <input type="text" id="lngbox" name="lng"  class="form-control" readonly required>
                     </div>
-                    <div class="form-group ml-5 col-md-6">
+                    <div class="form-group ml-5 col-md-5">
                         <label for="address" class=" new_apartment_label"><u> Address</u> <i class="fas fa-map-pin"></i></label>
                         <input type="text"  name="address"  class="address form-control" placeholder="..." required>
                     </div>
@@ -58,7 +65,7 @@
         </span>
                         </div>
 
-                    <label for="surface" class="ml-5 col-md-8 new_apartment_label"><u>Surface</u></label>
+                    <label for="surface" class="ml-5 col-md-5 new_apartment_label"><u>Surface</u></label>
 
                         <div class="input-group ml-5 col-md-6 ">
                         <input type="number" step="0.01" min="0" name="surface" class="form-control" aria-describedby="basic-addon2" placeholder="..." required>
@@ -103,11 +110,37 @@
                        </fieldset>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group offset-1">
                         <label for="photos_apartment">Photos for the apartment</label>
                         <input type="file" name="apartment_photos[]" class="form-control" multiple >
                     </div>
+                    </div>
+                        </div>
+                        <div class="tab-pane" id="apartment_fee">
+                        <div class="row mt-5">
+                            <div class="form-group col-md-5 ml-5">
+                                <label for="" class="fee_info">Name of the fee:</label>
+                                <input type="text" class="form-control" name="fee_name" placeholder="..." >
+                            </div>
 
+                            <div class="form-group col-md-6">
+                                <label for="description" class="fee_info">Description:</label>
+                                <textarea type="text" class="form-control" name="fee_description" ></textarea>
+                            </div>
+
+                            <div class="form-group col-md-5 ml-5">
+                                <p for="value" class="fee_info">Value</p>
+                                <input type="number" step="0.001" name="fee_value" class="form-control" min="0" placeholder="...."  >
+                            </div>
+                            <fieldset style="margin-top: 55px;">
+                                <input type="radio" name="fee_type_of_value" value="%" ><strong>%</strong>
+                                <input type="radio" name="fee_type_of_value" class="ml-3" value="u.m." ><strong>u.m.</strong>
+                            </fieldset>
+                        </div>
+
+                    </div>
+
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

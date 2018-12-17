@@ -12,18 +12,19 @@
         <div class="card">
             <div class="card-header">
                 <!-- Button trigger modal -->
-
-                <button type="button" class="btn btn-primary float-right mt-1 btn-lg" data-toggle="modal" data-target="#addReservation">
+                    <div class="float-right ">
+                <button type="button" class="btn btn-primary mt-1 btn-lg mr-2" data-toggle="modal" data-target="#addReservation">
                     add Reservation &nbsp; <i class="fas fa-check-double"></i>
                 </button>
 
 
-                <h4 class="apartments_table_title"><u>Reservations Table</u>&nbsp;&nbsp;<i class="fas fa-person-booth"></i></h4>
+                    </div>
+                <h4 class="apartments_table_title "><u>Reservations Table</u>&nbsp;&nbsp;<i class="fas fa-person-booth"></i></h4>
             </div>
         </div>
 
             <div class="reservations_container">
-        <table class="table table-bordered  table-responsive table-hover display">
+        <table class="data_table table table-bordered  table-responsive table-hover display">
             <thead>
             <tr class="bg-dark custom_reservations_table_head  text-center"  >
                 <th>#</th>
@@ -95,6 +96,7 @@
                         </button>
 
                     </td>
+
                     <td><a href="/admin/reservations/delete/{{$reservation->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Reservation?')"><i class="fas fa-eraser"></i></a></td>
                 </tr>
 
@@ -107,7 +109,10 @@
         </div>
 
         @include('admin.parts.modals.add.reservation')
+
     </section>
+
+
 
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.view.reservation')
@@ -115,6 +120,13 @@
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.edit.reservation')
     @endforeach
-
-
+    @php
+        $booking_fees=\App\BookingFee::all();
+    @endphp
+    @foreach($booking_fees as $booking_fee)
+        @include('admin.parts.modals.edit.edit_fee')
+    @endforeach
+    @foreach($reservations as $reservation)
+        @include('admin.parts.modals.add.reservation_fee')
+    @endforeach
 @endsection

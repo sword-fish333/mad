@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Apartment;
 use App\ApartmentFeature;
+use App\ApartmentFee;
 use App\Feature;
 use App\Picture;
 use Illuminate\Http\Request;
@@ -30,7 +31,10 @@ class ApartmentsController extends Controller
             'description' => 'required|max:200000',
             'price' => 'required|numeric',
             'increment_price' => 'required|numeric',
-            'price_type' => 'required'
+            'price_type' => 'required',
+            'fee_name'=>'string|max:255',
+            'fee_description'=>'string|max:20000',
+            'fee_value'=>'numeric|min:0',
         ]);
         $apartment = new Apartment();
         $apartment->lat = $request->lat;
@@ -43,6 +47,14 @@ class ApartmentsController extends Controller
         $apartment->increment_price = $request->increment_price;
         $apartment->kind_increment_price = $request->price_type;
         $apartment->save();
+
+        $apartment_fee= new ApartmentFee();
+        $apartment_fee->name=$request->fee_name;
+        $apartment_fee->description=$request->fee_description;
+        $apartment_fee->value=$request->fee_value;
+        $apartment_fee->type_of_value=$request->fee_type_of_value;
+        $apartment_fee->apartment_id=$apartment->id;
+        $apartment_fee->save();
         if ($request->features) {
             foreach ($request->features as $feature) {
                 $apartment_feature = new ApartmentFeature();

@@ -29,5 +29,9 @@ class Reservation extends Model
         return $this->hasMany('App\Person','persons_id','id');
     }
 
+    public function reservation_cost(){
+        return $this->hasOne('App\ReservationCost','reservation_id','id');
+    }
+
 
 }

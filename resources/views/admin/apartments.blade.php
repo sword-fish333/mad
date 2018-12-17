@@ -34,7 +34,7 @@
                 <h4 class="apartments_table_title"><u>Apartments Table</u>&nbsp;&nbsp;<i class="fas fa-person-booth"></i></h4>
             </div>
         </div>
-                <table class="table table-hover  table-bordered" style="margin-left: -20px !important; width:100px !important;">
+                <table class=" data_table table table-hover  table-bordered" >
                     <thead>
                     <tr class="bg-dark custom_apartments_table_head  text-center"  >
                         <th>#</th>

@@ -9,9 +9,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/apartments/edit/{{$apartment->id}}" method="post" class="row" enctype="multipart/form-data">
+                <ul class="nav nav-tabs" id="tabContent" >
+                    <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics_edit{{$apartment->id}}" data-toggle="tab" > Apartment Characteristics</a></li>
+                    <li class="nav-item"><a class="nav-link"   href="#apartment_fee_edit{{$apartment->id}}" data-toggle="tab">Apartment Fee</a></li>
+
+                </ul>
+
+                <form action="/admin/apartments/edit/{{$apartment->id}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <p class="attention_edit_apartment">All fields are optional. You can leave everything as it is  <i class="fas fa-exclamation-circle"></i> </p>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="apartment_characteristics_edit{{$apartment->id}}">
+                    <p class="attention_edit_apartment mt-5">All fields are optional. You can leave everything as it is  <i class="fas fa-exclamation-circle"></i> </p>
                 <div class="form-group">
                     <label for="edit_map" class="ml-5 new_apartment_label"><u>Select address of the new apartment </u> &nbsp;<i class="fas fa-map-marked-alt"></i></label>
                     <div class="edit_map" id="edit_map{{$apartment->id}}"></div>
@@ -122,6 +130,48 @@
                         <input type="file" name="apartment_photos[]" class="form-control" multiple >
 
                     </div>
+                        </div>
+                    <div class="tab-pane" id="apartment_fee_edit{{$apartment->id}}">
+                        <h4 class="apartment_fee_title mt-4">Apartment Fees</h4>
+                        <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentFee{{$apartment->id}}">
+                            &nbsp;Add booking fee <i class="fas fa-file-invoice-dollar"></i>
+                        </button>
+                        <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
+                            @php
+                                $apartment_fees=\App\ApartmentFee::where('apartment_id', $apartment->id)->get();
+                            @endphp
+                            <div class=" mt-2 ml-1 col-md-11">
+
+                                <ul>
+                                    @foreach($apartment_fees as $apartment_fee)
+                                        <div class="form-check" >
+
+
+                                            <li>
+
+                                                <div style="float: right">
+                                                    <a href="/admin/reservations/fee/delete/{{$apartment_fee->id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</a>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee{{$apartment_fee->id}}">
+                                                        Edit Fee
+                                                    </button>
+                                                </div>
+                                                <strong>{{$apartment_fee->name}}</strong>&nbsp;
+                                                <p>Value: <span style="color: darkred">{{$apartment_fee->value}} {{$apartment_fee->type_of_value}}</span></p>
+
+                                                {{$apartment_fee->description}}
+                                            </li>
+
+                                            <hr>
+
+                                        </div>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer bg-secondary">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

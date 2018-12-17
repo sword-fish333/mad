@@ -43,7 +43,7 @@
                     <p class="apartment_data mt-1">{{$apartment->increment_price}} &nbsp;<strong>{{$apartment->kind_increment_price}}</strong></p>
                 </div>
                 <div class="row pr-4 pt-4 pl-5 custom_background pb-4">
-                    <p class="info_apartment ml-5 col-md-10">Features:</p>&nbsp;
+                    <p class="info_apartment ml-1 col-md-10">Features:</p>&nbsp;
                     @php
                         $apartments_features=\App\ApartmentFeature::where('apartments_id', $apartment->id)->pluck('features_id');
                         $ap_features=\App\Feature::whereIn('id', $apartments_features)->get();
@@ -61,7 +61,7 @@
                     $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->get();
                 @endphp
                 <div class="row pl-5 custom_background pb-4 pr-4 pt-4">
-                    <p class="info_apartment ml-5 col-md-8">Photos of the apartment:</p>&nbsp;&nbsp;
+                    <p class="info_apartment ml-1 col-md-8">Photos of the apartment:</p>&nbsp;&nbsp;
                     @foreach($apartment_photo  as $apartment_photo)
                         <div class="col-md-6">
                             <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="img-thumbnail" style="height: 120px; width: auto;">
