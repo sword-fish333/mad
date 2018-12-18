@@ -18,11 +18,15 @@
                 <li> <a class=" waves-effect waves-dark" href="/admin/apartments" aria-expanded="false"><i class="fas fa-building"></i><span class="hide-menu">Apartments</span> <span class="badge badge-pill badge-info float-right">{{\App\Apartment::count()}}</span></a>
                 </li>
                 <li class="nav-small-cap"></li>
+                <li> <a class=" waves-effect waves-dark" href="/admin/holders" aria-expanded="false"><i class="fas fa-user-lock"></i><span class="hide-menu">Apartments <br> Holders</span> <span class="badge badge-pill badge-info ml-5" >{{\App\ApartmentHolder::count()}}</span></a>
+                </li>
+                <li class="nav-small-cap"></li>
                 <li> <a class=" waves-effect waves-dark" href="/admin/features" aria-expanded="false"><i class="fas fa-swatchbook"></i><span class="hide-menu">Features of <br> Apartments</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Feature::count()}}</span></a>
                 </li>
                 <li class="nav-small-cap"></li>
                 <li> <a class=" waves-effect waves-dark" href="/admin/reservations" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Reservations</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Reservation::count()}}</span></a>
                 </li>
+
 
 
 

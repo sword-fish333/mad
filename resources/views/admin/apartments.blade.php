@@ -20,7 +20,9 @@
     </style>
     <section>
         <div class="jumbotron apartments_parallax">
+            <div class="dashboard_titles">
             <h1 class="apartments_title">Apartments</h1>
+            </div>
         </div>
             @include('admin.parts.messages.success')
             @include('admin.parts.messages.error')
@@ -128,6 +130,10 @@
      @include('admin.parts.modals.edit.apartment')
         @endforeach
     @include('admin.parts.modals.add.apartment')
+
+    @foreach($apartments as $apartment)
+        @include('admin.parts.modals.add.apartment_fee')
+        @endforeach
     <script>
         function initMap() {
             // The location of Madrid

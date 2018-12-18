@@ -29,10 +29,10 @@ Route::get('/admin/apartments', 'ApartmentsController@showApartmentsTable');
 Route::post('/admin/apartments/add', 'ApartmentsController@addApartment');
 Route::post('/admin/apartments/edit/{id}', 'ApartmentsController@editApartment');
 Route::get('/admin/apartments/photos/delete/{id}', 'ApartmentsController@deleteApartmentEditPhoto');
-
+Route::post('/admin/apartment/fee/add/{id}', 'ApartmentsController@addFee');
 Route::get('/admin/apartments/delete/{id}', 'ApartmentsController@deleteApartment');
-
-
+Route::get('/admin/apartments/view/fees/{id}', 'ApartmentsController@viewFees');
+Route::get('/admin/apartments/delete/fee/{id}', 'ApartmentsController@deleteFee');
 //Routes for CRUD on features of the Apartment
 Route::get('/admin/features', 'FeaturesController@showFeatures');
 Route::post('/admin/features/add', 'FeaturesController@addFeature');
@@ -52,3 +52,6 @@ Route::post('/admin/reservations/fee/add/{id}', 'ReservationsFeeController@addFe
 Route::get('/admin/reservations/fee/delete/{id}', 'ReservationsFeeController@deleteFee');
 Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@editFee');
 
+//Routes Apartment Holders
+Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
+Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');

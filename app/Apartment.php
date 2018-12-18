@@ -24,4 +24,8 @@ class Apartment extends Model
         public function price_per_day(){
             return $this->hasMany('App\PricePerDay','apartments_id','id');
         }
+
+        public function holder(){
+            return $this->belongsTo('App\ApartmentHolder', 'holder_id', 'id');
+        }
 }

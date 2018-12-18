@@ -33,10 +33,12 @@ class CreateApartmentsTable extends Migration
             $table->double('lng')->nullable();
             $table->double('increment_price')->nullable();
             $table->string('kind_increment_price', 45)->nullable();
-
+            $table->unsignedInteger('holder_id')->nullable();
             $table->unique(["id"], 'id_UNIQUE');
 
-
+            $table->foreign('holder_id')->references('id')->on('apartments_holders')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
 
         });

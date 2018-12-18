@@ -14,6 +14,7 @@
                 <ul class="nav nav-tabs" id="tabContent" >
                     <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics" data-toggle="tab" > Apartment Characteristics</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#apartment_fee" data-toggle="tab">Apartment Fee</a></li>
+                    <li class="nav-item"><a class="nav-link"   href="#apartment_holder" data-toggle="tab">Apartment Holder</a></li>
 
                 </ul>
                 <form action="/admin/apartments/add" method="post" class="row" enctype="multipart/form-data">
@@ -117,32 +118,87 @@
                     </div>
                         </div>
                         <div class="tab-pane" id="apartment_fee">
-                        <div class="row mt-5">
-                            <div class="form-group col-md-5 ml-5">
-                                <label for="" class="fee_info">Name of the fee:</label>
-                                <input type="text" class="form-control" name="fee_name" placeholder="..." >
+                            <h1 class="new_apartment_label mt-5"><center><u>Apartment Fee</u></center></h1>
+                            <button type="button" id="add_row_fee" class="btn btn-primary mt-4" style="margin-left: 30px;">Add Fee for&nbsp;the apartment&nbsp;<i class="fas fa-plus"></i></button>
+                            <button type="button" id="remove_row_fee" class="btn btn-danger  mt-4  ml-2" >Remove last field&nbsp;&nbsp;<i class="fas fa-minus"></i></button>
+
+                            <table class="table table-bordered table-hover ml-4 mt-4" style="width: 730px;">
+                                <thead class="bg-dark text-white text-center">
+                                <tr>
+                                    <th>Name of Fee</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                    <th>Type of Value</th>
+                                </tr>
+                                </thead>
+                                <tbody id="add_data">
+
+                                </tbody>
+                            </table>
+
+                    </div>
+                        <div class="tab-pane" id="apartment_holder">
+                            <h1 class="new_apartment_label mt-5"><center><u>Apartment Holder</u></center></h1>
+                            <p class="holder_warning ">You can either choose an existing holder or you can add a new one</p>
+                            <ul class="nav nav-tabs" id="tabContent" >
+                                <li class="active nav-item"><a class="nav-link" href="#choose_holder" data-toggle="tab" > Choose Holders</a></li>
+                                <li class="nav-item"><a class="nav-link"   href="#add_holder" data-toggle="tab">Add new Holder</a></li>
+                            </ul>
+                            <div class="tab-content">
+                            <div class="tab-pane active" id="choose_holder">
+                                <p class=" text-danger  mt-5 ml-5">If you want to deselect an option keep <strong>ctrl</strong></p>
+                                <div class=" mt-5 ml-5">
+                                    <p  class="holder_label_add"><strong>Select a Holder:</strong></p>
+                                    <div style="overflow: auto; height: 200px; width:350px; "  class="mb-5">
+                                        @php
+                                            $holders=\App\ApartmentHolder::all();
+                                        @endphp
+                                        @if(count($holders)!=0)
+                                        @foreach($holders as $holder)
+                                            <div class="form-check" >
+                                                <label class="form-check-label">
+
+                                                    <input type="radio"  name="holder" value="{{$holder->id}}" class="holders form-check-input">{{$holder->name}}
+                                                    <br>
+                                                    {{$holder->email}}
+                                                    <br>
+                                                    <hr>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                            @else
+                                            <p><strong>There are no holders in the database</strong></p>
+                                            @endif
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="form-group col-md-6">
-                                <label for="description" class="fee_info">Description:</label>
-                                <textarea type="text" class="form-control" name="fee_description" ></textarea>
-                            </div>
-
-                            <div class="form-group col-md-5 ml-5">
-                                <p for="value" class="fee_info">Value</p>
-                                <input type="number" step="0.001" name="fee_value" class="form-control" min="0" placeholder="...."  >
-                            </div>
-                            <fieldset style="margin-top: 55px;">
-                                <input type="radio" name="fee_type_of_value" value="%" ><strong>%</strong>
-                                <input type="radio" name="fee_type_of_value" class="ml-3" value="u.m." ><strong>u.m.</strong>
-                            </fieldset>
+                            <div class="tab-pane" id="add_holder">
+                            <div class="row ml-4 mt-5">
+                                <div class="form-group col-md-5 ">
+                                    <label for="name" class="holder_label_add">Name:</label>
+                                    <input type="text" name="holder_name" id="holder_name" class="form-control" placeholder="..." required>
+                                </div>
+                                <div class="form-group ml-5 col-md-5">
+                                    <label for="address" class="holder_label_add">Address:</label>
+                                    <input type="text" name="holder_address" id="holder_address" class="form-control" placeholder="..." required>
+                                </div>
+                                <div class="form-group  col-md-5">
+                                    <label for="email" class="holder_label_add">Email:</label>
+                                    <input type="email" name="holder_email" id="holder_email" class="form-control" placeholder="..." required>
+                                </div>
+                                <div class="form-group ml-5 col-md-5">
+                                    <label for="email" class="holder_label_add">Phone:</label>
+                                    <input type="text" name="holder_phone" id="holder_phone" class="form-control" placeholder="..." required>
+                                </div>
                         </div>
+                            </div>
 
+                            </div>
+                        </div>
                     </div>
-
                     </div>
-            </div>
-            <div class="modal-footer">
+            <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes <i class="fas fa-save"></i></button>
                 </form>
@@ -150,9 +206,58 @@
         </div>
     </div>
     <script>
+        $('#holder_name').on('input', function() {
+            if ($(this).val().length) {
+                $(".holders").prop('disabled', true);
+            }else{
+                $('.holders').prop('disabled', false);
+            }
+        });
+        $('input.holders').click(function(e){
+            if (e.ctrlKey) {
+                $(this).prop('checked', false);
+            }
+        });
+        $('input.holders').on('click', function(){
+            if($(this).is(':checked')) {
+                $("#holder_name").prop('disabled', true);
+                $("#holder_address").prop('disabled', true);
+                $("#holder_phone").prop('disabled', true);
+                $("#holder_email").prop('disabled', true);
+            }else{
+                $("#holder_name").prop('disabled', false);
+                $("#holder_address").prop('disabled', false);
+                $("#holder_phone").prop('disabled', false);
+                $("#holder_email").prop('disabled', false);
+            }
+        });
+    </script>
+    <script>
+                {{--jquery for adding dynamic fields in modal--}}
+        var inc=1;
+        var html;
+        $("#add_row_fee").click(function() {
+            html=[];
+            html+='<tr class="custom_table_add fields_'+inc+'">';
+            html+='<td><input type="text" name="fee_name[]" class="form-control" required></td>';
+            html+='<td><textarea class="form-control" name="fee_description[]" required></textarea></td>';
+            html+='<td><input type="number" class="form-control" min="0" step="0.01" name="fee_value[]" required> </td>';
+            html+='<td><input type="radio" value="%" name="type_of_value[]['+ inc+']" required><strong>%</strong><br>' +
+                '<input type="radio" value="u.m." name="type_of_value[]['+ inc+']" required><strong>u.m.</strong></td>';
+
+            html+='</tr>';
+            $("#add_data").append(html);
+            inc++;
+        });
+                $('#remove_row_fee').click(function(){
+                    inc=inc-1;
+                    //  console.log( i);
+                    $('.fields_'+inc).remove();
+                });
 
 
-
+    </script>
+    <script>
         $('.star-rating input').click( function(){
             starvalue = $(this).attr('value');
 

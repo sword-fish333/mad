@@ -75,12 +75,27 @@
     background-size: cover;
 }
 
+.holders_parallax{
+    /* The image used */
+    background-image: url("../images/holder.jpeg");
+
+    /* Set a specific height */
+    height: 600px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
 .apartments_title{
     text-align: center;
-    color: black;
-    margin-top: 190px;
     font-family: 'Bitter', sans-serif;
     font-size: 50px;
+    padding: 60px;
+    padding-top:70px;
     text-decoration: underline;
 }
 .apartments_table_title{
@@ -111,9 +126,9 @@
 .stars_label{
     color: darkred;
         font-family: 'Catamaran', sans-serif;
-    font-size: 28px;
+    font-size: 22px;
     text-align: center;
-    font-weight: bold;
+    margin-left: 20px;
 
 }
 
@@ -412,4 +427,27 @@
     text-decoration: underline;
     font-size: 28px;
     text-align: center;
+}
+
+.modal-backdrop{
+    display: none;
+}
+.holder_add_header{
+    background: rgba(47,79,79,0.7);
+}
+.holder_add_title{
+    font-family: 'Saira', sans-serif;
+    text-decoration: underline;
+    font-size: 28px;color: white;
+}
+.holder_label_add{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 18px;
+    text-decoration: underline;
+}
+.holder_warning{
+    font-family: 'Saira', sans-serif;
+    margin-top: 15px;
+    margin-left: 20px;
+
 }
