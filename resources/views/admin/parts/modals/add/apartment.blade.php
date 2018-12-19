@@ -100,6 +100,17 @@
                         <label for="price" class=" price_label"><u>Price of the apartment</u></label>
                         <input type="number" min="0" name="price" step="0.01" class="form-control" required>
                     </div>
+                        <div class="form-group col-md-5">
+                            <label for="photos_apartment">Photos for the apartment</label>
+                            <div class="file-upload">
+                                <div class="file-select">
+                                    <div class="file-select-button" id="fileName">Choose File</div>
+                                    <div class="file-select-name" id="noFile">No file chosen...</div>
+                                    <input type="file" name="apartment_photos[]" multiple id="chooseFile">
+                                </div>
+                            </div>
+
+                        </div>
                     <div class="form-group col-md-6 ml-5">
                         <label for="increment_price" class=" price_label"><u>With how much do you want to increment the price in time?</u></label>
                         <input type="number" min="0" name="increment_price" step="0.01" class="form-control" required>
@@ -111,10 +122,7 @@
                        </fieldset>
                     </div>
 
-                    <div class="form-group offset-1">
-                        <label for="photos_apartment">Photos for the apartment</label>
-                        <input type="file" name="apartment_photos[]" class="form-control" multiple >
-                    </div>
+
                     </div>
                         </div>
                         <div class="tab-pane" id="apartment_fee">
@@ -139,7 +147,8 @@
                     </div>
                         <div class="tab-pane" id="apartment_holder">
                             <h1 class="new_apartment_label mt-5"><center><u>Apartment Holder</u></center></h1>
-                            <p class="holder_warning ">You can either choose an existing holder or you can add a new one</p>
+                            <p class="holder_warning "><u>You can either choose an existing holder or you can add a new one</u></p>
+                            <p class="holder_warning "><u>If you choose a holder you can not enter another one</u></p>
                             <ul class="nav nav-tabs" id="tabContent" >
                                 <li class="active nav-item"><a class="nav-link" href="#choose_holder" data-toggle="tab" > Choose Holders</a></li>
                                 <li class="nav-item"><a class="nav-link"   href="#add_holder" data-toggle="tab">Add new Holder</a></li>
@@ -191,6 +200,16 @@
                                     <label for="email" class="holder_label_add">Phone:</label>
                                     <input type="text" name="holder_phone" id="holder_phone" class="form-control" placeholder="..." required>
                                 </div>
+
+                                <div class="form-group  col-md-5">
+                                    <label for="document_photo" class="holder_label_add">Add Document Photo <strong> (Optional)</strong></label>
+                                    <label class="custom-file-upload"> <input class="custom_file_input" id="document_photo" type="file" name="document_photo"/> <i class="fas fa-upload"></i></label>
+                                </div>
+                                    <div class="form-group  ml-5 col-md-5">
+                                        <label for="document_photo" class="holder_label_add">Cnp <strong>(Optional)</strong></label>
+                                        <input type="number" min="0" placeholder="...." name="cnp" id="cnp" class="form-control">
+                                    </div>
+
                         </div>
                             </div>
 
@@ -224,11 +243,15 @@
                 $("#holder_address").prop('disabled', true);
                 $("#holder_phone").prop('disabled', true);
                 $("#holder_email").prop('disabled', true);
+                $("#cnp").prop('disabled', true);
+                $("#document_photo").prop('disabled', true);
             }else{
                 $("#holder_name").prop('disabled', false);
                 $("#holder_address").prop('disabled', false);
                 $("#holder_phone").prop('disabled', false);
                 $("#holder_email").prop('disabled', false);
+                $("#cnp").prop('disabled', false);
+                $("#document_photo").prop('disabled', false);
             }
         });
     </script>

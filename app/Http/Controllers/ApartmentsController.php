@@ -163,6 +163,26 @@ class ApartmentsController extends Controller
             $holder->address=$request->holder_address;
             $holder->email=$request->holder_email;
             $holder->phone=$request->holder_phone;
+            if($request->cnp) {
+                $rules=[
+                    'cnp'=>'numeric|digits:13'
+                ];
+
+                $customMsg=[
+                    'digits'=>'If you enter CNP it has to have exactly 13 digits'
+                ];
+
+                $this->validate($request, $rules, $customMsg);
+                $holder->cnp = $request->cnp;
+            }else{
+                $holder->cnp =NULL;
+            }
+            if($request->document_photo) {
+                $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'document_photo', 'apartment_holders', array("jpg", "jpeg", "png", "gif"), false);
+                $holder->document_photo=$photo;
+            }else{
+                $holder->document_photo=NULL;
+            }
             $holder->save();
             $apartment->holder_id=$holder->id;
         }else if(!empty($request->holder)) {

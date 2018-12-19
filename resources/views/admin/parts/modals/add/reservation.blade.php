@@ -66,7 +66,14 @@
                     </div>
                     <div class="form-group col-md-4 offset-3">
                         <label for="main_document_picture" class="add_reservatio_info">Document Picture</label>
-                        <input type="file" name="main_document_picture" class="form-control" required>
+                        <div class="file-upload">
+                            <div class="file-select">
+                                <div class="file-select-button" id="fileName">Choose File</div>
+                                <div class="file-select-name" id="noFile">No file chosen...</div>
+                                <input type="file" name="main_document_picture" id="chooseFile" required>
+                            </div>
+                        </div>
+
                     </div>
                             </div>
                         </div>

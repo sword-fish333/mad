@@ -21,7 +21,7 @@
     <section>
         <div class="jumbotron holders_parallax">
             <div class="dashboard_titles">
-            <h1 class="apartments_title">Apartments Holders</h1>
+            <h1 class="apartments_title">Apartment Holders</h1>
             </div>
         </div>
             @include('admin.parts.messages.success')
@@ -65,7 +65,8 @@
                     $apartments=\App\Apartment::where('holder_id', $holder->id)->get();
                     @endphp
                         <td>
-                       <ul>
+                            @if(count($apartments)>0)
+                       <ul style="overflow-y: scroll; max-height: 200px;">
                            @foreach($apartments as $apartment)
                             @php
                                 $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
@@ -82,6 +83,9 @@
                                <hr>
                                @endforeach
                        </ul>
+                                @else
+                            <strong class="small">The Holder has no <br> apartments associated with</strong>
+                            @endif
                     </td>
 
 
@@ -104,9 +108,9 @@
 
     </section>
 
-    {{--@foreach($holders as $holder)--}}
-     {{--@include('admin.parts.modals.edit.holder')--}}
-        {{--@endforeach--}}
+    @foreach($holders as $holder)
+     @include('admin.parts.modals.edit.holder')
+        @endforeach
     @include('admin.parts.modals.add.holder')
 
 

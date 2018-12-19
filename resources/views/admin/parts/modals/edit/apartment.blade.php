@@ -12,6 +12,7 @@
                 <ul class="nav nav-tabs" id="tabContent" >
                     <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics_edit{{$apartment->id}}" data-toggle="tab" > Apartment Characteristics</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#apartment_fee_edit{{$apartment->id}}" data-toggle="tab">Apartment Fee</a></li>
+                    <li class="nav-item"><a class="nav-link"  id="apartment_holder_button{{$apartment->id}}"  href="#apartment_holder_edit{{$apartment->id}}" data-toggle="tab">Apartment Holder</a></li>
 
                 </ul>
 
@@ -178,6 +179,81 @@
                             </div>
                         </div>
                     </div>
+                        <div class="tab-pane" id="apartment_holder_edit{{$apartment->id}}">
+                            <h1 class="new_apartment_label mt-5"><center><u>Apartment Holder</u></center></h1>
+                            <p class="holder_warning "><u>If a holer is selected you can <strong>not </strong>enter a new one</u></p>
+
+                            <ul class="nav nav-tabs" id="tabContent" >
+                                <li class="active nav-item"><a class="nav-link" href="#choose_holder{{$apartment->id}}" data-toggle="tab" > Choose Holders</a></li>
+                                <li class="nav-item"><a class="nav-link"   href="#add_holder{{$apartment->id}}" data-toggle="tab">Add new Holder</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="choose_holder{{$apartment->id}}">
+                                    <p class=" text-danger  mt-5 ml-5">If you want to deselect an option keep <strong>ctrl</strong></p>
+                                    <div class=" mt-5 ml-5">
+                                        <p  class="holder_label_add"><strong>Select a Holder:</strong></p>
+                                        <div style="overflow: auto; height: 200px; width:350px; "  class="mb-5">
+                                            @php
+                                                $holders=\App\ApartmentHolder::all();
+                                            @endphp
+                                            @if(count($holders)!=0)
+                                                @foreach($holders as $holder)
+                                                    <div class="form-check" >
+                                                        <label class="form-check-label">
+
+                                                            <input type="radio"  name="holder" value="{{$holder->id}}" {{$apartment->holder_id===$holder->id ? 'checked' : ''}} class="holders{{$apartment->id}} form-check-input">{{$holder->name}}
+                                                            <br>
+                                                            {{$holder->email}}
+                                                            <br>
+                                                            <hr>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <p><strong>There are no holders in the database</strong></p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @php
+
+                                $holder=\App\ApartmentHolder::where('id', $apartment->holder_id)->first();
+                                @endphp
+                                <div class="tab-pane" id="add_holder{{$apartment->id}}">
+                                    <div class="row ml-4 mt-5">
+                                        <div class="form-group col-md-5 ">
+                                            <label for="name" class="holder_label_add">Name:</label>
+                                            <input type="text" name="holder_name" id="holder_name{{$apartment->id}}" placeholder="...."  class="form-control" >
+                                        </div>
+                                        <div class="form-group ml-5 col-md-5">
+                                            <label for="address" class="holder_label_add">Address:</label>
+                                            <input type="text" name="holder_address" id="holder_address{{$apartment->id}}" placeholder="...."  class="form-control" >
+                                        </div>
+                                        <div class="form-group  col-md-5">
+                                            <label for="email" class="holder_label_add">Email:</label>
+                                            <input type="email" name="holder_email" id="holder_email{{$apartment->id}}"  placeholder="...." class="form-control" >
+                                        </div>
+                                        <div class="form-group ml-5 col-md-5">
+                                            <label for="email" class="holder_label_add">Phone:</label>
+                                            <input type="text" name="holder_phone" id="holder_phone{{$apartment->id}}"   placeholder="...."  class="form-control" >
+                                        </div>
+
+                                        <div class="form-group  col-md-5">
+                                            <p>Current Image</p>
+
+                                            <label for="document_photo" class="holder_label_add">Add Document Photo <strong> (Optional)</strong></label>
+                                            <label class="custom-file-upload"> <input class="custom_file_input" id="document_photo{{$apartment->id}}" type="file" name="document_photo"/> <i class="fas fa-upload"></i></label>
+                                        </div>
+                                        <div class="form-group  ml-5 col-md-5">
+                                            <label for="document_photo" class="holder_label_add">Cnp <strong>(Optional)</strong></label>
+                                            <input type="number" min="0" placeholder="...." name="cnp"  id="cnp{{$apartment->id}}" class="form-control">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
             </div>
             <div class="modal-footer">
@@ -187,6 +263,55 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#apartment_holder_button{{$apartment->id}}').on('click', function() {
+            if ($('.holders{{$apartment->id}}').is(':checked')) {
+                $("#holder_name{{$apartment->id}}").prop('disabled', true);
+                $("#holder_address{{$apartment->id}}").prop('disabled', true);
+                $("#holder_phone{{$apartment->id}}").prop('disabled', true);
+                $("#holder_email{{$apartment->id}}").prop('disabled', true);
+                $("#cnp{{$apartment->id}}").prop('disabled', true);
+                $("#document_photo{{$apartment->id}}").prop('disabled', true);
+            } else {
+                $("#holder_name{{$apartment->id}}").prop('disabled', false);
+                $("#holder_address{{$apartment->id}}").prop('disabled', false);
+                $("#holder_phone{{$apartment->id}}").prop('disabled', false);
+                $("#holder_email{{$apartment->id}}").prop('disabled', false);
+                $("#cnp{{$apartment->id}}").prop('disabled', false);
+                $("#document_photo{{$apartment->id}}").prop('disabled', false);
+            }
+        });
+
+        $('#holder_name{{$apartment->id}}').on('input', function() {
+            if ($(this).val().length) {
+                $(".holders{{$apartment->id}}").prop('disabled', true);
+            }else{
+                $('.holders{{$apartment->id}}').prop('disabled', false);
+            }
+        });
+        $('input.holders{{$apartment->id}}').click(function(e){
+            if (e.ctrlKey) {
+                $(this).prop('checked', false);
+            }
+        });
+        $('input.holders{{$apartment->id}}').on('click', function(){
+            if($(this).is(':checked')) {
+                $("#holder_name{{$apartment->id}}").prop('disabled', true);
+                $("#holder_address{{$apartment->id}}").prop('disabled', true);
+                $("#holder_phone{{$apartment->id}}").prop('disabled', true);
+                $("#holder_email{{$apartment->id}}").prop('disabled', true);
+                $("#cnp{{$apartment->id}}").prop('disabled', true);
+                $("#document_photo{{$apartment->id}}").prop('disabled', true);
+            }else{
+                $("#holder_name{{$apartment->id}}").prop('disabled', false);
+                $("#holder_address{{$apartment->id}}").prop('disabled', false);
+                $("#holder_phone{{$apartment->id}}").prop('disabled', false);
+                $("#holder_email{{$apartment->id}}").prop('disabled', false);
+                $("#cnp{{$apartment->id}}").prop('disabled', false);
+                $("#document_photo{{$apartment->id}}").prop('disabled', false);
+            }
+        });
+    </script>
     <script>
         function loadData{{$apartment->id}}() {
 

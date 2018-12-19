@@ -55,3 +55,12 @@ Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@edit
 //Routes Apartment Holders
 Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
 Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');
+Route::get('/admin/holders/delete/{id}', 'ApartmentHolderController@deleteHolder');
+
+//Routes for MadreamRent Pages
+Route::get('/admin/pages', 'StaticPagesController@index');
+Route::post('/admin/pages/add', 'StaticPagesController@addPage');
+Route::post('/admin/pages/edit/{id}', 'StaticPagesController@editPage');
+Route::get('/admin/pages/delete/{id}', 'StaticPagesController@deletePage');
+
+

@@ -26,7 +26,9 @@ class CreateBlogTable extends Migration
             $table->increments('id');
             $table->string('name', 195)->nullable();
             $table->text('content')->nullable();
-
+            $table->text('image')->nullable();
+            $table->text('url_rewrite')->nullable();
+            $table->unsignedInteger('parent_id')->nullable();
             $table->unique(["id"], 'id_UNIQUE');
 
             $table->timestamps();

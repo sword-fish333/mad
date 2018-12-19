@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Bitter|Catamaran|Merriweather|Noto+Serif');
 @import url('https://fonts.googleapis.com/css?family=Saira');
-
+@import url('https://fonts.googleapis.com/css?family=Allerta+Stencil|Share+Tech+Mono');
 .custom_navbar{
     background:  #2b2f3a !important;
 }
@@ -66,7 +66,7 @@
     background-image: url("../images/apartment.jpg");
 
     /* Set a specific height */
-    height: 600px;
+    height: 500px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -80,7 +80,7 @@
     background-image: url("../images/holder.jpeg");
 
     /* Set a specific height */
-    height: 600px;
+    height: 500px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -88,6 +88,21 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.pages_parallax{
+    /* The image used */
+    background-image: url("../images/static_pages.jpeg");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 
 .apartments_title{
@@ -451,3 +466,77 @@
     margin-left: 20px;
 
 }
+
+.custom_file_input_holder::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.custom_file_input_holder::before {
+    content: 'Select some files';
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
+.custom_file_input_holder:hover::before {
+    border-color: black;
+}
+.custom_file_input_holder:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.holder_edit_header{
+    background: rgba(0, 128, 128,0.7);
+}
+
+.holder_edit_title{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 22px;
+    color: white;
+}
+
+.current_image_edit_holder{
+    font-family: 'Saira', sans-serif;
+    text-decoration: underline;
+}
+.add_page_title_modal{
+    font-family: 'Allerta Stencil', sans-serif;
+    font-size: 22px;
+    color: #393E46;
+}
+.page_add_header{
+    background: rgba(222, 184, 135, 0.7);
+}
+
+.label_add_page{
+    font-family: 'Share Tech Mono', monospace;
+    text-decoration: underline;
+    font-size: 18px;
+}
+
+#slick_categories{
+    font-family: 'Share Tech Mono', monospace;
+    color: darkred;
+}
+
+
+.file-upload{display:block;text-align:center;font-family: Helvetica, Arial, sans-serif;font-size: 12px;}
+.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select .file-select-button{background:#dce4ec;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+.file-upload .file-select:hover{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select:hover .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select{border-color:#3fa46a;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select .file-select-button{background:#3fa46a;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select input[type=file]{z-index:100;cursor:pointer;position:absolute;height:100%;width:100%;top:0;left:0;opacity:0;filter:alpha(opacity=0);}
+.file-upload .file-select.file-select-disabled{opacity:0.65;}
+.file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}

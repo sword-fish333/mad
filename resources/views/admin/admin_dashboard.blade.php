@@ -54,7 +54,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 class="apartments_table_title">Check-Outs for the next 5 days &nbsp;<i class="fas fa-bookmark"></i></h1>
+                <h1 class="apartments_table_title">Check-Outs for the next 5 days &nbsp;<i class="fas fa-sign-out-alt"></i></h1>
             </div>
             <div class="card-body">
                 <table class=" data_table table table-hover  table-bordered" >
