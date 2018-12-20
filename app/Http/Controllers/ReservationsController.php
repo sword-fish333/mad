@@ -44,6 +44,7 @@ class ReservationsController extends Controller
             ];
         $this->validate($request, $rules);
 
+
         if( Carbon::parse($request->check_in)->toDateTimeString()<Carbon::today() || Carbon::parse($request->check_out)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
             return back()->with('error',' The check in may only start from today and the check out must be after the check in!');
         }
@@ -53,8 +54,8 @@ class ReservationsController extends Controller
                 $data=[];
                 if($reservations) {
                     foreach ($reservations as $res) {
-                        if (($request->check_in >= $res->check_in && $request->check_in <= $res->check_out) ||
-                            ($request->check_out >= $res->check_in && $request->check_out <= $res->check_out)
+                        if ((Carbon::parse($request->check_in)->toDateTimeString() >= $res->check_in && Carbon::parse($request->check_in)->toDateTimeString() <= $res->check_out) ||
+                            (Carbon::parse($request->check_out)->toDateTimeString() >= $res->check_in && Carbon::parse($request->check_out)->toDateTimeString()  <= $res->check_out)
                         ) {
                             $ok = 0;
                             $data['in'] = $res->check_in;
@@ -242,6 +243,12 @@ class ReservationsController extends Controller
         return back()->with('error', 'Something went wrong please try again');
         }
 
+        public function deleteReservation($id){
+
+            Reservation::find($id)->delete();
+
+            return back()->with('success', 'Reservation has been deleted successfully!');
+        }
 
 
 }

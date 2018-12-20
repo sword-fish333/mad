@@ -27,11 +27,11 @@
                 <li> <a class=" waves-effect waves-dark" href="/admin/reservations" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Reservations</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Reservation::count()}}</span></a>
                 </li>
                 <li class="nav-small-cap"></li>
-                <li class="nav-small-cap"></li>
                 <li> <a class=" waves-effect waves-dark" href="/admin/pages" aria-expanded="false"><i class="fab fa-blogger-b"></i><span class="hide-menu">Static Pages</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Blog::count()}}</span></a>
                 </li>
                 <li class="nav-small-cap"></li>
-
+                <li> <a class=" waves-effect waves-dark" href="/admin/calendar" aria-expanded="false"><i class="fas fa-calendar-alt"></i><span class="hide-menu">Full Calendar</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Reservation::count()}}</span></a>
+                </li>
 
 
             </ul>

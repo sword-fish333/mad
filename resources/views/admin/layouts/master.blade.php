@@ -39,6 +39,7 @@
 
     <script src="{{asset('js/ddslick.js')}}"></script>
 
+
 </head>
 
 <body class="skin-default-dark fixed-layout">

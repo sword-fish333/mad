@@ -46,7 +46,6 @@
     z-index: 2;
     width: 60%;
    border-radius: 10px;
-
 }
 .dashboard_parallax{
 
@@ -354,6 +353,10 @@
     list-style-type: circle;
     font-size: 1rem;
 }
+.dd-options{
+    overflow-y: scroll;
+    height: 400px !important;
+}
 
 .add_reservatio_info{
     font-family: 'Catamaran', sans-serif;
@@ -378,6 +381,9 @@
 .fee_header{
     background: rgba(250,235,215,0.8);
 }
+.price_header{
+    background: rgba(30,40,50,0.8);
+}
 
 .fee_modal_title{
     font-family: 'Saira', sans-serif;
@@ -385,7 +391,12 @@
     font-size: 32px;
     color: black;
 }
-
+.price_modal_title{
+    font-family: 'Saira', sans-serif;
+    color: darkgoldenrod;
+    font-size: 32px;
+    color: white;
+}
 .fee_info{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
@@ -540,3 +551,57 @@
 .file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
 .file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
 .file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+
+.calendar_second_title{
+    font-family: 'Share Tech Mono', monospace;
+
+    font-size: 30px;
+
+    color: darkred;
+}
+
+.calendar_main_title{
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    margin-top: 50px;
+    color: white;
+    font-size: 42px;
+}
+
+/* Position text in the middle of the page/image */
+.calendar_titles {
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.6); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    padding-bottom: 40px;
+    transform: translate(-50%, -40%);
+    z-index: 2;
+    width: 60%;
+    border-radius: 10px;
+}
+
+.calendar_parallax{
+
+    /* The image used */
+    background-image: url("../images/calendar.jpeg");
+
+    /* Set a specific height */
+    height: 400px;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.attention_calendar{
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 30px;
+    font-size: 24px;
+}

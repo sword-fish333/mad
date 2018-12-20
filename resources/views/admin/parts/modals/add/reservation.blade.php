@@ -44,7 +44,7 @@
                                 <input type="radio" name="main_document_type" class="ml-3" value="passport" placeholder="..." required>Passport
                                 <input type="radio" name="main_document_type" class="ml-3" value="other" placeholder="..." required>Other
                                 </div>
-                                <div class="form-group col-md-4 " style="margin-left: 170px;">
+                                <div class="form-group col-md-4 " style="margin-left: 110px;">
                         <label for="main_email" class="add_reservatio_info">Email</label>
                         <input type="email" name="main_email" class="form-control" placeholder="..." required>
                     </div>
@@ -66,14 +66,9 @@
                     </div>
                     <div class="form-group col-md-4 offset-3">
                         <label for="main_document_picture" class="add_reservatio_info">Document Picture</label>
-                        <div class="file-upload">
-                            <div class="file-select">
-                                <div class="file-select-button" id="fileName">Choose File</div>
-                                <div class="file-select-name" id="noFile">No file chosen...</div>
-                                <input type="file" name="main_document_picture" id="chooseFile" required>
-                            </div>
-                        </div>
 
+
+                                <input type="file" name="main_document_picture" class="form-control" required>
                     </div>
                             </div>
                         </div>

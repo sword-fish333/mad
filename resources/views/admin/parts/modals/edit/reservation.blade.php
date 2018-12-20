@@ -41,7 +41,7 @@
                         <div class=" mt-2 ml-3 col-md-5" >
                             <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
                             {{--Slick dropdown for selecting Apartment--}}
-                            <select class="edit_slick_apartments" name="apartment"></select>
+                            <select class="edit_slick_apartments" name="apartment" ></select>
                         </div>
                     </div>
                             <div class="row">
@@ -86,7 +86,7 @@
                     </div>
                     <div class="form-group col-md-5">
                         <p class="edit_reservation_info">Choose another Image for his Profile </p>
-                        <input type="file" name="main_profile_image">
+                        <input type="file" name="main_profile_image" class="form-control">
                     </div>
                     </div>
                     @php
@@ -214,13 +214,13 @@
             <div class="col-md-7  offset-2">
                 <div class="form-group ">
                     <label for=""><u>Check In <strong>(If you do not enter it , it will be the same. Mandatory with Check Out)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" readonly>
-                    <input type="date" name="check_in"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}" class="form-control" autocomplete="off" >
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}"  readonly>
+                    <input type="date" name="check_in"  id="checkIn" class="form-control" autocomplete="off" >
                 </div>
                 <div class="form-group mt-4">
                     <label for=""><u>Check Out <strong>(If you do not enter it , it will be the same. Mandatory with Check in)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}" readonly>
-                    <input type="date" name="check_out" value="{{$reservation->check_in}}" class="form-control" autocomplete="off" >
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}"  readonly>
+                    <input type="date" name="check_out"  class="form-control" autocomplete="off" id="checkOut">
                 </div>
             </div>
 

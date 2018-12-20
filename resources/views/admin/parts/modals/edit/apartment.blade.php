@@ -11,6 +11,7 @@
             <div class="modal-body">
                 <ul class="nav nav-tabs" id="tabContent" >
                     <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics_edit{{$apartment->id}}" data-toggle="tab" > Apartment Characteristics</a></li>
+                    <li class=" nav-item"><a class="nav-link" href="#apartment_prices_edit{{$apartment->id}}" data-toggle="tab" > Apartment Prices</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#apartment_fee_edit{{$apartment->id}}" data-toggle="tab">Apartment Fee</a></li>
                     <li class="nav-item"><a class="nav-link"  id="apartment_holder_button{{$apartment->id}}"  href="#apartment_holder_edit{{$apartment->id}}" data-toggle="tab">Apartment Holder</a></li>
 
@@ -139,6 +140,43 @@
                     </div>
 
                         </div>
+                        <div class="tab-pane" id="apartment_prices_edit{{$apartment->id}}">
+                            <h1 class="new_apartment_label mt-5"><center><u>Apartment Prices for a given period</u></center></h1>
+                            <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentCost{{$apartment->id}}">
+                                &nbsp;Add Apartment fee <i class="far fa-money-bill-alt"></i>
+                            </button>
+                            <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
+                                    @php
+                                        $apartment_costs=\App\ApartmentCost::where('apartment_id', $apartment->id)->get();
+                                    @endphp
+                                <ul class="costs{{$apartment->id}}">
+                                    @foreach($apartment_costs as $apartment_cost)
+                                        <div class="form-check" >
+
+
+                                            <li>
+
+                                                <div style="float: right">
+                                                    <button type="button"onclick="deleteApCost{{$apartment->id}}({{$apartment_cost->id}})" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Price?')">Delete Price</button>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editPrice{{$apartment_cost->id}}">
+                                                        Edit Price
+                                                    </button>
+                                                </div>
+                                                <strong>Price : {{$apartment_cost->price}}</strong>&nbsp;
+                                                <p class="cost_ap_info">Start date: <span style="color: darkred"><strong>{{\Carbon\Carbon::parse($apartment_cost->start_date)->toDateString()}}</strong></span></p>
+                                                <p class="cost_ap_info">End date: <span style="color: darkred"><strong>{{\Carbon\Carbon::parse($apartment_cost->end_date)->toDateString()}}</strong></span></p>
+
+                                            </li>
+
+                                            <hr>
+
+                                        </div>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        </div>
                     <div class="tab-pane" id="apartment_fee_edit{{$apartment->id}}">
                         <h4 class="apartment_fee_title mt-4">Apartment Fees</h4>
                         <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentFee{{$apartment->id}}">
@@ -148,7 +186,7 @@
                             @php
                                 $apartment_fees=\App\ApartmentFee::where('apartment_id', $apartment->id)->get();
                             @endphp
-                            <div class=" mt-2 ml-1 col-md-11">
+                            <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
 
                                 <ul class="fees{{$apartment->id}}">
                                     @foreach($apartment_fees as $apartment_fee)
@@ -158,14 +196,14 @@
                                             <li>
 
                                                 <div style="float: right">
-                                                    <a href="/admin/reservations/fee/delete/{{$apartment_fee->id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</a>
+                                                    <button type="button" onclick="deleteApFee{{$apartment->id}}({{$apartment_fee->id}})" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</button>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee{{$apartment_fee->id}}">
                                                         Edit Fee
                                                     </button>
                                                 </div>
                                                 <strong>{{$apartment_fee->name}}</strong>&nbsp;
-                                                <p>Value: <span style="color: darkred">{{$apartment_fee->value}} {{$apartment_fee->type_of_value}}</span></p>
+                                                <p>Value: &nbsp;<span style="color: darkred">{{$apartment_fee->value}} {{$apartment_fee->type_of_value}}</span></p>
 
                                                 {{$apartment_fee->description}}
                                             </li>
@@ -264,6 +302,31 @@
         </div>
     </div>
     <script>
+                {{--jquery for adding dynamic fields in modal--}}
+        var inc=1;
+        var html;
+        $("#add_row_fee").click(function() {
+            html=[];
+            html+='<tr class="custom_table_add fields_'+inc+'">';
+            html+='<td><input type="text" name="fee_name[]" class="form-control" required></td>';
+            html+='<td><textarea class="form-control" name="fee_description[]" required></textarea></td>';
+            html+='<td><input type="number" class="form-control" min="0" step="0.01" name="fee_value[]" required> </td>';
+            html+='<td><input type="radio" value="%" name="type_of_value[]['+ inc+']" required><strong>%</strong><br>' +
+                '<input type="radio" value="u.m." name="type_of_value[]['+ inc+']" required><strong>u.m.</strong></td>';
+
+            html+='</tr>';
+            $("#add_data{{$apartment->id}}").append(html);
+            inc++;
+        });
+        $('#remove_row_fee').click(function(){
+            inc=inc-1;
+            //  console.log( i);
+            $('.fields_'+inc).remove();
+        });
+
+
+    </script>
+    <script>
         $('#apartment_holder_button{{$apartment->id}}').on('click', function() {
             if ($('.holders{{$apartment->id}}').is(':checked')) {
                 $("#holder_name{{$apartment->id}}").prop('disabled', true);
@@ -312,6 +375,88 @@
             }
         });
     </script>
+    <script>
+        function loadDataCost{{$apartment->id}}() {
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/admin/apartments/view/costs/{{$apartment->id}}',
+                success: function (data) {
+
+                    data=JSON.parse(data);
+
+                    var html=[];
+                    $(".costs{{$apartment->id}}").empty();
+                    data.forEach(function(d)
+                    {
+
+
+                        html+= '<div style="float: right">';
+                        html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteApCost{{$apartment->id}}('+d.id+')">Delete Price</button>';
+                        html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editPrice'+d.id+'">Edit Price </button>';
+                        html+='</div>';
+                        html+='<li><strong>Price: '+d.price+'</strong><br>';
+                        html+='start Date:  <span style="color: darkred"><strong>'+d.start_date+'</strong></span><br>';
+                        html+='end Date: <span style="color: darkred"><strong>'+d.end_date+'</strong></span>';
+
+                        html+='</li><hr>';
+
+
+                    });
+                    $(".costs{{$apartment->id}}").append(html);
+                }
+            });
+        }
+        @php
+            $apartment_s=\App\ApartmentCost::all();
+        @endphp
+
+        @foreach($apartment_s as $apartment_cost)
+        function loadDataCostEdit{{$apartment_cost->id}}() {
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/admin/apartments/view/costs/{{$apartment->id}}',
+                success: function (data) {
+
+                    data=JSON.parse(data);
+
+                    var html=[];
+                    $(".costs{{$apartment->id}}").empty();
+                    data.forEach(function(d)
+                    {
+
+
+                        html+= '<div style="float: right">';
+                        html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteApCost{{$apartment->id}}('+d.id+')">Delete Price</button>';
+                        html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editPrice'+d.id+'">Edit Price </button>';
+                        html+='</div>';
+                        html+='<li><strong>Price: '+d.price+'</strong><br>';
+                        html+='start Date:  <span style="color: darkred"><strong>'+d.start_date+'</strong></span><br>';
+                        html+='end Date: <span style="color: darkred"><strong>'+d.end_date+'</strong></span>';
+
+                        html+='</li><hr>';
+
+
+                    });
+                    $(".costs{{$apartment->id}}").append(html);
+                }
+            });
+        }
+        @endforeach
+        function deleteApCost{{$apartment->id}}(id) {
+            confirm('Are you sure you want to delete this Price ?');
+            $.ajax({
+                type: 'GET',
+                url: '/admin/apartments/delete/cost/' + id,
+                success: function (data) {
+                    loadDataCost{{$apartment->id}}();
+                }
+            });
+        }
+        </script>
     <script>
         function loadData{{$apartment->id}}() {
 

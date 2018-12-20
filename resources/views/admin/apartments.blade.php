@@ -134,6 +134,18 @@
     @foreach($apartments as $apartment)
         @include('admin.parts.modals.add.apartment_fee')
         @endforeach
+    @foreach($apartments as $apartment)
+        @include('admin.parts.modals.add.apartment_cost')
+    @endforeach
+    @php
+
+        $apartment_costs=\App\ApartmentCost::all();
+    @endphp
+
+    @foreach($apartment_costs as $apartment_cost)
+        @include('admin.parts.modals.edit.edit_apartment_price')
+
+    @endforeach
     <script>
         function initMap() {
             // The location of Madrid

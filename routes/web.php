@@ -33,6 +33,12 @@ Route::post('/admin/apartment/fee/add/{id}', 'ApartmentsController@addFee');
 Route::get('/admin/apartments/delete/{id}', 'ApartmentsController@deleteApartment');
 Route::get('/admin/apartments/view/fees/{id}', 'ApartmentsController@viewFees');
 Route::get('/admin/apartments/delete/fee/{id}', 'ApartmentsController@deleteFee');
+//Route for adding price for a given period of time for a apartment
+Route::post('/admin/apartment/cost/add/{id}', 'ApartmentCostController@addCost');
+Route::get('/admin/apartments/view/costs/{id}', 'ApartmentCostController@viewCosts');
+Route::get('/admin/apartments/delete/cost/{id}', 'ApartmentCostController@deletePrice');
+Route::post('/admin/apartment/cost/edit/{id}', 'ApartmentCostController@editCost');
+
 //Routes for CRUD on features of the Apartment
 Route::get('/admin/features', 'FeaturesController@showFeatures');
 Route::post('/admin/features/add', 'FeaturesController@addFeature');
@@ -44,7 +50,7 @@ Route::get('/admin/features/delete/{id}', 'FeaturesController@deleteFeature');
 Route::get('/admin/reservations', 'ReservationsController@showReservations');
 Route::post('/admin/reservations/add', 'ReservationsController@addReservation');
 Route::post('admin/reservations/edit/{id}', 'ReservationsController@editReservations');
-Route::get('/admin/reservations/delete/{id}', 'ReservationsController@deleteReservations');
+Route::get('/admin/reservations/delete/{id}', 'ReservationsController@deleteReservation');
 Route::get('/admin/reservations/status/{id}', 'ReservationsController@changeStatus');
 //Route::post('/admin/reservations/client/image', 'ReservationsController@saveClientImage');
 Route::post('/admin/reservations/client/image/{id}','ReservationsController@saveClientImage');
@@ -62,5 +68,9 @@ Route::get('/admin/pages', 'StaticPagesController@index');
 Route::post('/admin/pages/add', 'StaticPagesController@addPage');
 Route::post('/admin/pages/edit/{id}', 'StaticPagesController@editPage');
 Route::get('/admin/pages/delete/{id}', 'StaticPagesController@deletePage');
+
+//Routes for calendar
+Route::get('/admin/calendar', 'CalendarController@index');
+
 
 
