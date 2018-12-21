@@ -62,8 +62,28 @@
             },
             success:function (data) {
                 $('#addApartmentFee{{$apartment->id}} .close').click();
-                loadData{{$apartment->id}}();
 
+                    d=JSON.parse(data);
+                if(d['status']==='error') {
+
+                    $(".message_fees{{$apartment->id}}").addClass(' alert-danger');
+                    $(".message_fee").show();
+                    $('.message_fees{{$apartment->id}}').append(d['info_error']);
+                    setTimeout(function(){
+                        $('.message_fees{{$apartment->id}}').removeClass('alert-danger');
+                        $('.message_fees{{$apartment->id}}').empty();
+                    },3000);
+                }else if(d['status']==='success') {
+                    $(".message_fee").show();
+                    $(".message_fees{{$apartment->id}}").addClass(' alert-success');
+                    $('.message_fees{{$apartment->id}}').append(d['info_success']);
+                    setTimeout(function(){
+                        $('.message_fees{{$apartment->id}}').removeClass('alert-success');
+                        $('.message_fees{{$apartment->id}}').empty();
+                    },3000);
+
+                }
+                loadData{{$apartment->id}}();
             }
 
         })

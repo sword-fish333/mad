@@ -19,7 +19,7 @@ class CreateBookingFeesTable extends Migration
             $table->text('description');
             $table->unsignedDecimal('value');
             $table->unsignedInteger('reservation_id');
-
+                $table->string('type_of_value',190);
             $table->foreign('reservation_id')
                 ->references('id')->on('reservations')
                 ->onDelete('cascade')

@@ -33,6 +33,8 @@ Route::post('/admin/apartment/fee/add/{id}', 'ApartmentsController@addFee');
 Route::get('/admin/apartments/delete/{id}', 'ApartmentsController@deleteApartment');
 Route::get('/admin/apartments/view/fees/{id}', 'ApartmentsController@viewFees');
 Route::get('/admin/apartments/delete/fee/{id}', 'ApartmentsController@deleteFee');
+Route::post('/admin/apartment/fee/edit/{id}', 'ApartmentsController@editFee');
+
 //Route for adding price for a given period of time for a apartment
 Route::post('/admin/apartment/cost/add/{id}', 'ApartmentCostController@addCost');
 Route::get('/admin/apartments/view/costs/{id}', 'ApartmentCostController@viewCosts');

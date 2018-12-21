@@ -6,11 +6,12 @@ use App\Apartment;
 use App\ApartmentCost;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Validator;
 class ApartmentCostController extends Controller
 {
     public function addCost($id, Request $request){
 
-        $this->validate($request,[
+        $validator=Validator::make($request->all(),[
             'price'=>'required|numeric|min:0',
             'start_date'=>'required',
             'end_date'=>'required',
@@ -18,7 +19,21 @@ class ApartmentCostController extends Controller
         ]);
         if( Carbon::parse($request->start_date)->toDateTimeString()<Carbon::today() || Carbon::parse($request->end_date)->toDateTimeString()<Carbon::parse($request->start_date)->toDateTimeString()
          ){
-            return back()->with('error',' The check in may only start from today and the check out must be after the check in!');
+            $message=[];
+            $message['status']='error';
+            $message['info_error']='You need to insert a start date that is today or after today , and end date that is after start date';
+
+            $message=json_encode($message);
+            return $message;
+        }
+
+        if($validator->fails()){
+            $message=[];
+            $message['status']='error';
+            $message['info_error']='All fields are required and the price has to be bigger than 0';
+
+            $message=json_encode($message);
+            return $message;
         }
         $apartment_cost=new ApartmentCost();
         $apartment_cost->price=$request->price;
@@ -28,7 +43,11 @@ class ApartmentCostController extends Controller
         $apartment_cost->save();
 
 
-        return back()->with('success', 'Fee for reservation as been saved successfully!');
+        $message=[];
+        $message['status']='success';
+        $message['info_success'] = 'Cost for the given date was added successfully';
+        $message = json_encode($message);
+        return $message;
     }
 
     public function viewCosts($id){
@@ -52,7 +71,20 @@ class ApartmentCostController extends Controller
 
         if( Carbon::parse($request->start_date)->toDateTimeString()<Carbon::today() || Carbon::parse($request->end_date)->toDateTimeString()<Carbon::parse($request->start_date)->toDateTimeString()
          ){
-            return back()->with('error',' The check in may only start from today and the check out must be after the check in!');
+            $message=[];
+            $message['status']='error';
+            $message['info_error']='You need to insert a start date that is today or after today , and end date that is after start date';
+
+            $message=json_encode($message);
+            return $message;
+        }
+        if($request->price<0){
+            $message=[];
+            $message['status']='error';
+            $message['info_error']='The value must be bigger than 0';
+
+            $message=json_encode($message);
+            return $message;
         }
         $apartment_cost= ApartmentCost::find($id);
         $apartment_cost->price=$request->price;
@@ -62,6 +94,10 @@ class ApartmentCostController extends Controller
         $apartment_cost->save();
 
 
-        return back()->with('success', 'Fee for reservation as been saved successfully!');
+        $message=[];
+        $message['status']='success';
+        $message['info_success'] = 'Cost was edited successfully';
+        $message = json_encode($message);
+        return $message;
     }
 }

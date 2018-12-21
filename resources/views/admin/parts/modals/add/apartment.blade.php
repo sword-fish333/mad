@@ -13,6 +13,7 @@
             <div class="modal-body">
                 <ul class="nav nav-tabs" id="tabContent" >
                     <li class="active nav-item"><a class="nav-link" href="#apartment_characteristics" data-toggle="tab" > Apartment Characteristics</a></li>
+                    <li class="nav-item"><a class="nav-link"   href="#apartment_price" data-toggle="tab">Apartment Prices</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#apartment_fee" data-toggle="tab">Apartment Fee</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#apartment_holder" data-toggle="tab">Apartment Holder</a></li>
 
@@ -124,6 +125,26 @@
 
 
                     </div>
+                        </div>
+                        <div class="tab-pane" id="apartment_price">
+                            <h1 class="new_apartment_label mt-5"><center><u>Apartment Prices for specific periods</u></center></h1>
+                            <button type="button" id="add_row_price" class="btn btn-primary mt-4" style="margin-left: 30px;">Add Price&nbsp;<i class="fas fa-plus"></i></button>
+                            <button type="button" id="remove_row_price" class="btn btn-danger  mt-4  ml-2" >Remove last field of price&nbsp;&nbsp;<i class="fas fa-minus"></i></button>
+
+                            <table class="table table-bordered table-hover ml-4 mt-4" style="width: 730px;">
+                                <thead class="bg-dark text-white text-center">
+                                <tr>
+                                    <th>Price</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="add_price_data">
+
+                                </tbody>
+                            </table>
+
                         </div>
                         <div class="tab-pane" id="apartment_fee">
                             <h1 class="new_apartment_label mt-5"><center><u>Apartment Fee</u></center></h1>
@@ -254,6 +275,33 @@
                 $("#document_photo").prop('disabled', false);
             }
         });
+    </script>
+    <script>
+                {{--jquery for adding dynamic fields in modal--}}
+        var inc_p=1;
+        var html;
+        $("#add_row_price").click(function() {
+            html=[];
+            html+='<tr class="custom_table_add_price fields_'+inc_p+'">';
+            html+='<td><div class="input-group "><input type="numeric" min="0" step="0.00001" name="price_value[]" class="form-control" >';
+            html+='<div class="input-group-append">' +
+                '<span class="input-group-text" id="basic-addon2"><i class="fas fa-coins"></i></span>' +
+                '</div></div></td>';
+            html+='<td><input type="date" class="form-control"  name="start_date[]" > </td>';
+            html+='<td><input type="date" class="form-control"  name="end_date[]" > </td>';
+
+
+            html+='</tr>';
+            $("#add_price_data").append(html);
+            inc_p++;
+        });
+        $('#remove_row_price').click(function(){
+            inc_p=inc_p-1;
+            //  console.log( i);
+            $('.fields_'+inc_p).remove();
+        });
+
+
     </script>
     <script>
                 {{--jquery for adding dynamic fields in modal--}}

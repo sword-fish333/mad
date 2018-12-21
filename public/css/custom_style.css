@@ -447,6 +447,16 @@
 
     font-size: 12px;
 }
+.custom_table_add_price input{
+    font-family: 'Noto Serif', sans-serif;
+
+    font-size: 16px;
+}
+.custom_price_view_table{
+    font-family: 'Noto Serif', sans-serif;
+    text-align: center;
+    font-size: 16px;
+}
 
 .apartment_fee_title{
     font-family: 'Saira', sans-serif;
@@ -454,7 +464,14 @@
     font-size: 28px;
     text-align: center;
 }
-
+.custom_td{
+    font-family: 'Saira', sans-serif;
+    font-size: 20px;
+    margin: auto;
+    color: darkred;
+    text-decoration: underline;
+    text-align: center;
+}
 .modal-backdrop{
     display: none;
 }
@@ -477,7 +494,11 @@
     margin-left: 20px;
 
 }
-
+.custom_result{
+    font-family: 'Saira', sans-serif;
+    color: darkred;
+    font-size: 18px;
+}
 .custom_file_input_holder::-webkit-file-upload-button {
     visibility: hidden;
 }
@@ -608,4 +629,14 @@
 
 .price_header_edit{
     background: rgba(30, 100, 200, 0.7);
+}
+
+.reservation_cost_header{
+    background: rgba(47, 79, 79,0.8);
+}
+
+.reservation_cost_title{
+    font-family: 'Share Tech Mono', monospace;
+    color: white;
+    font-size: 30px;
 }

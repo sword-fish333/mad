@@ -58,6 +58,26 @@
             },
             success:function (data) {
                 $('#addApartmentCost{{$apartment->id}} .close').click();
+                d=JSON.parse(data);
+                if(d['status']==='error') {
+
+                    $(".message_prices{{$apartment->id}}").addClass(' alert-danger');
+                    $(".message_price").show();
+                    $('.message_prices{{$apartment->id}}').append(d['info_error']);
+                    setTimeout(function(){
+                        $('.message_prices{{$apartment->id}}').removeClass('alert-danger');
+                        $('.message_prices{{$apartment->id}}').empty();
+                    },5000);
+                }else if(d['status']==='success') {
+                    $(".message_price").show();
+                    $(".message_prices{{$apartment->id}}").addClass(' alert-success');
+                    $('.message_prices{{$apartment->id}}').append(d['info_success']);
+                    setTimeout(function(){
+                        $('.message_prices{{$apartment->id}}').removeClass('alert-success');
+                        $('.message_prices{{$apartment->id}}').empty();
+                    },3000);
+
+                }
                 loadDataCost{{$apartment->id}}();
 
             }

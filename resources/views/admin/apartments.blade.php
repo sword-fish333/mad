@@ -137,8 +137,8 @@
     @foreach($apartments as $apartment)
         @include('admin.parts.modals.add.apartment_cost')
     @endforeach
-    @php
 
+    @php
         $apartment_costs=\App\ApartmentCost::all();
     $apartments=\App\Apartment::all();
     @endphp
@@ -147,6 +147,16 @@
         @include('admin.parts.modals.edit.edit_apartment_price')
         @endforeach
         @endforeach
+
+    @php
+        $apartments_fees=\App\ApartmentFee::all();
+    $apartments=\App\Apartment::all();
+    @endphp
+    @foreach($apartments as $apartment)
+        @foreach($apartments_fees as $apartment_fee)
+            @include('admin.parts.modals.edit.edit_apartment_fee')
+        @endforeach
+    @endforeach
 
     <script>
         function initMap() {

@@ -55,9 +55,28 @@
 
                 _token:"{{csrf_token()}}"
             },
-            success:function () {
+            success:function (data) {
                 $('#editPrice{{$apartment_cost->id}} .close').click();
+                d=JSON.parse(data);
+                if(d['status']==='error') {
 
+                    $(".message_prices{{$apartment_cost->apartment_id}}").addClass(' alert-danger');
+                    $(".message_price").show();
+                    $('.message_prices{{$apartment_cost->apartment_id}}').append(d['info_error']);
+                    setTimeout(function(){
+                        $('.message_prices{{$apartment_cost->apartment_id}}').removeClass('alert-danger');
+                        $('.message_prices{{$apartment_cost->apartment_id}}').empty();
+                    },5000);
+                }else if(d['status']==='success') {
+                    $(".message_price").show();
+                    $(".message_prices{{$apartment_cost->apartment_id}}").addClass(' alert-success');
+                    $('.message_prices{{$apartment_cost->apartment_id}}').append(d['info_success']);
+                    setTimeout(function(){
+                        $('.message_prices{{$apartment_cost->apartment_id}}').removeClass('alert-success');
+                        $('.message_prices{{$apartment_cost->apartment_id}}').empty();
+                    },3000);
+
+                }
                 loadDataCostEdit{{$apartment_cost->apartment_id}}();
 
 

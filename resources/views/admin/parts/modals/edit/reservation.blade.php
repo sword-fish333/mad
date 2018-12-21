@@ -195,8 +195,7 @@
                                             </button>
 
                                         </div>
-                                        <br>
-                                        <br>
+                                       <p>Value: <span style="color: darkred; font-weight: bold;">{{$booking_fee->value}} {{$booking_fee->type_of_value}}</span></p>
                                         {{$booking_fee->description}}
                                     </li>
                                    

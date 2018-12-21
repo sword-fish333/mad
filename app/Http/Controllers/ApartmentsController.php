@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Apartment;
+use App\ApartmentCost;
 use App\ApartmentFeature;
 use App\ApartmentFee;
 use App\ApartmentHolder;
 use App\Feature;
 use App\Picture;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\FilesController;
+use Validator;
 class ApartmentsController extends Controller
 {
     public function showApartmentsTable()
@@ -93,6 +96,30 @@ class ApartmentsController extends Controller
             }
 
         }
+        if(!empty($request->price_value)) {
+
+
+            if (count($request->price_value) != count($request->start_date) || count($request->price_value) != count($request->end_date) || count($request->end_date) != count($request->start_date)) {
+                return back()->with('error', 'You have to complete all fields for a new price');
+            }
+
+            for($i=0; $i<count($request->price_value);$i++) {
+                if(Carbon::parse($request->start_date[$i])->toDateString()>Carbon::parse($request->end_date[$i])->toDateString() ||
+                Carbon::parse($request->start_date[$i])->toDateString()<Carbon::today()){
+
+                    return back()->with('error' ,' The start date of the price ca not be before today and the end date can not be after the start date!');
+                }
+
+                $apartment_price = new ApartmentCost();
+                $apartment_price->price = $request->price_value[$i];
+                    $apartment_price->start_date=Carbon::parse($request->start_date[$i])->toDateString();
+                    $apartment_price->end_date=Carbon::parse($request->end_date[$i])->toDateString();
+                $apartment_price->apartment_id=$apartment->id;
+                $apartment_price->save();
+            }
+
+        }
+
         if ($request->features) {
             foreach ($request->features as $feature) {
                 $apartment_feature = new ApartmentFeature();
@@ -231,7 +258,21 @@ class ApartmentsController extends Controller
     }
 
     public function addFee($id, Request $request){
+        $validator = Validator::make($request->all(), [
+               'name'=>'required|string|max:255',
+                'description'=>'required|string|max:2000',
+                'value'=>'required|numeric|min:0',
+                'type_of_value'=>'required'
+            ]);
 
+            if($validator->fails()){
+                $message=[];
+                $message['status']='error';
+                $message['info_error']='You need to insert value that is bigger than  0 and all fields are required';
+
+                $message=json_encode($message);
+                return $message;
+            }
 
         $booking_fee=new ApartmentFee();
         $booking_fee->name=$request->name;
@@ -239,10 +280,15 @@ class ApartmentsController extends Controller
         $booking_fee->value=$request->value;
         $booking_fee->type_of_value=$request->type_of_value;
         $booking_fee->apartment_id=$id;
+
         $booking_fee->save();
 
 
-        return back()->with('success', 'Fee for reservation as been saved successfully!');
+        $message=[];
+        $message['status']='success';
+        $message['info_success'] = 'Fee was added successfully';
+        $message = json_encode($message);
+        return $message;
     }
 
     public function viewFees($id){
@@ -254,5 +300,30 @@ class ApartmentsController extends Controller
     public function deleteFee($id){
 
         ApartmentFee::find($id)->delete();
+    }
+
+    public function editFee($id, Request $request){
+
+        if($request->value<0){
+            $message=[];
+            $message['status']='error';
+            $message['info_error']='You need to insert value that is bigger than  0';
+
+            $message=json_encode($message);
+            return $message;
+        }else {
+            $apartment_fee = ApartmentFee::find($id);
+            $apartment_fee->name = $request->name;
+            $apartment_fee->description = $request->description;
+            $apartment_fee->value = $request->value;
+            $apartment_fee->type_of_value = $request->type_of_value;
+
+            $apartment_fee->save();
+            $message=[];
+            $message['status']='success';
+            $message['info_success'] = 'Edit was successfull';
+            $message = json_encode($message);
+            return $message;
+        }
     }
 }

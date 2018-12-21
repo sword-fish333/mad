@@ -54,7 +54,7 @@ class CalendarController extends Controller
               $(\'input[name=check_out]\').val(endDate.format());
             $(\'#addReservation\').modal(\'show\');}',
                 'eventClick'=>'function(event) {
-            console.log(event);
+          
             $(\'#viewReservationDetails-\'+event.id).modal(\'show\');}',
             'eventDrop'=>'function(event, view) {
            $(\'input[name=check_in]\').val(event.start.format());

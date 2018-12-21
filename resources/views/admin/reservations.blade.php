@@ -38,6 +38,7 @@
                 <th>Status</th>
                 <th>View Client & Resevation <br> Information</th>
                 <th>Edit Reservation</th>
+                <th>Cost</th>
                 <th>Delete Reservation</th>
             </tr>
             </thead>
@@ -87,7 +88,7 @@
                     <td> <strong>{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-M-d')}}</strong></td>
                     <td><a href="/admin/reservations/status/{{$reservation->id}}" class="btn {{$reservation->status===1 ? 'btn-danger' :'btn-success'}}">{{$reservation->status===1 ? 'Deny' :'Accept'}}</a></td>
                     <td><!-- Button trigger modal for all charactristics -->
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#viewReservationDetails-{{$reservation->id}}">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#viewReservationDetails-{{$reservation->id}}">
                             <i class="fas fa-eye"></i>
                         </button></td>
                     <td><!-- Button trigger modal for edit apartment -->
@@ -96,7 +97,11 @@
                         </button>
 
                     </td>
-
+                    <td>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#reservationCost{{$reservation->id}}">
+                            <i class="fas fa-dollar-sign"></i>
+                        </button>
+                       </td>
                     <td><a href="/admin/reservations/delete/{{$reservation->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Reservation?')"><i class="fas fa-eraser"></i></a></td>
                 </tr>
 
@@ -112,7 +117,9 @@
 
     </section>
 
-
+    @foreach($reservations as $reservation)
+        @include('admin.parts.modals.view.reservation_cost')
+    @endforeach
 
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.view.reservation')

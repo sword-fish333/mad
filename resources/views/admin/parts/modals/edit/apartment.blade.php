@@ -146,14 +146,22 @@
                             <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentCost{{$apartment->id}}">
                                 &nbsp;Add Apartment fee <i class="far fa-money-bill-alt"></i>
                             </button>
+                            @php
+                                $apartment_costs=\App\ApartmentCost::where('apartment_id', $apartment->id)->get();
+                                $apcost_id=\App\ApartmentCost::where('apartment_id', $apartment->id)->first();
+                             if($apcost_id){
+                                $ap_id=\App\Apartment::where('id', $apcost_id->apartment_id)->first();
+                            }
+                            @endphp
+                            <div class="message_price" style="display: none;">
+                                <div class=" @if(!empty($ap_id)) message_prices{{$ap_id->id}} @endif alert  alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
                             <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
-                                    @php
-                                        $apartment_costs=\App\ApartmentCost::where('apartment_id', $apartment->id)->get();
-                                        $apcost_id=\App\ApartmentCost::where('apartment_id', $apartment->id)->first();
-                                     if($apcost_id){
-                                        $ap_id=\App\Apartment::where('id', $apcost_id->apartment_id)->first();
-                                    }
-                                    @endphp
+
                                 <ul class="costs{{$apartment->id}} @if(!empty($ap_id)) costs_edit{{$ap_id->id}} @endif">
                                     @foreach($apartment_costs as $apartment_cost)
                                         <div class="form-check" >
@@ -187,13 +195,25 @@
                         <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentFee{{$apartment->id}}">
                             &nbsp;Add Apartment fee <i class="fas fa-file-invoice-dollar"></i>
                         </button>
+                        @php
+                            $apartment_fees=\App\ApartmentFee::where('apartment_id', $apartment->id)->get();
+                        $apfee_first_id=\App\ApartmentFee::where('apartment_id', $apartment->id)->first();
+                        if($apfee_first_id){
+                        $apfee_id=\App\Apartment::where('id', $apfee_first_id->apartment_id)->first();
+                        }
+                        @endphp
+                        <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
+                            <div class="message_fee" style="display: none;">
+                                <div class=" @if(!empty($apfee_id)) message_fees{{$apfee_id->id}} @endif alert  alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
                         <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
-                            @php
-                                $apartment_fees=\App\ApartmentFee::where('apartment_id', $apartment->id)->get();
-                            @endphp
-                            <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
 
-                                <ul class="fees{{$apartment->id}}">
+
+                                <ul class="fees{{$apartment->id}} @if(!empty($apfee_id)) fees_edit{{$apfee_id->id}} @endif">
                                     @foreach($apartment_fees as $apartment_fee)
                                         <div class="form-check" >
 
@@ -203,12 +223,12 @@
                                                 <div style="float: right">
                                                     <button type="button" onclick="deleteApFee{{$apartment->id}}({{$apartment_fee->id}})" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</button>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee{{$apartment_fee->id}}">
+                                                    <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee{{$apartment_fee->id}}">
                                                         Edit Fee
                                                     </button>
                                                 </div>
                                                 <strong>{{$apartment_fee->name}}</strong>&nbsp;
-                                                <p>Value: &nbsp;<span style="color: darkred">{{$apartment_fee->value}} {{$apartment_fee->type_of_value}}</span></p>
+                                                <p>Value: &nbsp;<span style="color: darkred"><strong>{{$apartment_fee->value}} &nbsp;&nbsp; {{$apartment_fee->type_of_value}}</strong></span></p>
 
                                                 {{$apartment_fee->description}}
                                             </li>
@@ -486,7 +506,7 @@ $apartments_costs=\App\ApartmentCost::all();
 
                             html+= '<div style="float: right">';
                             html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteApFee{{$apartment->id}}('+d.id+')">Delete fee</button>';
-                            html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee'+d.id+'">Edit Fee</button>';
+                            html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee'+d.id+'">Edit Fee</button>';
                             html+='</div>';
                             html+='<li><strong>'+d.name+'</strong><br>';
                             html+='Value:'+d.value;
@@ -512,28 +532,29 @@ $apartments_costs=\App\ApartmentCost::all();
                 type: 'GET',
                 url: '/admin/apartments/view/fees/{{$apartments_fee->apartment_id}}',
                 success: function (data) {
-                    $(".fees{{$apartment->id}}").html('');
+                    $(".fees_edit{{$apartments_fee->apartment_id}}").html('');
                     data=JSON.parse(data);
 
                     var html=[];
-                    $(".fees{{}}").empty();
+
                     data.forEach(function(d)
                     {
 
 
                         html+= '<div style="float: right">';
                         html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteApFee{{$apartment->id}}('+d.id+')">Delete fee</button>';
-                        html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee'+d.id+'">Edit Fee</button>';
+                        html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee'+d.id+'">Edit Fee</button>';
                         html+='</div>';
                         html+='<li><strong>'+d.name+'</strong><br>';
-                        html+='Value:'+d.value;
+                        html+='Value: <span style="color:darkred;"><strong>'+d.value+d.type_of_value+'</strong></span>';
                         html+='<br>'+d.description;
 
                         html+='</li><hr>';
 
 
                     });
-                    $(".fees{{$apartments_fee->apartment_idi}}").append(html);
+
+                    $(".fees_edit{{$apartments_fee->apartment_id}}").append(html);
                 }
             });
         }
