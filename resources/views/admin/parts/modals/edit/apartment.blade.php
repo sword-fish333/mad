@@ -1,5 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="editApartment-{{$apartment->id}}" tabindex="-1" role="dialog" aria-labelledby="editApartment-{{$apartment->id}}" aria-hidden="true">
+
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -148,8 +149,12 @@
                             <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
                                     @php
                                         $apartment_costs=\App\ApartmentCost::where('apartment_id', $apartment->id)->get();
+                                        $apcost_id=\App\ApartmentCost::where('apartment_id', $apartment->id)->first();
+                                     if($apcost_id){
+                                        $ap_id=\App\Apartment::where('id', $apcost_id->apartment_id)->first();
+                                    }
                                     @endphp
-                                <ul class="costs{{$apartment->id}}">
+                                <ul class="costs{{$apartment->id}} @if(!empty($ap_id)) costs_edit{{$ap_id->id}} @endif">
                                     @foreach($apartment_costs as $apartment_cost)
                                         <div class="form-check" >
 
@@ -157,7 +162,7 @@
                                             <li>
 
                                                 <div style="float: right">
-                                                    <button type="button"onclick="deleteApCost{{$apartment->id}}({{$apartment_cost->id}})" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Price?')">Delete Price</button>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteApCost{{$apartment->id}}({{$apartment_cost->id}}) ">Delete Price</button>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editPrice{{$apartment_cost->id}}">
                                                         Edit Price
@@ -376,9 +381,9 @@
         });
     </script>
     <script>
+
         function loadDataCost{{$apartment->id}}() {
 
-
             $.ajax({
                 type: 'GET',
                 url: '/admin/apartments/view/costs/{{$apartment->id}}',
@@ -408,23 +413,24 @@
                 }
             });
         }
-        @php
-            $apartment_s=\App\ApartmentCost::all();
-        @endphp
+@php
+$apartments_costs=\App\ApartmentCost::all();
+@endphp
 
-        @foreach($apartment_s as $apartment_cost)
-        function loadDataCostEdit{{$apartment_cost->id}}() {
-
+@foreach($apartments_costs as $apartment_cost)
+        function loadDataCostEdit{{$apartment_cost->apartment_id}}() {
 
             $.ajax({
                 type: 'GET',
-                url: '/admin/apartments/view/costs/{{$apartment->id}}',
+                url: '/admin/apartments/view/costs/{{$apartment_cost->apartment_id}}',
                 success: function (data) {
 
                     data=JSON.parse(data);
-
+                    console.log({{$apartment_cost->apartment_id}});
                     var html=[];
-                    $(".costs{{$apartment->id}}").empty();
+
+                    $(".costs_edit{{$apartment_cost->apartment_id}}").empty();
+
                     data.forEach(function(d)
                     {
 
@@ -441,20 +447,24 @@
 
 
                     });
-                    $(".costs{{$apartment->id}}").append(html);
+
+                    $(".costs_edit{{$apartment_cost->apartment_id}}").append(html);
+
                 }
             });
         }
-        @endforeach
+@endforeach
+
         function deleteApCost{{$apartment->id}}(id) {
-            confirm('Are you sure you want to delete this Price ?');
-            $.ajax({
-                type: 'GET',
-                url: '/admin/apartments/delete/cost/' + id,
-                success: function (data) {
-                    loadDataCost{{$apartment->id}}();
-                }
-            });
+          if(  confirm('Are you sure you want to delete this Price ?')) {
+              $.ajax({
+                  type: 'GET',
+                  url: '/admin/apartments/delete/cost/' + id,
+                  success: function (data) {
+                      loadDataCost{{$apartment->id}}();
+                  }
+              });
+          }
         }
         </script>
     <script>
@@ -467,7 +477,7 @@
                     success: function (data) {
                         $(".fees{{$apartment->id}}").html('');
                         data=JSON.parse(data);
-                        console.log(data);
+
                         var html=[];
                         $(".fees{{$apartment->id}}").empty();
                         data.forEach(function(d)
@@ -490,7 +500,44 @@
                     }
                     });
                 }
+        @php
+            $apartments_fees=\App\ApartmentFee::all();
+        @endphp
 
+        @foreach($apartments_fees as $apartments_fee)
+        function loadDataFeeEdit{{$apartments_fee->apartment_id}}() {
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/admin/apartments/view/fees/{{$apartments_fee->apartment_id}}',
+                success: function (data) {
+                    $(".fees{{$apartment->id}}").html('');
+                    data=JSON.parse(data);
+
+                    var html=[];
+                    $(".fees{{}}").empty();
+                    data.forEach(function(d)
+                    {
+
+
+                        html+= '<div style="float: right">';
+                        html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteApFee{{$apartment->id}}('+d.id+')">Delete fee</button>';
+                        html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee'+d.id+'">Edit Fee</button>';
+                        html+='</div>';
+                        html+='<li><strong>'+d.name+'</strong><br>';
+                        html+='Value:'+d.value;
+                        html+='<br>'+d.description;
+
+                        html+='</li><hr>';
+
+
+                    });
+                    $(".fees{{$apartments_fee->apartment_idi}}").append(html);
+                }
+            });
+        }
+        @endforeach
                 function deleteApFee{{$apartment->id}}(id) {
                     confirm('Are you sure you want to delete this fee?');
                     $.ajax({

@@ -605,3 +605,7 @@
     margin-bottom: 30px;
     font-size: 24px;
 }
+
+.price_header_edit{
+    background: rgba(30, 100, 200, 0.7);
+}

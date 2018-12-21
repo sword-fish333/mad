@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade mr-4" id="editPrice{{$apartment_cost->id}}" tabindex="-1" role="dialog" aria-labelledby="editPrice{{$apartment->id}}" aria-hidden="true" >
+<div class="modal fade mr-4" id="editPrice{{$apartment_cost->id}}" tabindex="-1" role="dialog" aria-labelledby="editPrice{{$apartment_cost->id}}" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header price_header">
-                <h5 class="modal-title price_modal_title" >Apartment Cost for a given Period &nbsp; <i class="fas fa-money-bill"></i></h5>
+            <div class="modal-header price_header_edit">
+                <h5 class="modal-title price_modal_title" >Edit apartment Price &nbsp; <i class="fas fa-money-bill"></i></h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -39,7 +39,6 @@
 </div>
 <script>
 
-
     function editPrice_{{$apartment_cost->id}}(id) {
         var price=$('#edit_price-{{$apartment_cost->id}}').val();
         var start_date=$('#edit_start_date-{{$apartment_cost->id}}').val();
@@ -56,13 +55,15 @@
 
                 _token:"{{csrf_token()}}"
             },
-            success:function (data) {
+            success:function () {
                 $('#editPrice{{$apartment_cost->id}} .close').click();
-                loadDataCostEdit{{$apartment_cost->id}}();
+
+                loadDataCostEdit{{$apartment_cost->apartment_id}}();
 
 
             }
 
         })
     }
+
 </script>

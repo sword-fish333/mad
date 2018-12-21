@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Apartment;
 use App\ApartmentCost;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -31,7 +32,8 @@ class ApartmentCostController extends Controller
     }
 
     public function viewCosts($id){
-        $apartment_costs=ApartmentCost::where('apartment_id',$id)->get();
+        $ap=Apartment::where('id', $id)->first();
+        $apartment_costs=ApartmentCost::where('apartment_id',$ap->id)->get();
             foreach ($apartment_costs as $apartment_cost){
                 $apartment_cost->start_date=Carbon::parse($apartment_cost->start_date)->toDateString();
                 $apartment_cost->end_date=Carbon::parse($apartment_cost->end_date)->toDateString();
