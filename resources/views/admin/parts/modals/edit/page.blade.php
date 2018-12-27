@@ -15,11 +15,11 @@
                         <div class="col-md-5 ">
                             <div class=" form-group mt-2">
                             <label for="title" class="label_add_page">Title</label>
-                            <input type="text" class="form-control" value="{{$page->name}}" placeholder="..."  name="title">
+                            <input type="text" id="title_post{{$page->id}}" class="form-control" autocomplete="off" value="{{$page->name}}" placeholder="..."  name="title">
                             </div>
                             <div class="form-group  mt-4 mb-4">
                                 <label for="url_slug" class="label_add_page">Enter content to  generatea slug</label>
-                                <input type="text" class="form-control"  value="{{$page->url_rewrite}}"  name="slug">
+                                <input type="text" id="url_rewrite{{$page->id}}" autocomplete="off" class="form-control"  value="{{$page->url_rewrite}}"  name="slug">
                             </div>
                             <div class="form-group mt-2 mb-4">
                                 <p class="label_add_page">Current Image</p>
@@ -36,13 +36,13 @@
                               </div>
                             </div>
                         </div>
-                        <div class=" col-md-5" >
+                        <div class=" col-md-6" >
                             <p class="label_add_page">Choose a new parent Category <strong>(Optional)</strong></p>
 
                             <select id="slick_categories{{$page->id}}" name="parent_category"  ></select>
-                            <div class="form-group mt-3 ml-4">
+                            <div class="form-group mt-3 ml-1">
                                 <label for="content" class="label_add_page">Content</label>
-                                <textarea cols="16" rows="10" class="form-control" placeholder="..."  name="page_content">{{$page->content}}</textarea>
+                                <textarea cols="20" rows="15" class="form-control wysiwyg" placeholder="..."  name="page_content">{{$page->content}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -83,5 +83,21 @@
         onSelected: function (data) {
 
         }
+    });
+</script>
+<script>
+    function convertToSlug(Text)
+    {
+        return Text
+            .toLowerCase()
+            .replace(/ /g,'-')
+            .replace(/[^\w-]+/g,'')
+            ;
+    }
+    $("#title_post{{$page->id}}").keypress(function() {
+        setTimeout(function(){
+            $("#url_rewrite{{$page->id}}").val(convertToSlug($("#title_post{{$page->id}}").val()));
+        },500);
+
     });
 </script>

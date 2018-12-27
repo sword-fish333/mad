@@ -44,7 +44,7 @@
                                 <input type="radio" name="main_document_type" class="ml-3" value="passport" placeholder="..." required>Passport
                                 <input type="radio" name="main_document_type" class="ml-3" value="other" placeholder="..." required>Other
                                 </div>
-                                <div class="form-group col-md-4 " style="margin-left: 110px;">
+                                <div class="form-group col-md-4 " style="margin-left: 150px;">
                         <label for="main_email" class="add_reservatio_info">Email</label>
                         <input type="email" name="main_email" class="form-control" placeholder="..." required>
                     </div>

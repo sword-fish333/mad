@@ -31,7 +31,7 @@
             <div class="card-header">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addApartment">
-                    add Apartment &nbsp; <i class="far fa-building"></i>
+                    Add apartment &nbsp; <i class="far fa-building"></i>
                 </button>
                 <h4 class="apartments_table_title"><u>Apartments Table</u>&nbsp;&nbsp;<i class="fas fa-person-booth"></i></h4>
             </div>

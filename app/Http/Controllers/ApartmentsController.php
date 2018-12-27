@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Apartment;
+use App\ApartmentComissionHistory;
 use App\ApartmentCost;
 use App\ApartmentFeature;
 use App\ApartmentFee;
@@ -280,8 +281,8 @@ class ApartmentsController extends Controller
         $booking_fee->value=$request->value;
         $booking_fee->type_of_value=$request->type_of_value;
         $booking_fee->apartment_id=$id;
-
         $booking_fee->save();
+
 
 
         $message=[];

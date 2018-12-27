@@ -210,7 +210,7 @@
                                     </button>
                                 </div>
                             </div>
-                        <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
+                        <div >
 
 
                                 <ul class="fees{{$apartment->id}} @if(!empty($apfee_id)) fees_edit{{$apfee_id->id}} @endif">
@@ -509,7 +509,7 @@ $apartments_costs=\App\ApartmentCost::all();
                             html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee'+d.id+'">Edit Fee</button>';
                             html+='</div>';
                             html+='<li><strong>'+d.name+'</strong><br>';
-                            html+='Value:'+d.value;
+                            html+='Value:'+' <span style="color: darkred; font-weight: bold;">'+d.value+ d.type_of_value+'</span>';
                             html+='<br>'+d.description;
 
                             html+='</li><hr>';

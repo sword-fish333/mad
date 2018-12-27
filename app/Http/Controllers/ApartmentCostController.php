@@ -17,6 +17,18 @@ class ApartmentCostController extends Controller
             'end_date'=>'required',
 
         ]);
+
+        $ap_costs=ApartmentCost::where('apartment_id', $id)->get();
+        foreach ($ap_costs as $ap_cost){
+            if($ap_cost->start_date>=$request->start_date ||$ap_cost->end_date>=$request->end_date){
+                $message=[];
+                $message['status']='error';
+                $message['info_error']='You need to insert a date that dose not interfere with the other dates for this apartment';
+
+                $message=json_encode($message);
+                return $message;
+            }
+        }
         if( Carbon::parse($request->start_date)->toDateTimeString()<Carbon::today() || Carbon::parse($request->end_date)->toDateTimeString()<Carbon::parse($request->start_date)->toDateTimeString()
          ){
             $message=[];
@@ -41,6 +53,7 @@ class ApartmentCostController extends Controller
         $apartment_cost->end_date=$request->end_date;
         $apartment_cost->apartment_id=$id;
         $apartment_cost->save();
+
 
 
         $message=[];

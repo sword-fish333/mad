@@ -9,81 +9,92 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-hover">
-                    <thead class="bg-dark text-white custom_price_view_table">
-                    <tr>
-                        <th>Price Origin</th>
-                        <th>Price</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+            <div class="modal-body" style="overflow-y: scroll; height: 550px;">
+
+                    @php
+                    $day=\Carbon\Carbon::parse($reservation->check_in);
+                    @endphp
+                @php
+                    $day_nr=1
+                @endphp
+
+                        @while($day <= $reservation->check_out)
+                        <div class="card">
+                            <div class="card-header bg-dark text-white">
+                             {{$day_nr}}.   {{\Carbon\Carbon::parse($day)->format('d-m-Y')}}
+                            </div>
+                        <div class="card-body">
+                    <table class="table table-hover table-bordered">
+                    <thead>
+                    <tr class="custom_head_cost text-center">
+                        <th>#</th>
+                        <th>Cost Name</th>
+                        <th>Gross Value</th>
+                        <th>Monetary Value</th>
+                        <th>Type of value</th>
+                        <th>Description</th>
                     </tr>
                     </thead>
-                    @php
-                    $ap=\App\Apartment::where('id', $reservation->apartment_id)->first();
-                    $prices_ap=\App\ApartmentCost::where('apartment_id', $ap->id)->get();
-                    $fees_ap=\App\ApartmentFee::where('apartment_id', $ap->id)->get();
-                    $reservation_fees=\App\BookingFee::where('reservation_id', $reservation->id)->get();
-                    @endphp
                     <tbody>
-                    <td class="custom_td" rowspan="{{count($prices_ap)+1}}" >Prices of the <br> apartment </td>
-                    @foreach($prices_ap as $price_ap)
 
-                    <tr>
-                        <td>{{$price_ap->price}}</td>
-                        <td>{{\Carbon\Carbon::parse($price_ap->start_date)->toDateString()}}</td>
-                        <td>{{\Carbon\Carbon::parse($price_ap->end_date)->toDateString()}}</td>
-                    </tr>
-                        @endforeach
-                    <td class="custom_td" rowspan="{{count($fees_ap)+1}}" >Fees for the <br> apartment </td>
-                    @foreach($fees_ap as $fee_ap)
-                            <tr>
-                            <td colspan="3" class="text-center">
-                                <strong>{{$fee_ap->value}} {{$fee_ap->type_of_value}}</strong>
-                            </td>
-                            </tr>
-                        @endforeach
-                    <td class="custom_td" rowspan="{{count($reservation_fees)+1}}" >Fees of the <br> reservation </td>
-                    @foreach($reservation_fees as $reservation_fee)
-                                <tr>
-                            <td colspan="3" class="text-center">
-                                <strong>{{$reservation_fee->value}} {{$reservation_fee->type_of_value}}</strong>
-                            </td>
-                            </tr>
-                    @endforeach
-                    <td class="custom_td">Total</td>
-                    <td colspan="3" class=" custom_result">
                         @php
-                        $t=1;
-                        foreach($prices_ap as $price_ap){
-                                  $t+=$price_ap->price;
-                        }
-                        foreach($fees_ap as $fee_ap){
-
-                                if($fee_ap->type_of_value==='u.m.'){
-                                  $t+=$fee_ap->value;
-                                  }else if($fee_ap->type_of_value==='%'){
-                                  $t=$t*($fee_ap->value/100);
-                                  }
-                        }
-                         foreach($reservation_fees as $reservation_fee){
-
-                                if($reservation_fee->type_of_value==='u.m.'){
-                                  $t+=$reservation_fee->value;
-                                  }else if($reservation_fee->type_of_value==='%'){
-                                  $t=$t*($reservation_fee->value/100);
-                                  }
-                        }
+                        $cost_nr=1;
+                        $reservation_prices=\App\ReservationPriceList::where('reservation_id',$reservation->id)->where('day',$day)->get();
+                        @endphp
+                        @foreach($reservation_prices as $reservation_price)
+                            <tr class="text-center">
+                        <td>{{$cost_nr}}</td>
+                        <td>{{$reservation_price->name}}</td>
+                                <td>{{$reservation_price->price}}</td>
+                                <td>@if($reservation_price->value){{$reservation_price->value}}@else
+                                    -
+                                    @endif
+                                </td>
+                                <td>@if($reservation_price->type_of_value){{$reservation_price->type_of_value}}@else
+                                        -
+                                    @endif
+                                </td>
+                                <td>@if($reservation_price->description){{$reservation_price->description}}@else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                            @php
+                                $cost_nr++;
                             @endphp
-                        <strong>{{$t}}</strong>
-                    </td>
+                        @endforeach
+                    <tr>
+                        @php
+
+                            $total_price=0;
+                            foreach($reservation_prices as $pr){
+                            if($pr->type_of_value!=='%'){
+                            $total_price+=$pr->price;
+                            }else{
+                            $total_price=$total_price+($pr->price/100)*$total_price;
+                            }
+                            }
+                        @endphp
+                        <td class="custom_head_cost">Total</td>
+                        <td colspan="5"><strong>{{$total_price}}</strong></td>
+                    </tr>
                     </tbody>
-                </table>
+                    </table>
+                        </div>
+                        </div>
+                        @php
+                            $day_nr++;
+                        $day->addDays(1);
+                        @endphp
+                @endwhile
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <a href="/admin/reservations/pdf/{{$reservation->id}}" class="btn btn-success">Generate pdf Fee &nbsp; <i class="fas fa-file-invoice"></i></a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
             </div>
         </div>
     </div>
 </div>
+

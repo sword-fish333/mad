@@ -59,7 +59,7 @@ Route::post('/admin/reservations/client/image/{id}','ReservationsController@save
 Route::post('/admin/reservations/fee/add/{id}', 'ReservationsFeeController@addFee');
 Route::get('/admin/reservations/fee/delete/{id}', 'ReservationsFeeController@deleteFee');
 Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@editFee');
-
+Route::get('/admin/reservations/pdf/{id}', 'ReservationsController@pdfGenerator');
 //Routes Apartment Holders
 Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
 Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');

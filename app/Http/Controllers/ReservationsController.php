@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Apartment;
+use App\ApartmentComissionHistory;
+use App\ApartmentCost;
+use App\ApartmentFee;
 use App\Person;
 use App\Reservation;
 use App\ReservationCost;
+use App\ReservationPriceList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 class ReservationsController extends Controller
 {
     public function showReservations(){
@@ -94,6 +100,42 @@ class ReservationsController extends Controller
             $reservation->persons_id=$person->id;
             $reservation->save();
 
+        $day=Carbon::parse($request->check_in);
+        while($day<=Carbon::parse($request->check_out)){
+            $ap=Apartment::where('id', $reservation->apartment_id)->first();
+               $ap_prices=ApartmentCost::where('apartment_id',$ap->id)->where('start_date','<=',$day)->where('end_date','>=',$day)->first();
+
+                        if(!empty($ap_prices)) {
+                            $reservatio_price_list = new ReservationPriceList();
+                            $reservatio_price_list->name = 'Apartment price';
+                            $reservatio_price_list->price = $ap_prices->price;
+                            $reservatio_price_list->day = $day;
+                            $reservatio_price_list->reservation_id = $reservation->id;
+                            $reservatio_price_list->save();
+                        }else{
+                            $reservatio_price_list = new ReservationPriceList();
+                            $reservatio_price_list->name = 'Apartment price';
+                            $reservatio_price_list->price = $ap->price;
+                            $reservatio_price_list->day = $day;
+                            $reservatio_price_list->reservation_id = $reservation->id;
+                            $reservatio_price_list->save();
+                        }
+
+
+            $ap_fees=ApartmentFee::where('apartment_id',$ap->id)->get();
+            foreach ($ap_fees as $ap_fee) {
+                $reservatio_price_list = new ReservationPriceList();
+                $reservatio_price_list->name=$ap_fee->name;
+                $reservatio_price_list->price=$ap_fee->value;
+                $reservatio_price_list->value=$ap_fee->value;
+                $reservatio_price_list->description=$ap_fee->description;
+                $reservatio_price_list->type_of_value=$ap_fee->type_of_value;
+                $reservatio_price_list->day=$day;
+                $reservatio_price_list->reservation_id=$reservation->id;
+                $reservatio_price_list->save();
+            }
+               $day->addDays(1);
+           }
 
 
         if($request->client_name) {
@@ -250,5 +292,11 @@ class ReservationsController extends Controller
             return back()->with('success', 'Reservation has been deleted successfully!');
         }
 
+        public function pdfGenerator($id){
+           $reservation=Reservation::where('id', $id)->first();
+            $pdf = PDF::loadView('admin.pdf.invoice', array('reservation'=>$reservation));
+           // return view('admin.pdf.invoice', array('reservation'=>$reservation));
+            return $pdf->download('invoice.pdf');
+        }
 
 }
