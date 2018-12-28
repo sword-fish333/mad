@@ -60,6 +60,8 @@ Route::post('/admin/reservations/fee/add/{id}', 'ReservationsFeeController@addFe
 Route::get('/admin/reservations/fee/delete/{id}', 'ReservationsFeeController@deleteFee');
 Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@editFee');
 Route::get('/admin/reservations/pdf/{id}', 'ReservationsController@pdfGenerator');
+Route::get('/admin/reservations/secondary_clients/delete/{id}', 'ReservationsController@deleteCloneClient');
+
 //Routes Apartment Holders
 Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
 Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');

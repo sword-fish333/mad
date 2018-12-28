@@ -358,7 +358,7 @@
     height: 400px !important;
 }
 
-.add_reservatio_info{
+.add_reservation_info{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
     font-size: 18px;
@@ -471,6 +471,14 @@
     color: darkred;
     text-decoration: underline;
     text-align: center;
+}
+.info_delete_clone{
+    font-family: 'Saira', sans-serif;
+    font-size: 16px;
+}
+.add_client_clone{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 26px;
 }
 .modal-backdrop{
     display: none;

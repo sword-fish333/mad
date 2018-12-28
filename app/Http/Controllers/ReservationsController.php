@@ -299,4 +299,8 @@ class ReservationsController extends Controller
             return $pdf->download('invoice.pdf');
         }
 
+        public function deleteCloneClient($id){
+            Person::find($id)->delete();
+        }
+
 }

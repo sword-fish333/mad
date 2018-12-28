@@ -37,7 +37,7 @@
         <div style=" margin-top: 50px;">
 
             <div>
-                <table style="margin-top: 50px;">
+                <table style="margin-top: 10px;">
                     <thead>
                     <tr> <td colspan="6" style="text-align: left; padding-left: 20px !important;"> {{$day_nr}}.   <strong>{{\Carbon\Carbon::parse($day)->format('d-m-Y')}}</strong></td></tr>
                     <tr class="custom_head_cost text-center">

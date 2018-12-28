@@ -37,6 +37,7 @@
                 <th class="w-25">Check Out</th>
                 <th>Status</th>
                 <th>View Client & Resevation <br> Information</th>
+                <th>Clone Reservation</th>
                 <th>Edit Reservation</th>
                 <th>Cost</th>
                 <th>Delete Reservation</th>
@@ -91,6 +92,10 @@
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#viewReservationDetails-{{$reservation->id}}">
                             <i class="fas fa-eye"></i>
                         </button></td>
+                    <td><!-- Button trigger to clone reservation -->
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cloneReservation-{{$reservation->id}}">
+                            <i class="far fa-clone"></i>
+                        </button></td>
                     <td><!-- Button trigger modal for edit apartment -->
                         <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#editReservation-{{$reservation->id}}">
                             <i class="fas fa-edit"></i>
@@ -114,7 +119,6 @@
         </div>
 
         @include('admin.parts.modals.add.reservation')
-
     </section>
 
     @foreach($reservations as $reservation)
@@ -126,6 +130,10 @@
     @endforeach
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.edit.reservation')
+    @endforeach
+    @foreach($reservations as $reservation)
+        @include('admin.parts.modals.clone.reservation')
+        @include('admin.parts.modals.clone.addClient')
     @endforeach
     @php
         $booking_fees=\App\BookingFee::all();
