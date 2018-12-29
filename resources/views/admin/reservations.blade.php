@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-
+    <meta name="_token" content="{{ csrf_token() }}">
     <section>
         <div class="jumbotron reservations_parallax">
             <h1 class="reservations_title">Reservations</h1>
@@ -24,6 +24,7 @@
         </div>
 
             <div class="reservations_container">
+                <input type="text" class="form-controller" id="search" name="search" autocomplete="off"></input>
         <table class="data_table table table-bordered  table-responsive table-hover display">
             <thead>
             <tr class="bg-dark custom_reservations_table_head  text-center"  >
@@ -144,4 +145,30 @@
     @foreach($reservations as $reservation)
         @include('admin.parts.modals.add.reservation_fee')
     @endforeach
+
+    <script>
+        $('#search').on('keyup',function() {
+
+            $value = $(this).val();
+
+            $.ajax({
+
+                type: 'get',
+
+                url: '{{\Illuminate\Support\Facades\URL::to('/admin/reservations/search')}}',
+
+                data: {'search': $value},
+
+                success: function (data) {
+
+                    $('tbody').html(data);
+
+                }
+
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+    </script>
 @endsection

@@ -1,7 +1,7 @@
 
 <!-- Modal -->
-<div class="modal fade" id="cloneReservation-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="cloneReservation-{{$reservation->id}}" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="cloneReservation-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="cloneReservation-{{$reservation->id}}" aria-hidden="true" style="overflow-y:auto !important;">
+    <div class="modal-dialog modal-lg" role="document" >
         <div class="modal-content" >
             <div class="modal-header bg-info">
                 <h5 class="modal-title edit_reservation_modal_title" ><u> Clone reservation</u> <i class="fas fa-clone"></i></h5>
@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" >
                 @php
                 $data_reservation=$reservation;
                 @endphp
@@ -18,15 +18,14 @@
                     <li class="active nav-item"><a class="nav-link" href="#clone_main_client{{$reservation->id}}" data-toggle="tab" >Main Client</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#clone_secondary_clients{{$reservation->id}}" data-toggle="tab">Secondary Clients</a></li>
                     <li class="nav-item"><a  class="nav-link"  href="#clone_secondary_photos{{$reservation->id}}" data-toggle="tab">Photos of secondary clients</a></li>
-                    <li class="nav-item"><a class="nav-link"   href="#clone_booking_fees{{$reservation->id}}" data-toggle="tab">Reservation Fees</a></li>
                     <li class="nav-item"><a class="nav-link"   href="#clone_reservation_period{{$reservation->id}}" data-toggle="tab">Check in & Out</a></li>
 
                 </ul>
-                <form action="/admin/reservations/edit/{{$reservation->id}}" method="post" id="clone_main_form_{{$data_reservation->id}}"  enctype="multipart/form-data">
+                <form action="/admin/reservations/clone/{{$reservation->id}}" method="post" id="clone_main_form_{{$data_reservation->id}}"  enctype="multipart/form-data">
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane active" id="clone_main_client{{$reservation->id}}">
-                    <h4 class="mt-3 clients_edit_title">Client for which the reservation was made</h4>
+                    <h4 class="mt-3 clients_clone_title">Client for which the <br> reservation was made</h4>
                     <div class="row">
                 <div class="ml-3 col-md-5 mt-3">
                    <div class="form-group">
@@ -39,9 +38,19 @@
                     </div>
                     </div>
                         <div class=" mt-2 ml-3 col-md-5" >
-                            <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
+                            <p class="edit_reservation_info ml-5">Current  Apartment &nbsp;<i class="fas fa-home"></i></p>
                             {{--Slick dropdown for selecting Apartment--}}
-                            <select class="edit_slick_apartments" name="apartment" ></select>
+                           @php
+                           $current_apartment=\App\Apartment::where('id', $reservation->apartment_id)->first();
+                                               $apartment_photo=\App\Picture::where('apartments_id', $current_apartment->id)->first();
+
+                           @endphp
+                            <p class="clone_current_apartment">{{$current_apartment->location}}</p>
+                            @if($apartment_photo)
+                            <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="" style="width:150px !important; height: auto; float: right">
+                            @else
+                                <p>There is no Image available</p>
+                            @endif
                         </div>
                     </div>
                             <div class="row">
@@ -91,7 +100,7 @@
                     @endphp
                         </div>
                         <div class="tab-pane" id="clone_secondary_clients{{$reservation->id}}">
-                <h4 class="clients_edit_title mt-4">Secondary clients that stay in the apartment  </h4>
+                <h4 class="clients_clone_title mt-4">Secondary clients that stay in the apartment  </h4>
                             <button type="button" class="btn btn-info mb-3 mt-3 ml-4" data-toggle="modal" data-target="#addClientToClone{{$reservation->id}}">
                                Add Client &nbsp;<i class="fas fa-user-plus"></i>
                             </button>
@@ -103,6 +112,7 @@
                     <div class="clone_secondary_client{{$client->id}} ">
                         <h4 class="ml-4 mt-2 client_nr"><u>{{$client_nr}}.</u></h4>
                     <div class="row ml-3 ">
+                        <input type="hidden"  name="client_id[]" value="{{$client->id}}">
                         <div class="form-group col-md-5">
                             <label class="add_reservation_info">Client name:</label>
                             <input type="text"  class="form-control" name="client_name[]"  value="{{$client->name}}">
@@ -149,11 +159,12 @@
             </div>
             </div>
             <div class="tab-pane" id="clone_secondary_photos{{$reservation->id}}" >
-                <h4 class="clients_edit_title mt-4">Clients Document Photos</h4>
+                <h4 class="clients_clone_title mt-4">Clients Document Photos</h4>
                 <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
                 @foreach($clients as $client)
                     <div class="clone_secondary_client_photo{{$client->id}}">
                 <div class="row"   class="mb-5">
+
 
                     <div class="col-md-5 ml-5">
                         <p class="client_edit_name ml-4">{{$client->name}}</p>
@@ -162,7 +173,7 @@
                     </div>
 
                         <div class="col-md-5">
-                            <form id="client_form{{$client->id}}" action="" role="form"  enctype="multipart/form-data">
+                            <form id="clone_client_form{{$client->id}}" action="" role="form"  enctype="multipart/form-data">
                                 @csrf
 
 
@@ -170,7 +181,7 @@
                             <input type="file" id="client_image" name="client_image" class="form-control">
 
                             <div class="form-group mt-4">
-                                <input type="button"   value="Submit Image"  id="upload_image{{$client->id}}" class=" btn btn-primary btn-block">
+                                <input type="button"   value="Submit Image"  id="clone_upload_image{{$client->id}}" class=" btn btn-primary btn-block">
                             </div>
                             </form>
                         </div>
@@ -180,56 +191,19 @@
                         @endforeach
                 </div>
             </div>
-                <div class="tab-pane" id="clone_booking_fees{{$reservation->id}}">
-                    <h4 class="clients_edit_title mt-4">Booking Fees</h4>
-                    <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addFee{{$reservation->id}}">
-                        &nbsp;Add booking fee <i class="fas fa-file-invoice-dollar"></i>
-                    </button>
-                    <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
-                    @php
-                    $booking_fees=\App\BookingFee::where('reservation_id', $reservation->id)->get();
-                    @endphp
-                <div class=" mt-2 ml-1 col-md-11">
 
-                            <ul>
-                        @foreach($booking_fees as $booking_fee)
-                            <div class="form-check" >
-
-
-                                    <li><strong>{{$booking_fee->name}}</strong>&nbsp;
-                                        <div style="float: right">
-                                        <a href="/admin/reservations/fee/delete/{{$booking_fee->id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</a>
-                                        <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee{{$booking_fee->id}}">
-                                               Edit Fee
-                                            </button>
-
-                                        </div>
-                                       <p>Value: <span style="color: darkred; font-weight: bold;">{{$booking_fee->value}} {{$booking_fee->type_of_value}}</span></p>
-                                        {{$booking_fee->description}}
-                                    </li>
-                                   
-                                    <hr>
-
-                            </div>
-                        @endforeach
-                            </ul>
-
-                </div>
-                </div>
-            </div>
         <div class="tab-pane" id="clone_reservation_period{{$reservation->id}}">
-            <h4 class="clients_edit_title mt-4">Booking Check In & Check Out</h4>
+            <h4 class="clients_clone_title mt-4">Booking Check In & Check Out</h4>
             <div class="col-md-7  offset-2">
                 <div class="form-group ">
                     <label for=""><u>Check In <strong>(If you do not enter it , it will be the same. Mandatory with Check Out)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}"  readonly>
-                    <input type="date" name="check_in"  id="checkIn" class="form-control" autocomplete="off" >
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}"  readonly>
+                    <input type="date" name="check_in"   class="form-control" autocomplete="off" >
                 </div>
                 <div class="form-group mt-4">
                     <label for=""><u>Check Out <strong>(If you do not enter it , it will be the same. Mandatory with Check in)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}"  readonly>
-                    <input type="date" name="check_out"  class="form-control" autocomplete="off" id="checkOut">
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('m-d-Y')}}"  readonly>
+                    <input type="date" name="check_out"  class="form-control" autocomplete="off" >
                 </div>
             </div>
 
@@ -238,7 +212,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="clone_submit_btn{{$data_reservation->id}}"  class=" btn btn-primary">Save changes&nbsp;<i class="fas fa-save"></i></button>
+                <button type="submit" id="clone_submit_btn{{$data_reservation->id}}"  class=" btn btn-info">Clone Reservation&nbsp;<i class="fas fa-clone"></i></button>
             </div>
             </div>
         </div>
@@ -251,9 +225,9 @@
 
 @foreach($clients as $client )
         /*Add new catagory Event*/
-        $("#upload_image{{$client->id}}").click(function(e){
+        $("#clone_upload_image{{$client->id}}").click(function(e){
             e.preventDefault();
-            var form=new FormData(document.getElementById('client_form{{$client->id}}'));
+            var form=new FormData(document.getElementById('clone_client_form{{$client->id}}'));
             $.ajax({
                 url:'/admin/reservations/client/image/{{$client->id}}',
                 data:form,
@@ -294,16 +268,16 @@
                 @endforeach
         ];
 
-    $('.edit_slick_apartments').ddslick({
-        data: ddData,
-        width: 300,
-        imagePosition: "right",
-        selectText: "Select Apartment for client",
-        defaultSelectedIndex:{{$reservation->apartment_id}}-1,
-        onSelected: function (data) {
+    {{--$('.clone_slick_apartments').ddslick({--}}
+        {{--data: ddData,--}}
+        {{--width: 300,--}}
+        {{--imagePosition: "right",--}}
+        {{--selectText: "Select Apartment for client",--}}
+        {{--defaultSelectedIndex:{{$reservation->apartment_id}}-1,--}}
+        {{--onSelected: function (data) {--}}
 
-        }
-    });
+        {{--}--}}
+    {{--});--}}
 </script>
 <script>
     $('.radio_clone{{$reservation->id}}:not(:checked)').attr('disabled', true);
@@ -312,11 +286,13 @@
 @foreach($clients as $client)
 <script>
     function clone_removeClient(id) {
+        confirm('Are you sure you want to remove this client?')
+        {
+            $(this).remove();
 
-                $(this).remove();
-
-                $('.clone_secondary_client'+id).remove();
-        $('.clone_secondary_client_photo'+id).remove();
+            $('.clone_secondary_client' + id).remove();
+            $('.clone_secondary_client_photo' + id).remove();
+        }
 
     }
 </script>

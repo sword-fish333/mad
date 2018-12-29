@@ -221,7 +221,7 @@
                                             <li>
 
                                                 <div style="float: right">
-                                                    <button type="button" onclick="deleteApFee{{$apartment->id}}({{$apartment_fee->id}})" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</button>
+                                                    <button type="button" onclick="deleteApFee{{$apartment->id}}({{$apartment_fee->id}})" class="btn btn-danger btn-sm" >Delete fee</button>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee{{$apartment_fee->id}}">
                                                         Edit Fee
@@ -497,7 +497,7 @@ $apartments_costs=\App\ApartmentCost::all();
                     success: function (data) {
                         $(".fees{{$apartment->id}}").html('');
                         data=JSON.parse(data);
-
+                            console.log(data);
                         var html=[];
                         $(".fees{{$apartment->id}}").empty();
                         data.forEach(function(d)
@@ -509,7 +509,7 @@ $apartments_costs=\App\ApartmentCost::all();
                             html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee'+d.id+'">Edit Fee</button>';
                             html+='</div>';
                             html+='<li><strong>'+d.name+'</strong><br>';
-                            html+='Value:'+' <span style="color: darkred; font-weight: bold;">'+d.value+ d.type_of_value+'</span>';
+                            html+='Value:'+' <span style="color: darkred; font-weight: bold;">'+d.value+'  '+ d.type_of_value+'</span>';
                             html+='<br>'+d.description;
 
                             html+='</li><hr>';
@@ -546,7 +546,7 @@ $apartments_costs=\App\ApartmentCost::all();
                         html+='<button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editApartmentFee'+d.id+'">Edit Fee</button>';
                         html+='</div>';
                         html+='<li><strong>'+d.name+'</strong><br>';
-                        html+='Value: <span style="color:darkred;"><strong>'+d.value+d.type_of_value+'</strong></span>';
+                        html+='Value: <span style="color:darkred;"><strong>'+d.value+' '+d.type_of_value+'</strong></span>';
                         html+='<br>'+d.description;
 
                         html+='</li><hr>';
@@ -560,14 +560,16 @@ $apartments_costs=\App\ApartmentCost::all();
         }
         @endforeach
                 function deleteApFee{{$apartment->id}}(id) {
-                    confirm('Are you sure you want to delete this fee?');
-                    $.ajax({
-                        type: 'GET',
-                        url: '/admin/apartments/delete/fee/' + id,
-                        success: function (data) {
-                            loadData{{$apartment->id}}();
-                        }
-                    });
+                   if( confirm('Are you sure you want to delete this fee?'))
+        {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/apartments/delete/fee/' + id,
+                success: function (data) {
+                    loadData{{$apartment->id}}();
+                }
+            });
+        }
                 }
         function removeImage(id) {
             $.ajax({

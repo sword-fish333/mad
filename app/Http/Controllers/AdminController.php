@@ -41,7 +41,7 @@ class AdminController extends Controller
         Session::put("user",$user[0]);
         Session::put("ok",1);
         Session::put("is_admin",1);
-        return redirect('/admin/dashboard')->with('success','You are now logedin!');
+        return redirect('/admin/dashboard')->with('success','You are now logged in!');
     }
 
     function adminRegister(Request $request){

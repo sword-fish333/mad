@@ -175,38 +175,50 @@
                     <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addFee{{$reservation->id}}">
                         &nbsp;Add booking fee <i class="fas fa-file-invoice-dollar"></i>
                     </button>
-                    <div style="overflow: auto; height: 550px; overflow-x: hidden;" >
                     @php
-                    $booking_fees=\App\BookingFee::where('reservation_id', $reservation->id)->get();
+                        $booking_fees=\App\BookingFee::where('reservation_id', $reservation->id)->get();
+                    $fee_first_id=\App\BookingFee::where('reservation_id', $reservation->id)->first();
+                    if($fee_first_id){
+                    $fee_id=\App\Reservation::where('id', $fee_first_id->apartment_id)->first();
+                    }
                     @endphp
-                <div class=" mt-2 ml-1 col-md-11">
-
-                            <ul>
-                        @foreach($booking_fees as $booking_fee)
-                            <div class="form-check" >
-
-
-                                    <li><strong>{{$booking_fee->name}}</strong>&nbsp;
-                                        <div style="float: right">
-                                        <a href="/admin/reservations/fee/delete/{{$booking_fee->id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this fee?')">Delete fee</a>
-                                        <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-warning ml-3 btn-sm" data-toggle="modal" data-target="#editFee{{$booking_fee->id}}">
-                                               Edit Fee
-                                            </button>
-
-                                        </div>
-                                       <p>Value: <span style="color: darkred; font-weight: bold;">{{$booking_fee->value}} {{$booking_fee->type_of_value}}</span></p>
-                                        {{$booking_fee->description}}
-                                    </li>
-                                   
-                                    <hr>
-
+                    <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
+                        <div class="message_fee" style="display: none;">
+                            <div class="  message_fees{{$reservation->id}}  alert  alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        @endforeach
+                        </div>
+                        <div >
+
+
+                            <ul class="fees{{$reservation->id}}  fees_edit{{$reservation->id}} ">
+                                @foreach($booking_fees as $booking_fee)
+                                    <div class="form-check" >
+
+
+                                        <li>
+
+                                            <div style="float: right">
+                                                <button type="button" onclick="deleteBookingFee{{$reservation->id}}({{$booking_fee->id}})" class="btn btn-danger btn-sm" >Delete fee</button>
+                                                <!-- Button trigger modal -->
+
+                                            </div>
+                                            <strong>{{$booking_fee->name}}</strong>&nbsp;
+                                            <p>Value: &nbsp;<span style="color: darkred"><strong>{{$booking_fee->value}} &nbsp;&nbsp; {{$booking_fee->type_of_value}}</strong></span></p>
+
+                                            {{$booking_fee->description}}
+                                        </li>
+
+                                        <hr>
+
+                                    </div>
+                                @endforeach
                             </ul>
 
-                </div>
-                </div>
+                        </div>
+                    </div>
             </div>
         <div class="tab-pane" id="reservation_period{{$reservation->id}}">
             <h4 class="clients_edit_title mt-4">Booking Check In & Check Out</h4>
@@ -292,5 +304,73 @@
 
         }
     });
+</script>
+<script>
+
+
+    function loadData{{$reservation->id}}() {
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/admin/reservations/view/fees/{{$reservation->id}}',
+            success: function (data) {
+                $(".fees{{$reservation->id}}").html('');
+                data=JSON.parse(data);
+
+                var html=[];
+
+                data.forEach(function(d)
+                {
+
+
+                    html+= '<div style="float: right">';
+                    html+='<button type="button"  class="btn btn-danger btn-sm" onclick="deleteBookingFee{{$reservation->id}}('+d.id+')">Delete fee</button>';
+                    html+='</div>';
+                    html+='<li><strong>'+d.name+'</strong><br>';
+                    html+='Value: <span style="color:darkred;"><strong>'+d.value+' '+d.type_of_value+'</strong></span>';
+                    html+='<br>'+d.description;
+
+                    html+='</li><hr>';
+
+
+                });
+
+                $(".fees{{$reservation->id}}").append(html);
+            }
+        });
+    }
+    function deleteBookingFee{{$reservation->id}}(id) {
+        if( confirm('Are you sure you want to delete this fee?'))
+        {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/reservations/delete/fee/' + id,
+                success: function (data) {
+                    d=JSON.parse(data);
+                    if(d['status']==='error') {
+
+                        $(".message_fees{{$reservation->id}}").addClass('alert-danger');
+                        $(".message_fee").show();
+                        $('.message_fees{{$reservation->id}}').append(d['info_error']);
+                        setTimeout(function(){
+                            $('.message_fees{{$reservation->id}}').removeClass('alert-danger');
+                            $('.message_fees{{$reservation->id}}').empty();
+                        },3000);
+                    }else if(d['status']==='success') {
+                        $(".message_fee").show();
+                        $(".message_fees{{$reservation->id}}").addClass(' alert-success');
+                        $('.message_fees{{$reservation->id}}').append(d['info_success']);
+                        setTimeout(function(){
+                            $('.message_fees{{$reservation->id}}').removeClass('alert-success');
+                            $('.message_fees{{$reservation->id}}').empty();
+                        },3000);
+
+                    }
+                    loadData{{$reservation->id}}();
+                }
+            });
+        }
+    }
 </script>
 </div>

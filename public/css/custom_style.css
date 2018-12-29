@@ -331,6 +331,18 @@
     margin-bottom: 30px;
 }
 
+.clients_clone_title{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 30px;
+   color: #17a2b8;
+    text-decoration: underline;
+}
+.clone_current_apartment{
+    font-family: 'Saira', sans-serif;
+    font-size: 16px;
+}
 .edit_reservation_info{
     font-family: 'Catamaran', sans-serif;
     color: #000;
@@ -363,7 +375,11 @@
     text-decoration: underline;
     font-size: 18px;
 }
+.holder_reservation{
+    font-family: 'Saira', sans-serif;
 
+    font-size: 18px;
+}
 .clients_document_photos{
     font-family: 'Saira', sans-serif;
     color: darkgoldenrod;

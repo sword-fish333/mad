@@ -275,13 +275,13 @@ class ApartmentsController extends Controller
                 return $message;
             }
 
-        $booking_fee=new ApartmentFee();
-        $booking_fee->name=$request->name;
-        $booking_fee->description=$request->description;
-        $booking_fee->value=$request->value;
-        $booking_fee->type_of_value=$request->type_of_value;
-        $booking_fee->apartment_id=$id;
-        $booking_fee->save();
+        $apartment_fee=new ApartmentFee();
+        $apartment_fee->name=$request->name;
+        $apartment_fee->description=$request->description;
+        $apartment_fee->value=$request->value;
+        $apartment_fee->type_of_value=$request->type_of_value;
+        $apartment_fee->apartment_id=$id;
+        $apartment_fee->save();
 
 
 
@@ -294,8 +294,11 @@ class ApartmentsController extends Controller
 
     public function viewFees($id){
         $apartment_fees=ApartmentFee::where('apartment_id',$id)->get();
+
         $apartment_fees=json_encode($apartment_fees);
+
         return $apartment_fees;
+
     }
 
     public function deleteFee($id){
