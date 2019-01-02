@@ -3,7 +3,9 @@
     <meta name="_token" content="{{ csrf_token() }}">
     <section>
         <div class="jumbotron reservations_parallax">
+            <div class="dashboard_titles">
             <h1 class="reservations_title">Reservations</h1>
+            </div>
         </div>
 
         @include('admin.parts.messages.success')
@@ -24,8 +26,11 @@
         </div>
 
             <div class="reservations_container">
-                <input type="text" class="form-controller" id="search" name="search" autocomplete="off"></input>
-        <table class="data_table table table-bordered  table-responsive table-hover display">
+                <!-- Button trigger modal -->
+                <button type="button" class=" ml-5 btn btn-success" data-toggle="modal" data-target="#searchReservation">
+                    Search Reservation &nbsp; <i class="fas fa-search"></i>
+                </button>
+                <table class="data_table table table-bordered  table-responsive table-hover display">
             <thead>
             <tr class="bg-dark custom_reservations_table_head  text-center"  >
                 <th>#</th>
@@ -41,6 +46,7 @@
                 <th>Clone Reservation</th>
                 <th>Edit Reservation</th>
                 <th>Cost</th>
+                <th>Caretaker</th>
                 <th>Delete Reservation</th>
             </tr>
             </thead>
@@ -108,6 +114,11 @@
                             <i class="fas fa-dollar-sign"></i>
                         </button>
                        </td>
+                    <td>&nbsp;
+                        <button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#caretaker{{$reservation->id}}">
+                            <i class="fas fa-toolbox"></i>
+                        </button>
+                    </td>
                     <td><a href="/admin/reservations/delete/{{$reservation->id}}" class="btn btn-danger btn-lg" onclick=" return confirm('Are you sure you want to delete this Reservation?')"><i class="fas fa-eraser"></i></a></td>
                 </tr>
 
@@ -119,10 +130,12 @@
         </table>
         </div>
 
+        @include('admin.parts.modals.searchReservation')
         @include('admin.parts.modals.add.reservation')
     </section>
 
     @foreach($reservations as $reservation)
+        @include('admin.parts.modals.caretaker')
         @include('admin.parts.modals.view.reservation_cost')
     @endforeach
 
@@ -146,29 +159,5 @@
         @include('admin.parts.modals.add.reservation_fee')
     @endforeach
 
-    <script>
-        $('#search').on('keyup',function() {
 
-            $value = $(this).val();
-
-            $.ajax({
-
-                type: 'get',
-
-                url: '{{\Illuminate\Support\Facades\URL::to('/admin/reservations/search')}}',
-
-                data: {'search': $value},
-
-                success: function (data) {
-
-                    $('tbody').html(data);
-
-                }
-
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script>
 @endsection

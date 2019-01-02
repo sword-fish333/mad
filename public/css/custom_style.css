@@ -20,7 +20,14 @@
     font-size: 42px;
 
 }
-
+.admins_title{
+    text-align: center;
+    font-family:'Saira', sans-serif ;
+    font-weight: bold;
+    margin-top: 70px;
+    color: white;
+    font-size: 42px;
+}
 
 .dashboard_subtitle{
     text-align: center;
@@ -39,7 +46,7 @@
     font-weight: bold;
     border: 3px solid #f1f1f1;
     position: absolute;
-    top: 250px;
+    top: 200px;
     left: 50%;
     padding-bottom: 30px;
     transform: translate(-50%, -40%);
@@ -53,7 +60,7 @@
     background-image: url("../images/dashboard_jumbo.jpeg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
@@ -65,7 +72,7 @@
     background-image: url("../images/apartment.jpg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -79,7 +86,7 @@
     background-image: url("../images/holder.jpeg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -93,7 +100,7 @@
     background-image: url("../images/static_pages.jpeg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -203,7 +210,7 @@
     background-image: url("../images/minimal_apartment.jpg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -228,7 +235,27 @@
     background-image: url("../images/reservation.jpeg");
 
     /* Set a specific height */
-    height: 500px;
+    height: 400px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.admins_table_title{
+    font-family: 'Saira', sans-serif;
+    font-size: 26px;
+
+    color: black;
+}
+.admins_parallax{
+    /* The image used */
+    background-image: url("../images/admin.jpeg");
+
+    /* Set a specific height */
+    height: 400px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -259,7 +286,7 @@
     text-align: center;
     font-family:'Saira', sans-serif ;
     font-size:4rem;
-    margin-top: 180px;
+    margin-top: 60px;
     color: white;
 
 }
@@ -270,15 +297,25 @@
     text-decoration: underline;
     font-size:2rem;
 }
-
+.custom_table_admin{
+    font-family:'Saira', sans-serif ;
+    text-align: center;
+    font-size: 17px;
+}
 .info_reservations{
     margin-left: 30px;
     font-family: 'Saira', sans-serif;
     font-size: 20px;
     text-decoration: underline;
 }
-
-
+.add_admin_title{
+    font-family: 'Saira', sans-serif;
+    color:white;
+    font-size: 26px;
+}
+.add_admin_header{
+    background: #485460;
+}
 .data_reservation{
     margin-top: 5px;
     font-family: 'Catamaran', sans-serif;
@@ -286,6 +323,19 @@
     font-size: 18px;
 }
 
+.admin_label{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 16px;
+}
+
+.edit_admin_header{
+    background: #218c74;
+}
+
+.edit_admin_title{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 26px;
+}
 .add_reservation_title{
 
     font-family: 'Catamaran', sans-serif;
@@ -365,11 +415,16 @@
     list-style-type: circle;
     font-size: 1rem;
 }
+.slick_caretaker_dropdown .dd-options{
+    height: 100px !important;
+}
 .dd-options{
     overflow-y: scroll;
     height: 400px !important;
 }
-
+.add_apartment_header{
+    background: #84817a;
+}
 .add_reservation_info{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
@@ -388,6 +443,19 @@
     margin-bottom: 30px;
 }
 
+.search_modal_header{
+    background: #4682B4;
+}
+.search_title{
+    color: white;
+    font-family: 'Saira', sans-serif;
+    font-size: 26px;
+}
+.label_search{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 18px;
+}
+
 .client_edit_name{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
@@ -399,6 +467,13 @@
 }
 .price_header{
     background: rgba(30,40,50,0.8);
+}
+.search_info{
+    font-family: 'Noto Serif', sans-serif;
+}
+.tbody_dashboard{
+    text-align: center;
+    font-family: 'Saira', sans-serif;
 }
 
 .fee_modal_title{
@@ -418,10 +493,21 @@
     text-decoration: underline;
     font-size: 20px;
 }
-
+.caretaker_header{
+    background: 	#5F9EA0;
+}
+.caretaker_title{
+    font-family: 'Saira', sans-serif;
+    color: white;
+    font-size: 24px;
+}
 #tabContent{
     font-family: 'Catamaran', sans-serif;
    font-size: 18px;
+}
+.caretaker_label{
+    font-family: 'Catamaran', sans-serif;
+    font-size: 18px;
 }
 
 #main_person_reservation_title{
@@ -434,6 +520,11 @@
     margin-top: 30px;
     margin-bottom: 30px;
     color: darkcyan;
+}
+.warning_holder{
+    font-family: 'Saira', sans-serif;
+    color: darkred;
+    font-size: 17px;
 }
 .table_head_add_reservation{
     font-family: 'Noto Serif', sans-serif;

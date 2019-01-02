@@ -32,6 +32,9 @@
                 <li class="nav-small-cap"></li>
                 <li> <a class=" waves-effect waves-dark" href="/admin/calendar" aria-expanded="false"><i class="fas fa-calendar-alt"></i><span class="hide-menu">Full Calendar</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Reservation::count()}}</span></a>
                 </li>
+                <li class="nav-small-cap"></li>
+                <li> <a class=" waves-effect waves-dark" href="/admin/admins" aria-expanded="false"><i class="fas fa-users-cog"></i></i><span class="hide-menu">Administrators</span> <span class="badge badge-pill badge-info ml-5" >{{\App\Admin::count()}}</span></a>
+                </li>
 
 
             </ul>

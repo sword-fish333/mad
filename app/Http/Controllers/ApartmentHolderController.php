@@ -23,7 +23,9 @@ class ApartmentHolderController extends Controller
 
         ]);
 
-
+        if(!$request->apartments) {
+            return back()->with('error', 'The new holder must select an apartment');
+        }
         $holder=new ApartmentHolder();
         $holder->name=$request->name;
         $holder->address=$request->address;
@@ -51,11 +53,12 @@ class ApartmentHolderController extends Controller
         }
         $holder->save();
 
-        foreach ($request->apartments as $ap){
-            $apartment=Apartment::find($ap);
-            $apartment->holder_id=$holder->id;
-            $apartment->save();
-        }
+            foreach ($request->apartments as $ap) {
+                $apartment = Apartment::find($ap);
+                $apartment->holder_id = $holder->id;
+                $apartment->save();
+            }
+
 
         return back()->with('success', 'A new holder has been added');
     }

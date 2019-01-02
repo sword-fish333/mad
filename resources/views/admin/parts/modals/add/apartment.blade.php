@@ -4,9 +4,9 @@
 <div class="modal fade" id="addApartment" tabindex="-1" role="dialog" aria-labelledby="addApartment" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header add_apartment_header">
                 <h5 class="modal-title custom_modal_title" id="addApartment">Add Apartment to database </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -207,19 +207,19 @@
                             <div class="row ml-4 mt-5">
                                 <div class="form-group col-md-5 ">
                                     <label for="name" class="holder_label_add">Name:</label>
-                                    <input type="text" name="holder_name" id="holder_name" class="form-control" placeholder="..." required>
+                                    <input type="text" name="holder_name" id="holder_name" class="form-control" placeholder="..." >
                                 </div>
                                 <div class="form-group ml-5 col-md-5">
                                     <label for="address" class="holder_label_add">Address:</label>
-                                    <input type="text" name="holder_address" id="holder_address" class="form-control" placeholder="..." required>
+                                    <input type="text" name="holder_address" id="holder_address" class="form-control" placeholder="..." >
                                 </div>
                                 <div class="form-group  col-md-5">
                                     <label for="email" class="holder_label_add">Email:</label>
-                                    <input type="email" name="holder_email" id="holder_email" class="form-control" placeholder="..." required>
+                                    <input type="email" name="holder_email" id="holder_email" class="form-control" placeholder="..." >
                                 </div>
                                 <div class="form-group ml-5 col-md-5">
                                     <label for="email" class="holder_label_add">Phone:</label>
-                                    <input type="text" name="holder_phone" id="holder_phone" class="form-control" placeholder="..." required>
+                                    <input type="text" name="holder_phone" id="holder_phone" class="form-control" placeholder="..." >
                                 </div>
 
                                 <div class="form-group  col-md-5">

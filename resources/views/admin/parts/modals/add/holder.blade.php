@@ -4,11 +4,14 @@
         <div class="modal-content">
             <div class="modal-header holder_add_header">
                 <h5 class="modal-title holder_add_title" >Add Holder</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                @if(count(\App\Apartment::where('holder_id', NUll)->get())===0)
+                    <p class="warning_holder"> There are no apartments available ! Please insert an apartment to associate it with a holder</p>
+                    @endif
                 <form action="/admin/holders/add" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mt-5">
@@ -32,7 +35,7 @@
                             <p  class="holder_label_add"><strong>Select Apartments which he owns:</strong></p>
                             <div style="overflow: auto; height: 200px; width:350px; "  class="mb-5">
                                 @php
-                                $apartments=\App\Apartment::all();
+                                $apartments=\App\Apartment::where('holder_id', NULL)->get();
                                 @endphp
                                 @foreach($apartments as $apartment)
                                     <div class="form-check" >
@@ -69,9 +72,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                 <button type="submit" class="btn btn-primary">Save changes&nbsp;<i class="far fa-save"></i></button>
+
             </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    @if(count(\App\Apartment::where('holder_id', NUll)->get())===0)
+        $('input[name=name]').prop('disabled', true);
+         $('input[name=address]').prop('disabled', true);
+         $('input[name=email]').prop('disabled', true);
+          $('input[name=phone]').prop('disabled', true);
+    $('input[name=apartments]').prop('disabled', true);
+    $('input[name=document_photo]').prop('disabled', true);
+    $('input[name=cnp]').prop('disabled', true);
+    $('button[type=submit]').prop('disabled', true);
+    @endif
+</script>

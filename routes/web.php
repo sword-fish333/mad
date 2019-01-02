@@ -69,7 +69,10 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/reservations/delete/fee/{id}', 'ReservationsFeeController@deleteFee');
 
     //Route for searching in reservations Table
-    Route::get('/admin/reservations/search','ReservationsController@Search');
+    Route::get('/admin/reservations/search','ReservationsController@search');
+
+    //Route for caretaker
+    Route::get('/admin/reservations/caretaker/{id}','ReservationsController@selectCaretaker');
 //Routes Apartment Holders
     Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
     Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');
@@ -83,6 +86,13 @@ Route::group(['middleware' => ['admin']], function () {
 
 //Routes for calendar
     Route::get('/admin/calendar', 'CalendarController@index');
+
+    //Route for CRUD admins
+    Route::get('/admin/admins', 'AdminCrudController@index');
+    Route::post('/admin/admins/add', 'AdminCrudController@add');
+    Route::post('/admin/admins/edit/{id}', 'AdminCrudController@edit');
+    Route::get('/admin/admins/delete/{id}', 'AdminCrudController@delete');
+
 });
 
 

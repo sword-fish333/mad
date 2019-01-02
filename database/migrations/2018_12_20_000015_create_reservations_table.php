@@ -34,7 +34,7 @@ class CreateReservationsTable extends Migration
             $table->unsignedInteger('persons_id');
             $table->tinyInteger('status')->nullable();
             $table->text('token')->nullable();
-
+            $table->unsignedInteger('caretaker_id')->nullable();
             $table->index(["apartment_id"], 'fk_reservations_apartments1_idx');
 
             $table->index(["languages_id"], 'fk_reservations_languages1_idx');
@@ -51,6 +51,10 @@ class CreateReservationsTable extends Migration
 
             $table->foreign('languages_id', 'fk_reservations_languages1_idx')
                 ->references('id')->on('languages')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('caretaker_id')
+                ->references('id')->on('admins')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 

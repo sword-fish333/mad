@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PDF;
 use Illuminate\Support\Facades\DB;
+
 class ReservationsController extends Controller
 {
     public function showReservations()
@@ -67,152 +68,151 @@ class ReservationsController extends Controller
             $date['out'] = Carbon::parse($data['out'])->toDateString();
             return back()->with('error', 'The apartment has been taken between ' . $data['in'] . ' and ' . $data['out']);
         }
-            if(!empty($request->holder)){
-                $rules = [
-                    'apartment'=>'required'
-                    ];
-                $this->validate($request, $rules);
-                $person = new Person();
-                $ap=Apartment::where('id', $request->apartment)->first();
-                $holder=ApartmentHolder::where('id', $ap->holder_id)->first();
-                $reservation = new  Reservation();
-                $reservation->name = $holder->name;
-                $reservation->email = $holder->email;
-                $reservation->phone = $holder->phone;
-                $reservation->check_in = Carbon::parse($request->check_in)->format('Y-m-d');
-                $reservation->check_out = Carbon::parse($request->check_out)->format('Y-m-d');
-                $reservation->apartment_id = $request->apartment;
-                $person->name = $holder->name;
-                $person->document_type = 'holder';
-                $person->document_nr = null;
-                $person->document_serial_nr = null;
-                $person->nationality = null;
-                $person->document_picture = $holder->document_photo;
-                $person->reservation_id = $reservation->id;
-                $person->save();
-                $reservation->persons_id = $person->id;
-                $reservation->save();
-                $day = Carbon::parse($request->check_in);
-                while ($day <= Carbon::parse($request->check_out)) {
+        if (!empty($request->holder)) {
+            $rules = [
+                'apartment' => 'required'
+            ];
+            $this->validate($request, $rules);
+            $person = new Person();
+            $ap = Apartment::where('id', $request->apartment)->first();
+            $holder = ApartmentHolder::where('id', $ap->holder_id)->first();
+            $reservation = new  Reservation();
+            $reservation->name = $holder->name;
+            $reservation->email = $holder->email;
+            $reservation->phone = $holder->phone;
+            $reservation->check_in = Carbon::parse($request->check_in)->format('Y-m-d');
+            $reservation->check_out = Carbon::parse($request->check_out)->format('Y-m-d');
+            $reservation->apartment_id = $request->apartment;
+            $person->name = $holder->name;
+            $person->document_type = 'holder';
+            $person->document_nr = null;
+            $person->document_serial_nr = null;
+            $person->nationality = null;
+            $person->document_picture = $holder->document_photo;
+            $person->reservation_id = $reservation->id;
+            $person->save();
+            $reservation->persons_id = $person->id;
+            $reservation->save();
+            $day = Carbon::parse($request->check_in);
+            while ($day <= Carbon::parse($request->check_out)) {
+                $reservation_price_list = new ReservationPriceList();
+                $reservation_price_list->name = 'Holder reservation';
+                $reservation_price_list->price = 0;
+                $reservation_price_list->day = $day;
+                $reservation_price_list->reservation_id = $reservation->id;
+                $reservation_price_list->save();
+                $day->addDays(1);
+            }
+            return back()->with('success', 'The reservation has been saved successfully!');
+        } else {
+            $rules = [
+                'main_name' => 'required|string|max:255',
+                'main_document_type' => 'required',
+                'main_email' => 'required',
+                'main_phone' => 'required|digits_between:8,14',
+                'main_document_nr' => 'required',
+                'main_document_serial_nr' => 'required',
+                'main_nationality' => 'required',
+                'main_document_picture' => 'required',
+                'apartment' => 'required',
+
+            ];
+            $this->validate($request, $rules);
+
+
+            $main_photo = \App\Http\Controllers\FilesController::uploadFile($request, 'main_document_picture', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
+
+
+            $reservation = new  Reservation();
+            $reservation->name = $request->main_name;
+            $reservation->email = $request->main_email;
+            $reservation->phone = $request->main_phone;
+            $reservation->check_in = Carbon::parse($request->check_in)->toDateString();
+            $reservation->check_out = Carbon::parse($request->check_out)->toDateString();
+            $reservation->apartment_id = $request->apartment;
+
+            $person = new Person();
+            $person->name = $request->main_name;
+            $person->document_type = $request->main_document_type;
+            $person->document_nr = $request->main_document_nr;
+            $person->document_serial_nr = $request->main_document_serial_nr;
+            $person->nationality = $request->main_nationality;
+            $person->document_picture = $main_photo;
+            $person->reservation_id = $reservation->id;
+            $person->save();
+            $reservation->persons_id = $person->id;
+            $reservation->save();
+
+
+            $day = Carbon::parse($request->check_in);
+            while ($day <= Carbon::parse($request->check_out)) {
+                $ap = Apartment::where('id', $reservation->apartment_id)->first();
+                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('start_date', '<=', $day)->where('end_date', '>=', $day)->first();
+
+                if (!empty($ap_prices)) {
                     $reservation_price_list = new ReservationPriceList();
-                    $reservation_price_list->name = 'Holder reservation';
-                    $reservation_price_list->price = 0;
+                    $reservation_price_list->name = 'Apartment price';
+                    $reservation_price_list->price = $ap_prices->price;
                     $reservation_price_list->day = $day;
                     $reservation_price_list->reservation_id = $reservation->id;
                     $reservation_price_list->save();
+                } else {
+                    $reservation_price_list = new ReservationPriceList();
+                    $reservation_price_list->name = 'Apartment price';
+                    $reservation_price_list->price = $ap->price;
+                    $reservation_price_list->day = $day;
+                    $reservation_price_list->reservation_id = $reservation->id;
+                    $reservation_price_list->save();
+                }
+
+
+                $ap_fees = ApartmentFee::where('apartment_id', $ap->id)->get();
+                foreach ($ap_fees as $ap_fee) {
+                    $reservatio_price_list = new ReservationPriceList();
+                    $reservatio_price_list->name = $ap_fee->name;
+                    $reservatio_price_list->price = $ap_fee->value;
+                    $reservatio_price_list->value = $ap_fee->value;
+                    $reservatio_price_list->description = $ap_fee->description;
+                    $reservatio_price_list->type_of_value = $ap_fee->type_of_value;
+                    $reservatio_price_list->day = $day;
+                    $reservatio_price_list->reservation_id = $reservation->id;
+                    $reservatio_price_list->save();
+                }
                 $day->addDays(1);
-                }
-                return back()->with('success', 'The reservation has been saved successfully!');
-            }else {
-                $rules = [
-                    'main_name' => 'required|string|max:255',
-                    'main_document_type' => 'required',
-                    'main_email' => 'required',
-                    'main_phone' => 'required|digits_between:8,14',
-                    'main_document_nr' => 'required',
-                    'main_document_serial_nr' => 'required',
-                    'main_nationality' => 'required',
-                    'main_document_picture' => 'required',
-                    'apartment' => 'required',
-
-                ];
-                $this->validate($request, $rules);
-
-
-
-                $main_photo = \App\Http\Controllers\FilesController::uploadFile($request, 'main_document_picture', 'document_photos', array("jpg", "jpeg", "png", "gif"), false);
-
-
-                $reservation = new  Reservation();
-                $reservation->name = $request->main_name;
-                $reservation->email = $request->main_email;
-                $reservation->phone = $request->main_phone;
-                $reservation->check_in = Carbon::parse($request->check_in)->toDateString();
-                $reservation->check_out = Carbon::parse($request->check_out)->toDateString();
-                $reservation->apartment_id = $request->apartment;
-
-                $person = new Person();
-                $person->name = $request->main_name;
-                $person->document_type = $request->main_document_type;
-                $person->document_nr = $request->main_document_nr;
-                $person->document_serial_nr = $request->main_document_serial_nr;
-                $person->nationality = $request->main_nationality;
-                $person->document_picture = $main_photo;
-                $person->reservation_id = $reservation->id;
-                $person->save();
-                $reservation->persons_id = $person->id;
-                $reservation->save();
-
-
-                $day = Carbon::parse($request->check_in);
-                while ($day <= Carbon::parse($request->check_out)) {
-                    $ap = Apartment::where('id', $reservation->apartment_id)->first();
-                    $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('start_date', '<=', $day)->where('end_date', '>=', $day)->first();
-
-                    if (!empty($ap_prices)) {
-                        $reservation_price_list = new ReservationPriceList();
-                        $reservation_price_list->name = 'Apartment price';
-                        $reservation_price_list->price = $ap_prices->price;
-                        $reservation_price_list->day = $day;
-                        $reservation_price_list->reservation_id = $reservation->id;
-                        $reservation_price_list->save();
-                    } else {
-                        $reservation_price_list = new ReservationPriceList();
-                        $reservation_price_list->name = 'Apartment price';
-                        $reservation_price_list->price = $ap->price;
-                        $reservation_price_list->day = $day;
-                        $reservation_price_list->reservation_id = $reservation->id;
-                        $reservation_price_list->save();
-                    }
-
-
-                    $ap_fees = ApartmentFee::where('apartment_id', $ap->id)->get();
-                    foreach ($ap_fees as $ap_fee) {
-                        $reservatio_price_list = new ReservationPriceList();
-                        $reservatio_price_list->name = $ap_fee->name;
-                        $reservatio_price_list->price = $ap_fee->value;
-                        $reservatio_price_list->value = $ap_fee->value;
-                        $reservatio_price_list->description = $ap_fee->description;
-                        $reservatio_price_list->type_of_value = $ap_fee->type_of_value;
-                        $reservatio_price_list->day = $day;
-                        $reservatio_price_list->reservation_id = $reservation->id;
-                        $reservatio_price_list->save();
-                    }
-                    $day->addDays(1);
-                }
-
-
-                if ($request->client_name) {
-                    $this->validate($request, [
-                        'client_name' => 'required|max:255',
-                        'document_type' => 'required',
-                        'document_nr' => 'required',
-                        'document_serial_nr' => 'required',
-                        'nationality' => 'required|max:255',
-                        'image' => 'required',
-
-                    ]);
-                    if (count($request->document_type) != count($request->client_name)) {
-                        return back()->with('error', 'You may choose only one type of ID');
-                    }
-                    $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'image', 'document_photos', array("jpg", "jpeg", "png", "gif"), true);
-                    for ($i = 0; $i < count($request->client_name); $i++) {
-                        $client = new Person();
-                        $client->name = $request->client_name[$i];
-                        $client->document_type = $request->document_type[$i][$i + 1];
-                        $client->document_nr = $request->document_nr[$i];
-                        $client->document_serial_nr = $request->document_serial_nr[$i];
-                        $client->nationality = $request->nationality[$i];
-                        $client->document_picture = $photo[$i];
-                        $client->reservation_id = $reservation->id;
-                        $client->save();
-
-
-                    }
-
-                }
-                return back()->with('success', 'The reservation has been saved successfully!');
             }
+
+
+            if ($request->client_name) {
+                $this->validate($request, [
+                    'client_name' => 'required|max:255',
+                    'document_type' => 'required',
+                    'document_nr' => 'required',
+                    'document_serial_nr' => 'required',
+                    'nationality' => 'required|max:255',
+                    'image' => 'required',
+
+                ]);
+                if (count($request->document_type) != count($request->client_name)) {
+                    return back()->with('error', 'You may choose only one type of ID');
+                }
+                $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'image', 'document_photos', array("jpg", "jpeg", "png", "gif"), true);
+                for ($i = 0; $i < count($request->client_name); $i++) {
+                    $client = new Person();
+                    $client->name = $request->client_name[$i];
+                    $client->document_type = $request->document_type[$i][$i + 1];
+                    $client->document_nr = $request->document_nr[$i];
+                    $client->document_serial_nr = $request->document_serial_nr[$i];
+                    $client->nationality = $request->nationality[$i];
+                    $client->document_picture = $photo[$i];
+                    $client->reservation_id = $reservation->id;
+                    $client->save();
+
+
+                }
+
+            }
+            return back()->with('success', 'The reservation has been saved successfully!');
+        }
     }
 
     public function editReservations($id, Request $request)
@@ -352,7 +352,6 @@ class ReservationsController extends Controller
     {
 
 
-
         if (!empty($request->document_type)) {
             if (count($request->document_type) != count($request->client_name)) {
                 return back()->with('error', 'You may choose only one type of ID');
@@ -388,10 +387,10 @@ class ReservationsController extends Controller
         if (empty($request->check_in) || empty($request->check_out)) {
             return back()->with('error', 'You have to enter a check in and a check out date!');
 
-        } else if ($request->check_in>$request->check_out || $request->check_in< Carbon::today()) {
+        } else if ($request->check_in > $request->check_out || $request->check_in < Carbon::today()) {
             return back()->with('error', 'You have to enter a date that is valid !');
 
-        }else{
+        } else {
             $clone_reservation->check_in = $request->check_in;
             $clone_reservation->check_out = $request->check_out;
         }
@@ -399,24 +398,24 @@ class ReservationsController extends Controller
         $clone_reservation->name = $reservation->name;
         $clone_reservation->email = $reservation->email;
         $clone_reservation->phone = $reservation->phone;
-        $clone_reservation->apartment_id=$reservation->apartment_id;
+        $clone_reservation->apartment_id = $reservation->apartment_id;
         $clone_reservation->languages_id = $reservation->languages_id;
         $clone_reservation->persons_id = $reservation->persons_id;
         $clone_reservation->save();
-        if(count($request->client_name)!=count( $request->document_type)
-            || count($request->client_name)!=count($request->client_document_nr)||
-            count($request->client_name)!=count( $request->client_document_serial_nr)||
-            count($request->client_name)!=count( $request->nationality)
+        if (count($request->client_name) != count($request->document_type)
+            || count($request->client_name) != count($request->client_document_nr) ||
+            count($request->client_name) != count($request->client_document_serial_nr) ||
+            count($request->client_name) != count($request->nationality)
 
-        ){
+        ) {
             return back()->with('error', 'All fields are mandatory for secondary clients !');
 
         }
 
         for ($i = 0; $i < count($request->client_name); $i++) {
-            $second_client=Person::find($request->client_id[$i]);
-                $client=new Person();
-                $client->document_picture=$second_client->document_picture;
+            $second_client = Person::find($request->client_id[$i]);
+            $client = new Person();
+            $client->document_picture = $second_client->document_picture;
             $client->name = $request->client_name[$i];
             $client->document_type = $request->document_type[$i];
             $client->document_nr = $request->client_document_nr[$i];
@@ -425,7 +424,7 @@ class ReservationsController extends Controller
             $client->reservation_id = $clone_reservation->id;
             $client->save();
         }
-        if(!empty($request->new_client_name)) {
+        if (!empty($request->new_client_name)) {
             if (count($request->new_client_name) != count($request->new_document_type)
                 || count($request->new_client_name) != count($request->new_client_document_nr) ||
                 count($request->new_client_name) != count($request->new_client_document_serial_nr) ||
@@ -454,65 +453,53 @@ class ReservationsController extends Controller
     }
 
 
-    public function Search(Request $request)
+    public function search(Request $request)
 
     {
+                $reservations=[];
+        if ($request) {
+            $reservations = Reservation::where('name', 'LIKE', '%' . $request->name . "%")
+                ->where('phone', 'LIKE', '%' . $request->phone . "%")
+                ->where('email', 'LIKE', '%' . $request->email . "%")
 
-            if($request->ajax())
-
-        {
-
-            $output="";
-
-            $reservations=DB::table('reservations')->where('name','LIKE','%'.$request->search."%")->get();
-
-            if($reservations)
-
-            {
-                    $nr=1;
-                foreach ($reservations as $key => $reservation) {
-                    $apartment=\App\Apartment::where('id', $reservation->apartment_id)->first();
-                    $client=\App\Person::where('id',$reservation->persons_id)->first();
-                    if($apartment){
-                        $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
-                    }
-
-                    $output.='<tr>'.
-
-                        '<td>'.$nr.'</td>'.
-
-                        '<td>'.$reservation->name.'</td>'.
-
-                        '<td>'.$reservation->email.'</td>'.
-
-                        '<td>'.$reservation->phone.'</td>'.
-
-                        '<td>'.
-                        $apartment->location.'</td>'.
-                        '<td>'.$reservation->phone.'</td>'.
-                        '<td>                            <img src="'.asset("storage/document_photos/$client->document_picture").'" class="" style="width:110px !important; height: auto;">
-                        </td>'.
-                        '<td>'.$reservation->check_in.'</td>'.
-                        '<td>'.$reservation->check_out.'</td>'.
-
-
-                        '</tr>';
-                                $nr++;
+                ->orderBy('id')->get();
+        }
+        $result=[];
+        if($request->check_in && $request->check_out){
+            foreach ($reservations as $res){
+                if($res->check_in>Carbon::parse($request->check_in)->toDateString() &&
+                    $res->check_out<Carbon::parse($request->check_out)->toDateString()
+                ){
+                    array_push($result,$res);
                 }
-
-
-
-                return Response($output);
-
-
-
             }
-
-
-
+            $reservations=$result;
+        }elseif($request->check_in){
+            foreach ($reservations as $res){
+                if($res->check_in>Carbon::parse($request->check_in)->toDateString()){
+                    array_push($result,$res);
+                }
+            }
+            $reservations=$result;
+        }elseif($request->check_out){
+            foreach ($reservations as $res){
+                if($res->check_out<Carbon::parse($request->check_out)->toDateString()){
+                    array_push($result,$res);
+                }
+            }
+            $reservations=$result;
         }
 
-
-
+                  return view('admin.reservations', compact('reservations'))->with('success', 'The results of the search are');
     }
+
+    public function selectCaretaker($id, Request $request){
+
+            $reservation=Reservation::find($id);
+            $reservation->caretaker_id=$request->caretaker;
+                $reservation->save();
+
+                return back()->with('success', 'Caretaker added successfully');
+    }
+
 }

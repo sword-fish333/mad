@@ -25,8 +25,8 @@ class Reservation extends Model
         return $this->hasOne('App\Language','languages_id','id');
     }
 
-    public function persons(){
-        return $this->hasMany('App\Person','persons_id','id');
+    public function client(){
+        return $this->hasMany('App\Person','id','persons_id');
     }
 
     public function reservation_cost(){

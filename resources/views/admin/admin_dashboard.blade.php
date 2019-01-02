@@ -26,7 +26,7 @@
                         <th>Reservation Info</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="tbody_dashboard">
                         @foreach($reservations_in as $reservation_in)
                             @php
                                     $apartment=\App\Apartment::where('id', $reservation_in->apartment_id)->first();
@@ -40,8 +40,8 @@
                                     <p>There is no Image available</p>
                                 @endif
                             </td>
-                            <td>{{\Carbon\Carbon::parse($reservation_in->check_in)->format('Y-m-d')}}</td>
-                            <td>{{\Carbon\Carbon::parse($reservation_in->check_out)->format('Y-m-d')}}</td>
+                            <td>{{\Carbon\Carbon::parse($reservation_in->check_in)->format('m-d-Y')}}</td>
+                            <td>{{\Carbon\Carbon::parse($reservation_in->check_out)->format('m-d-Y')}}</td>
                             <td> <button type="button" class="btn btn-success " data-toggle="modal" data-target="#viewReservationDetails-{{$reservation_in->id}}">
                                     <i class="fas fa-eye"></i>
                                 </button></td>
@@ -66,7 +66,7 @@
                         <th>Reservation Info</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="text-align: center !important;">
                     @foreach($reservations_out as $reservation_out)
                         @php
                             $apartment=\App\Apartment::where('id', $reservation_out->apartment_id)->first();
@@ -81,8 +81,8 @@
                                     <p>There is no Image available</p>
                                 @endif
                             </td>
-                            <td>{{\Carbon\Carbon::parse($reservation_out->check_in)->format('Y-m-d')}}</td>
-                            <td>{{\Carbon\Carbon::parse($reservation_out->check_out)->format('Y-m-d')}}</td>
+                            <td>{{\Carbon\Carbon::parse($reservation_out->check_in)->format('m-d-Y')}}</td>
+                            <td>{{\Carbon\Carbon::parse($reservation_out->check_out)->format('m-d-Y')}}</td>
                             <td> <button type="button" class="btn btn-success " data-toggle="modal" data-target="#viewReservationDetails-{{$reservation_out->id}}">
                                     <i class="fas fa-eye"></i>
                                 </button></td>

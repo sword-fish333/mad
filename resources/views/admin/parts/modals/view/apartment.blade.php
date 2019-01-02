@@ -11,6 +11,14 @@
             </div>
             <div class="modal-body">
                 <div class="row mr-4">
+                    <p class="info_apartment ml-5">Holder:</p>&nbsp;&nbsp;
+                    @php
+                    $holder=\App\ApartmentHolder::where('id', $apartment->holder_id)->pluck('name');
+
+                    @endphp
+                    <p class="apartment_data mt-1">@if(count($holder)>0) {{$holder[0]}} @endif</p>
+                </div>
+                <div class="row mr-4">
                <p class="info_apartment ml-5">Address:</p>&nbsp;&nbsp;
                 <p class="apartment_data mt-1">{{$apartment->location}}</p>
                 </div>
