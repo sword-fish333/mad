@@ -22,7 +22,7 @@ class ReservationsController extends Controller
 {
     public function showReservations()
     {
-        $reservations = Reservation::all();
+        $reservations = Reservation::orderBy('created_at','desc')->get();
 
         return view('admin.reservations', compact('reservations'));
     }
@@ -42,8 +42,13 @@ class ReservationsController extends Controller
 
     public function addReservation(Request $request)
     {
+
         if (Carbon::parse($request->check_in)->toDateTimeString() < Carbon::today() || Carbon::parse($request->check_out)->toDateTimeString() < Carbon::parse($request->check_in)->toDateTimeString()) {
             return back()->with('error', ' The check in may only start from today and the check out must be after the check in!');
+        }
+        if(Carbon::parse($request->schedule_check_in)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
+            return back()->with('error', ' The Schedule check in may not be before the actuale check in!');
+
         }
         $reservations = Reservation::where('apartment_id', $request->apartment)->get();
 
@@ -64,8 +69,8 @@ class ReservationsController extends Controller
         }
 
         if ($ok === 0) {
-            $date['in'] = Carbon::parse($data['in'])->toDateString();
-            $date['out'] = Carbon::parse($data['out'])->toDateString();
+            $date['in'] = Carbon::parse($data['in'])->format('m-d-Y H:i');
+            $date['out'] = Carbon::parse($data['out'])->format('m-d-Y H:i');
             return back()->with('error', 'The apartment has been taken between ' . $data['in'] . ' and ' . $data['out']);
         }
         if (!empty($request->holder)) {
@@ -80,8 +85,9 @@ class ReservationsController extends Controller
             $reservation->name = $holder->name;
             $reservation->email = $holder->email;
             $reservation->phone = $holder->phone;
-            $reservation->check_in = Carbon::parse($request->check_in)->format('Y-m-d');
-            $reservation->check_out = Carbon::parse($request->check_out)->format('Y-m-d');
+            $reservation->check_in = $request->check_in;
+            $reservation->check_out = $request->check_out;
+            $reservation->schedule_check_in = $request->schedule_check_in;
             $reservation->apartment_id = $request->apartment;
             $person->name = $holder->name;
             $person->document_type = 'holder';
@@ -127,8 +133,9 @@ class ReservationsController extends Controller
             $reservation->name = $request->main_name;
             $reservation->email = $request->main_email;
             $reservation->phone = $request->main_phone;
-            $reservation->check_in = Carbon::parse($request->check_in)->toDateString();
-            $reservation->check_out = Carbon::parse($request->check_out)->toDateString();
+            $reservation->check_in = $request->check_in;
+            $reservation->check_out = $request->check_out;
+            $reservation->schedule_check_in = $request->schedule_check_in;
             $reservation->apartment_id = $request->apartment;
 
             $person = new Person();
@@ -147,7 +154,7 @@ class ReservationsController extends Controller
             $day = Carbon::parse($request->check_in);
             while ($day <= Carbon::parse($request->check_out)) {
                 $ap = Apartment::where('id', $reservation->apartment_id)->first();
-                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('start_date', '<=', $day)->where('end_date', '>=', $day)->first();
+                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('check_in', '<=', $day)->where('check_out', '>=', $day)->first();
 
                 if (!empty($ap_prices)) {
                     $reservation_price_list = new ReservationPriceList();
@@ -252,21 +259,18 @@ class ReservationsController extends Controller
         }
 
         if ($ok === 0) {
-            $date['in'] = Carbon::parse($data['in'])->toDateString();
-            $date['out'] = Carbon::parse($data['out'])->toDateString();
-            return back()->with('error', 'The apartment has been taken between ' . $data['in'] . ' and ' . $data['out']);
+            $date['in'] = Carbon::parse($data['in'])->format('m-d-Y');
+            $date['out'] = Carbon::parse($data['out'])->format('m-d-Y');
+            return back()->with('error', 'The apartment has been taken between ' . $date['in'] . ' and ' . $date['out']);
+        }
+        if(Carbon::parse($request->schedule_check_in)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
+            return back()->with('error', ' The Schedule check in may not be before the actuale check in!');
+
         }
         $reservation = Reservation::find($id);
-
-        if (empty($request->check_in) && !empty($request->check_out)) {
-            return back()->with('error', 'If you entered check in date you have to enter the check out date to !');
-        } else if (!empty($request->check_in) && empty($request->check_out)) {
-            return back()->with('error', 'If you entered check out date you have to enter the check in date to !');
-        } else if (!empty($request->check_in) && !empty($request->check_out)) {
             $reservation->check_in = $request->check_in;
             $reservation->check_out = $request->check_out;
-        }
-
+        $reservation->schedule_check_in = $request->schedule_check_in;
         $reservation->name = $request->main_client_name;
         $reservation->email = $request->main_client_email;
         $reservation->phone = $request->main_client_phone;
@@ -500,6 +504,23 @@ class ReservationsController extends Controller
                 $reservation->save();
 
                 return back()->with('success', 'Caretaker added successfully');
+    }
+
+    public function pdfGeneratorTenancy($language, $id)
+    {
+        if($language==='spanish'){
+            $reservation = Reservation::where('id', $id)->first();
+
+            $apartment=Apartment::where('id', $reservation->apartment_id)->first();
+            $client=Person::where('id', $reservation->persons_id)->first();
+            return view('admin.pdf.spanish_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            $pdf = PDF::loadView('admin.pdf.spanish_tenancy', array('reservation' => $reservation,));
+            return $pdf->download('invoice.pdf');
+        }elseif ($language==='english'){
+            $reservation = Reservation::where('id', $id)->first();
+            $pdf = PDF::loadView('admin.pdf.spanish_english', array('reservation' => $reservation));
+        }
+
     }
 
 }

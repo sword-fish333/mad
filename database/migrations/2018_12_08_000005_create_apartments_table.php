@@ -24,6 +24,7 @@ class CreateApartmentsTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('name', 190)->nullable();
             $table->string('surface', 190)->nullable();
             $table->string('location', 190)->nullable();
             $table->text('description')->nullable();

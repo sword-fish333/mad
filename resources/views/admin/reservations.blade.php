@@ -35,6 +35,7 @@
             <tr class="bg-dark custom_reservations_table_head  text-center"  >
                 <th>#</th>
                 <th>Main Client who <br> made the reservation</th>
+                <th>Order added at the date</th>
                 <th  class="w-25">Email</th>
                 <th>Phone</th>
                 <th>Apartment</th>
@@ -42,7 +43,7 @@
                 <th class="w-25">Check In</th>
                 <th class="w-25">Check Out</th>
                 <th>Status</th>
-                <th>View Client & Resevation <br> Information</th>
+                <th>View  Resevation Information<br> and Send Email</th>
                 <th>Clone Reservation</th>
                 <th>Edit Reservation</th>
                 <th>Cost</th>
@@ -60,6 +61,7 @@
                     <td>
                       {{$reservation->name}}
                     </td>
+                    <td>{{$reservation->created_at}}</td>
                     <td>{{$reservation->email}}</td>
                     <td>{{$reservation->phone}}</td>
 

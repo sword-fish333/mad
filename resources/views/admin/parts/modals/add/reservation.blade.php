@@ -108,12 +108,16 @@
                 <div class="col-md-6 offset-3">
                         <div class="form-group ">
                             <label for="check_in" class="add_reservatio_info"><u>Check In</u></label>
-                            <input type="date" name="check_in" class="form-control" autocomplete="off" required>
+                            <input type="datetime-local" name="check_in" class="form-control" autocomplete="off" required>
                         </div>
                 <div class="form-group ">
                     <label for="check_out" class="add_reservatio_info"><u>Check Out</u></label>
-                    <input type="date" name="check_out" class="form-control" autocomplete="off" required>
+                    <input type="datetime-local" name="check_out" class="form-control" autocomplete="off" required>
                 </div>
+                    <div class="form-group ">
+                        <label for="schedule_check_in" class="add_reservatio_info"><u>Schedule Check In</u></label>
+                        <input type="datetime-local" name="schedule_check_in" class="form-control" autocomplete="off" required>
+                    </div>
                 </div>
                     </div>
                             <div class="form-group col-md-6 offset-3">

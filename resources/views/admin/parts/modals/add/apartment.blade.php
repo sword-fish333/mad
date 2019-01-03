@@ -39,6 +39,10 @@
                         <label for="address" class=" new_apartment_label"><u> Address</u> <i class="fas fa-map-pin"></i></label>
                         <input type="text"  name="address"  class="address form-control" placeholder="..." required>
                     </div>
+                        <div class="form-group ml-3 col-md-5">
+                            <label for="address" class=" new_apartment_label"><u> Name of the apartment</u> </label>
+                            <input type="text"  name="apartment_name"  class=" form-control" placeholder="..." required>
+                        </div>
 
                         <div class="form-group col-md-5 mt-3" >
                             <label for="stars" class="stars_label">Nr of Stars for the Apartment <i class="fas fa-star"></i></label>

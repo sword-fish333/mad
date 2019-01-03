@@ -41,6 +41,7 @@ class ApartmentsController extends Controller
         ]);
         $apartment = new Apartment();
         $apartment->lat = $request->lat;
+        $apartment->name = $request->apartment_name;
         $apartment->lng = $request->lng;
         $apartment->location = $request->address;
         $apartment->description = $request->description;
@@ -163,6 +164,7 @@ class ApartmentsController extends Controller
             'price_type' => 'required'
         ]);
         $apartment = Apartment::find($id);
+        $apartment->name = $request->apartment_name;
         $apartment->surface = $request->surface;
         $apartment->location = $request->address;
         $apartment->lat = $request->lat_2;

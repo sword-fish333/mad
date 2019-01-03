@@ -10,8 +10,12 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="ml-4 mt-4" id="message{{$reservation->id}}">
+
+                </div>
                 <div class="row">
-                    <div class="col-md-5">
+
+                    <div class="col-md-6">
                 <div class="row">
                 <p class="info_reservations">Client Name:</p>
                 <p class="data_reservation">{{$reservation->name}}</p>
@@ -26,27 +30,41 @@
                         </div>
                     <div class="row">
                     <p class="info_reservations">Check In: </p>
-                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d')}}</p>
+                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y h:m')}}</p>
                     </div>
                         <div class="row">
-                    <p class="info_reservations">Check In: </p>
-                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d')}}</p>
+                    <p class="info_reservations">Check Out: </p>
+                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_out)->format('m-d-Y h:m')}}</p>
                         </div>
+                        <div class="row">
+                            <p class="info_reservations">Schedule Check Out: </p>
+                            <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->schedule_check_in)->format('m-d-Y h:m')}}</p>
+                        </div>
+
                     </div>
-                <div class="col-md-6">
-                <p class="info_reservations">Document Image Id: </p>
-                @php
-                    $client=\App\Person::where('id',$reservation->persons_id)->first();
-                @endphp
-                @if($client->document_picture)
-                    <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail ml-5" style="height:120px; width: auto;">
-                @else
-                    <p><strong>The Client  has no <br>  Image available</strong></p>
-                @endif
-                </div>
-                            </div>
-
-
+                    <div class="col-md-5  ">
+                        <p class="info_reservations">Document Image Id: </p>
+                        @php
+                            $client=\App\Person::where('id',$reservation->persons_id)->first();
+                        @endphp
+                        @if($client->document_picture)
+                            <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail ml-5" style="height:150px; width: auto;">
+                        @else
+                            <p><strong>The Client  has no <br>  Image available</strong></p>
+                        @endif
+                    </div>
+                        <div >
+                            <p class="info_reservations">Send mail to client with caretaker info</p>
+                            <button type="button" id="send_mail_spanish{{$reservation->id}}" class="btn btn-success ml-4"><b>Send Mail in Spanish</b> &nbsp;<i class="fas fa-mail-bulk"></i></button>
+                            <button type="button" id="send_mail_english{{$reservation->id}}" class="btn btn-primary ml-4"><b>Send Mail in English</b> &nbsp;<i class="fas fa-mail-bulk"></i></button>
+                        </div>
+                    <div class="row ml-2 mt-2">
+                        <p class="info_reservations col-md-8">Generate Tenancy </p>
+                        <a href="/admin/reservations/pdf/tenancy/spanish/{{$reservation->id}}">Tenancy</a>
+                        <button type="button" id="generate_tenancy_spanish_pdf{{$reservation->id}}" class="btn btn-success ml-4"><b> in Spanish</b> &nbsp;<i class="fas fa-file-alt"></i></button>
+                        <button type="button" id="generate_tenancy_english_pdf{{$reservation->id}}" class="btn btn-primary ml-4"><b> in English</b> &nbsp;<i class="fas fa-file-alt"></i></button>
+                    </div>
+                        </div>
                     @php
                     $apartment=\App\Apartment::where('id',$reservation->apartment_id)->first();
                     @endphp
@@ -81,7 +99,7 @@
                                     @endif
                                 </div>
                                     <div class="col-md-3 offset-3">
-                                        <p><u class="lead">Stars:&nbsp;</u>{{$apartment->stars}}&nbsp;<span style="color:darkred !important;"><i class="fas fa-star"></i></span></p>
+                                        <p><span class="info_reservations">Stars:&nbsp;</span>{{$apartment->stars}}&nbsp;<span style="color:darkred !important;"><i class="fas fa-star"></i></span></p>
                                     </div>
                                 </div>
 
@@ -89,7 +107,7 @@
                 @if(!empty($apartment))
                 <div class="row ml-3">
                     <div class="col-md-10">
-                    <p ><u class="lead">Description:&nbsp;</u>{{$apartment->description}}</p>
+                    <p ><span class="info_reservations">Description:&nbsp;</span>{{$apartment->description}}</p>
 
                     </div>
 
@@ -106,3 +124,89 @@
             </div>
         </div>
     </div>
+<script>
+    $('#send_mail_spanish{{$reservation->id}}').on('click', function () {
+
+        $.ajax({
+            type: "GET",
+            url: '/admin/mail/caretaker/spanish/' +{{$reservation->id}},
+
+            success: function (data) {
+                if(data[0]==='error'){
+                    $("#message{{$reservation->id}}").append('<div class="alert alert-danger col-md-11 text-center' +
+                        ' alert-dismissible fade show" role="alert"> <strong>Danger!&nbsp;</strong>' + data[1] + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                        '<span aria-hidden="true">&times;</span></button></div>');
+
+                    setTimeout(function(){
+                        $('#message{{$reservation->id}}').empty();
+                    },5000);
+                }else {
+                    $("#message{{$reservation->id}}").append('<div class="alert alert-success col-md-11 text-center' +
+                        ' alert-dismissible fade show" role="alert"> <strong>Success!&nbsp;</strong>' + data + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span></button></div>');
+
+                    setTimeout(function () {
+                        $('#message{{$reservation->id}}').empty();
+                    }, 4000);
+                }
+            }
+        });
+    });
+
+    $('#send_mail_english{{$reservation->id}}').on('click', function () {
+
+        $.ajax({
+            type: "GET",
+            url: '/admin/mail/caretaker/english/' +{{$reservation->id}},
+
+            success: function (data) {
+                if(data[0]==='error'){
+                $("#message{{$reservation->id}}").append('<div class="alert alert-danger col-md-11 text-center' +
+                    ' alert-dismissible fade show" role="alert"> <strong>Danger!&nbsp;</strong>' + data[1] + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                    '<span aria-hidden="true">&times;</span></button></div>');
+
+                setTimeout(function(){
+                    $('#message{{$reservation->id}}').empty();
+                }, 5000);
+            }else {
+                    $("#message{{$reservation->id}}").append('<div class="alert alert-success col-md-11 text-center' +
+                        ' alert-dismissible fade show" role="alert"> <strong>Success!&nbsp;</strong>' + data + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span></button></div>');
+
+                    setTimeout(function () {
+                        $('#message{{$reservation->id}}').empty();
+                    }, 4000);
+                }
+            }
+        });
+    });
+
+
+    $('#generate_tenancy_spanish_pdf{{$reservation->id}}').on('click', function () {
+
+        $.ajax({
+            type: "GET",
+            url: '/admin/reservations/pdf/tenancy/spanish/' +{{$reservation->id}},
+
+            success: function (data) {
+                if(data[0]==='error'){
+                    $("#message{{$reservation->id}}").append('<div class="alert alert-danger col-md-11 text-center' +
+                        ' alert-dismissible fade show" role="alert"> <strong>Danger!&nbsp;</strong>' + data[1] + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                        '<span aria-hidden="true">&times;</span></button></div>');
+
+                    setTimeout(function(){
+                        $('#message{{$reservation->id}}').empty();
+                    },5000);
+                }else {
+                    $("#message{{$reservation->id}}").append('<div class="alert alert-success col-md-11 text-center' +
+                        ' alert-dismissible fade show" role="alert"> <strong>Success!&nbsp;</strong>' + data + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span></button></div>');
+
+                    setTimeout(function () {
+                        $('#message{{$reservation->id}}').empty();
+                    }, 4000);
+                }
+            }
+        });
+    });
+</script>

@@ -60,7 +60,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/reservations/fee/add/{id}', 'ReservationsFeeController@addFee');
     Route::get('/admin/reservations/fee/delete/{id}', 'ReservationsFeeController@deleteFee');
     Route::post('/admin/reservations/fee/edit/{id}', 'ReservationsFeeController@editFee');
-    Route::get('/admin/reservations/pdf/{id}', 'ReservationsController@pdfGenerator');
+    Route::get('/admin/reservations/pdf/fee/{id}', 'ReservationsController@pdfGenerator');
     Route::get('/admin/reservations/secondary_clients/delete/{id}', 'ReservationsController@deleteCloneClient');
     Route::post('admin/reservations/clone/{id}', 'ReservationsController@cloneReservation');
 //Route to view fees for reservation editing modal
@@ -92,6 +92,13 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/admins/add', 'AdminCrudController@add');
     Route::post('/admin/admins/edit/{id}', 'AdminCrudController@edit');
     Route::get('/admin/admins/delete/{id}', 'AdminCrudController@delete');
+
+    //Route for sending email to customer
+    Route::get('/admin/mail/caretaker/{language}/{id}', 'MailController@sendCaretaker');
+
+    //Route for pdf tenancy
+    Route::get('/admin/reservations/pdf/tenancy/{language}/{id}', 'ReservationsController@pdfGeneratorTenancy');
+
 
 });
 

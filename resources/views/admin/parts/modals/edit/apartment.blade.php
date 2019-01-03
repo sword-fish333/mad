@@ -40,6 +40,10 @@
                         <label for="edit_address" class=" new_apartment_label"><u> Address</u> <i class="fas fa-map-pin"></i></label>
                         <input type="text"  name="address" value="{{$apartment->location}}" class="edit_address form-control" placeholder="..." >
                     </div>
+                    <div class="form-group ml-4 col-md-5">
+                        <label for="edit_address" class=" new_apartment_label"><u> Name</u></label>
+                        <input type="text"  name="apartment_name" value="{{$apartment->name}}" class="edit_address form-control" placeholder="..." >
+                    </div>
                     <div class="form-group ml-4 col-md-5 mt-3" >
                         <label for="stars" class="stars_label">Nr of Stars for the Apartment <i class="fas fa-star"></i></label>
 

@@ -19,6 +19,14 @@
                     <p class="apartment_data mt-1">@if(count($holder)>0) {{$holder[0]}} @endif</p>
                 </div>
                 <div class="row mr-4">
+                    <p class="info_apartment ml-5">Name of the Apartment:</p>&nbsp;&nbsp;
+                    @if($apartment->name)
+                    <p class="apartment_data mt-1">{{$apartment->name}}</p>
+                        @else
+                        <p class="apartment_data mt-1 text-danger">There was no information provided for this apartment</p>
+                    @endif
+                </div>
+                <div class="row mr-4">
                <p class="info_apartment ml-5">Address:</p>&nbsp;&nbsp;
                 <p class="apartment_data mt-1">{{$apartment->location}}</p>
                 </div>

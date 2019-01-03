@@ -90,7 +90,7 @@
 
             </div>
             <div class="modal-footer">
-                <a href="/admin/reservations/pdf/{{$reservation->id}}" class="btn btn-success">Generate pdf Fee &nbsp; <i class="fas fa-file-invoice"></i></a>
+                <a href="/admin/reservations/pdf/fee/{{$reservation->id}}" class="btn btn-success">Generate pdf Fee &nbsp; <i class="fas fa-file-invoice"></i></a>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
             </div>

@@ -225,13 +225,18 @@
             <div class="col-md-7  offset-2">
                 <div class="form-group ">
                     <label for=""><u>Check In <strong>(If you do not enter it , it will be the same. Mandatory with Check Out)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-m-d h:m')}}"  readonly>
-                    <input type="date" name="check_in"  id="checkIn" class="form-control" autocomplete="off" >
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y h:m')}}"  readonly>
+                    <input type="datetime-local" name="check_in"  id="checkIn" class="form-control" autocomplete="off" >
                 </div>
                 <div class="form-group mt-4">
                     <label for=""><u>Check Out <strong>(If you do not enter it , it will be the same. Mandatory with Check in)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-m-d h:m')}}"  readonly>
-                    <input type="date" name="check_out"  class="form-control" autocomplete="off" id="checkOut">
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('m-d-Y h:m')}}"  readonly>
+                    <input type="datetime-local" name="check_out"  class="form-control" autocomplete="off" id="checkOut">
+                </div>
+                <div class="form-group mt-4">
+                    <label for=""><u>Schedule Check In <strong>(If you do not enter it , it will be the same)</strong></u></label>
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->schedule_check_in)->format('m-d-Y h:m')}}"  readonly>
+                    <input type="datetime-local" name="schedule_check_in"  class="form-control" autocomplete="off" id="checkOut">
                 </div>
             </div>
 

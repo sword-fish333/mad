@@ -30,6 +30,7 @@ class CreateReservationsTable extends Migration
             $table->string('phone', 190)->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
+            $table->dateTime('schedule_check_in')->nullable();
             $table->unsignedInteger('languages_id')->nullable();
             $table->unsignedInteger('persons_id');
             $table->tinyInteger('status')->nullable();
