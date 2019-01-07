@@ -1,7 +1,7 @@
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->
 
-<header class="topbar " style="top: 0;">
+<header class="topbar " style="top: 0; z-index: 1">
     <nav class="navbar top-navbar navbar-expand-md custom_navbar">
         <!-- ============================================================== -->
         <!-- Logo -->

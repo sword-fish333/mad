@@ -8,13 +8,12 @@ Estimado/a  <i>{{ $name }}</i>,
     suficiente antelación ante cualquier cambio que pueda influir en la hora de entrada en el apartamento.</p>
 
 <div>
-    <p><b>Persona de contacto Madreams Rent:</b>&nbsp;{{ $caretaker }}</p>
-    <p>Persona de contacto Madreams Rent:</p>
-    <p>Nombre: <b>{{$email}}</b></p>
+    <h4><b>Persona de contacto Madreams Rent:</b></h4>
+    <p><b>Nombre: </b>{{$caretaker}}</p>
+    <p><b>Email: </b>{{$email}}</p>
+    <p><b>Teléfono: </b>{{$phone}}</p>
     <br>
-    <p>Teléfono: <b>{{$phone}}</b></p>
-    <br>
-    <p>Hora prevista de entrada: <b>{{$schedule_check_in}}</b></p>
+    <p><b>Hora prevista de entrada:  </b>{{$schedule_check_in}}</p>
     <p><b>* El tiempo límite de espera será 30 minutos. </b></p>
     <p><b>** En caso de no haber indicado la hora de entrada todavía, le ruego
             que nos envíe un e-mail contestando a éste mismo correo con la hora de entrada y

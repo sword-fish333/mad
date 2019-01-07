@@ -40,8 +40,12 @@
     <script src="{{asset('tinymce/tinymce.min.js')}}"></script>
     <script>tinymce.init({ selector:'.wysiwyg' });</script>
     <script src="{{asset('js/ddslick.js')}}"></script>
-
-
+    <script type='text/javascript' src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+    <link rel="stylesheet" href="{{asset('css/canvas_style.css')}}">
+    <script src="{{asset('js/bezier.js')}}"></script>
+    <script src="{{asset('js/jquery.signaturepad.js')}}"></script>
+    <script src="{{asset('js/json2.min.js')}}"></script>
+    <script src="{{asset('js/numeric.min.js')}}"></script>
 </head>
 
 <body class="skin-default-dark fixed-layout">

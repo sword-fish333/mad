@@ -1,0 +1,21 @@
+.sign_area{
+    width:304px;
+
+    margin:10px auto;
+}
+.sign-container {
+
+    margin: auto;
+}
+.sign-preview {
+    width: 150px;
+    height: 50px;
+    border: solid 1px #CFCFCF;
+    margin: 10px 5px;
+}
+.tag-info {
+    font-family: cursive;
+    font-size: 18px;
+    text-align: left;
+    font-style: oblique;
+}

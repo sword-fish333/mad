@@ -72,7 +72,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/reservations/search','ReservationsController@search');
 
     //Route for caretaker
-    Route::get('/admin/reservations/caretaker/{id}','ReservationsController@selectCaretaker');
+    Route::post('/admin/reservations/caretaker/{id}','ReservationsController@selectCaretaker');
 //Routes Apartment Holders
     Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
     Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');
@@ -94,7 +94,10 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/admin/admins/delete/{id}', 'AdminCrudController@delete');
 
     //Route for sending email to customer
-    Route::get('/admin/mail/caretaker/{language}/{id}', 'MailController@sendCaretaker');
+    Route::get('/admin/mail/caretaker/{id}', 'MailController@sendCaretaker');
+
+    //Route for saving customer signature
+    Route::post('/admin/reservations/save/signature/{id}', 'ReservationsController@saveSignature');
 
     //Route for pdf tenancy
     Route::get('/admin/reservations/pdf/tenancy/{language}/{id}', 'ReservationsController@pdfGeneratorTenancy');

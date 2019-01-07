@@ -15,7 +15,7 @@
     text-align: center;
     font-family: 'Merriweather';
     font-weight: bold;
-    margin-top: 80px;
+    margin-top: 60px;
     color: white;
     font-size: 34px;
 
@@ -28,7 +28,15 @@
     color: white;
     font-size: 42px;
 }
-
+#loader_title{
+ font-family: 'Bitter', serif;
+   text-align: center;
+    font-size: 32px;
+    color: darkcyan;
+}
+.bg_loader{
+    background: #FFE4C4;
+}
 .dashboard_subtitle{
     text-align: center;
     font-family: 'Catamaran';
@@ -305,7 +313,7 @@
 .info_reservations{
     margin-left: 30px;
     font-family: 'Saira', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: underline;
 }
 .add_admin_title{
@@ -313,6 +321,22 @@
     color:white;
     font-size: 26px;
 }
+.signature_header{
+    background:rgba(	0,139,139, 0.8);
+}
+
+.signature_title{
+    font-family: 'Saira', sans-serif;
+    color: white;
+    font-size:22px;
+}
+
+.warning_info{
+    font-family: 'Saira', sans-serif;
+    color:darkred;
+    font-size: 20px;
+}
+
 .add_admin_header{
     background: #485460;
 }
@@ -416,7 +440,7 @@
     font-size: 1rem;
 }
 .slick_caretaker_dropdown .dd-options{
-    height: 100px !important;
+    height: 150px !important;
 }
 .dd-options{
     overflow-y: scroll;
@@ -434,6 +458,20 @@
     font-family: 'Saira', sans-serif;
 
     font-size: 18px;
+}
+.language_label{
+    font-family: 'Saira', sans-serif;
+    font-size: 18px;
+}
+.holder_message_custom{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 18px;
+    color:darkred;
+}
+.language_label_style{
+    font-family: 'Saira', sans-serif;
+    font-size: 18px;
+    margin-left: 30px;
 }
 .clients_document_photos{
     font-family: 'Saira', sans-serif;
@@ -497,7 +535,7 @@
     background: 	#5F9EA0;
 }
 .caretaker_title{
-    font-family: 'Saira', sans-serif;
+    font-family: 'Catamaran', sans-serif;
     color: white;
     font-size: 24px;
 }

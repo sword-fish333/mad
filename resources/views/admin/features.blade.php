@@ -48,14 +48,14 @@
                     @endphp
                     <td>
                         @if(count($apartments)>0)
-                        <ul>
+                        <ul style="overflow-y: auto; height: 200px;">
                             @foreach($apartments as $apartment)
                                 @php
                                     $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
                                 @endphp
                                 <li>{{$apartment->location}}<br>
                                     @if($apartment_photo)
-                                    <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="" style="width:150px !important; height: auto;">
+                                    <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="" style="width:120px !important; height: auto;">
                                   @else
                                         <p>This Apartment has no photo</p>
                                     @endif
@@ -65,7 +65,7 @@
                             @endforeach
                         </ul>
                             @else
-                            <strong style="font-size: 18px; color: darkred;">There are no apartments with this <br> feature</strong>
+                            <p style="    font-family: 'Saira', sans-serif; font-size: 16px; color: darkred; font-weight: bold; margin-left: 30px;">There are no apartments with this <br> feature</p>
                         @endif
                     </td>
                     <td><!-- Button trigger modal for edit apartment -->

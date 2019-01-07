@@ -1,6 +1,6 @@
 
 <!-- Modal -->
-<div class="modal fade" id="viewReservationDetails-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="viewReservationDetails-{{$reservation->id}}" aria-hidden="true">
+<div class="modal fade" id="viewReservationDetails-{{$reservation->id}}" tabindex="-1" role="dialog" aria-labelledby="viewReservationDetails-{{$reservation->id}}" aria-hidden="true"  style=" z-index: 5">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white view_reservation_modal_header">
@@ -30,15 +30,19 @@
                         </div>
                     <div class="row">
                     <p class="info_reservations">Check In: </p>
-                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y h:m')}}</p>
+                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y h:m')}}</p>
                     </div>
                         <div class="row">
                     <p class="info_reservations">Check Out: </p>
-                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_out)->format('m-d-Y h:m')}}</p>
+                    <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->check_out)->format('d-M-Y h:m')}}</p>
                         </div>
                         <div class="row">
                             <p class="info_reservations">Schedule Check Out: </p>
                             <p class="data_reservation" style="color: darkred;">{{\Carbon\Carbon::parse($reservation->schedule_check_in)->format('m-d-Y h:m')}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="language_label_style"><u>Language in which the  reservation  was made: </u>
+                                <span class="data_reservation" style="color: darkred;">{{$reservation->languages_id===1 ? 'Spanish' : 'English'}}</span></p>
                         </div>
 
                     </div>
@@ -52,18 +56,30 @@
                         @else
                             <p><strong>The Client  has no <br>  Image available</strong></p>
                         @endif
+                        <div class=" mt-5 ">
+                            <button type="button" class="btn btn-primary ml-5" data-toggle="modal" data-target="#signatureModal{{$reservation->id}}">
+                                <b>Add Signature of Main Client</b> &nbsp;<i class="fas fa-signature"></i>
+                            </button>
+                        </div>
                     </div>
                         <div >
                             <p class="info_reservations">Send mail to client with caretaker info</p>
-                            <button type="button" id="send_mail_spanish{{$reservation->id}}" class="btn btn-success ml-4"><b>Send Mail in Spanish</b> &nbsp;<i class="fas fa-mail-bulk"></i></button>
-                            <button type="button" id="send_mail_english{{$reservation->id}}" class="btn btn-primary ml-4"><b>Send Mail in English</b> &nbsp;<i class="fas fa-mail-bulk"></i></button>
+                            @if($reservation->caretaker_id!==NULL)
+                            <button type="button" id="send_mail{{$reservation->id}}" class="{{$reservation->languages_id===1 ? 'btn-success' : 'btn-warning'}} btn btn-success ml-4"><b> {{$reservation->languages_id===1 ? 'in Spanish' : 'in English'}}</b> &nbsp;<i class="fas fa-mail-bulk"></i></button>
+
+                            @else
+                                <p class="text-danger ml-5">There was no caretaker selected for this reservation <br>
+                                Please select a caretaker for this reservation</p>
+                            @endif
+
                         </div>
-                    <div class="row ml-2 mt-2">
+                    <div class="row mt-3 ml-1 ">
                         <p class="info_reservations col-md-8">Generate Tenancy </p>
-                        <a href="/admin/reservations/pdf/tenancy/spanish/{{$reservation->id}}">Tenancy</a>
-                        <button type="button" id="generate_tenancy_spanish_pdf{{$reservation->id}}" class="btn btn-success ml-4"><b> in Spanish</b> &nbsp;<i class="fas fa-file-alt"></i></button>
-                        <button type="button" id="generate_tenancy_english_pdf{{$reservation->id}}" class="btn btn-primary ml-4"><b> in English</b> &nbsp;<i class="fas fa-file-alt"></i></button>
-                    </div>
+                            <div>
+                        <button id="generate_tenancy_spanish_pdf{{$reservation->id}}"  class="btn btn-success ml-4" ><b> in Spanish</b> &nbsp;<i class="fas fa-file-alt"></i></button>
+                        <button id="generate_tenancy_english_pdf{{$reservation->id}}"   class="btn btn-primary ml-5" ><b> in English</b> &nbsp;<i class="fas fa-file-alt"></i></button>
+                            </div>
+                        </div>
                         </div>
                     @php
                     $apartment=\App\Apartment::where('id',$reservation->apartment_id)->first();
@@ -125,11 +141,11 @@
         </div>
     </div>
 <script>
-    $('#send_mail_spanish{{$reservation->id}}').on('click', function () {
+    $('#send_mail{{$reservation->id}}').on('click', function () {
 
         $.ajax({
             type: "GET",
-            url: '/admin/mail/caretaker/spanish/' +{{$reservation->id}},
+            url: '/admin/mail/caretaker/' +{{$reservation->id}},
 
             success: function (data) {
                 if(data[0]==='error'){
@@ -153,60 +169,123 @@
         });
     });
 
-    $('#send_mail_english{{$reservation->id}}').on('click', function () {
 
-        $.ajax({
-            type: "GET",
-            url: '/admin/mail/caretaker/english/' +{{$reservation->id}},
-
-            success: function (data) {
-                if(data[0]==='error'){
-                $("#message{{$reservation->id}}").append('<div class="alert alert-danger col-md-11 text-center' +
-                    ' alert-dismissible fade show" role="alert"> <strong>Danger!&nbsp;</strong>' + data[1] + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                    '<span aria-hidden="true">&times;</span></button></div>');
-
-                setTimeout(function(){
-                    $('#message{{$reservation->id}}').empty();
-                }, 5000);
-            }else {
-                    $("#message{{$reservation->id}}").append('<div class="alert alert-success col-md-11 text-center' +
-                        ' alert-dismissible fade show" role="alert"> <strong>Success!&nbsp;</strong>' + data + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span></button></div>');
-
-                    setTimeout(function () {
-                        $('#message{{$reservation->id}}').empty();
-                    }, 4000);
-                }
-            }
-        });
-    });
-
-
-    $('#generate_tenancy_spanish_pdf{{$reservation->id}}').on('click', function () {
+    $("#generate_tenancy_spanish_pdf{{$reservation->id}}").click(function(){
+        $('#exampleModal1').show();
 
         $.ajax({
             type: "GET",
             url: '/admin/reservations/pdf/tenancy/spanish/' +{{$reservation->id}},
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response, status, xhr) {
+                $('#exampleModal1').hide();
 
-            success: function (data) {
-                if(data[0]==='error'){
-                    $("#message{{$reservation->id}}").append('<div class="alert alert-danger col-md-11 text-center' +
-                        ' alert-dismissible fade show" role="alert"> <strong>Danger!&nbsp;</strong>' + data[1] + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                        '<span aria-hidden="true">&times;</span></button></div>');
 
-                    setTimeout(function(){
-                        $('#message{{$reservation->id}}').empty();
-                    },5000);
-                }else {
-                    $("#message{{$reservation->id}}").append('<div class="alert alert-success col-md-11 text-center' +
-                        ' alert-dismissible fade show" role="alert"> <strong>Success!&nbsp;</strong>' + data + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span></button></div>');
 
-                    setTimeout(function () {
-                        $('#message{{$reservation->id}}').empty();
-                    }, 4000);
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+
+                    if (disposition) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches !== null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+                    var linkelem = document.createElement('a');
+                    try {
+                        var blob = new Blob([response], {type: 'application/octet-stream'});
+
+                        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                            //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                            window.navigator.msSaveBlob(blob, filename);
+                        } else {
+                            var URL = window.URL || window.webkitURL;
+                            var downloadUrl = URL.createObjectURL(blob);
+
+                            if (filename) {
+                                // use HTML5 a[download] attribute to specify filename
+                                var a = document.createElement("a");
+
+                                // safari doesn't support this yet
+                                if (typeof a.download === 'undefined') {
+                                    window.location = downloadUrl;
+                                } else {
+                                    a.href = downloadUrl;
+                                    a.download = filename;
+                                    document.body.appendChild(a);
+                                    a.target = "_blank";
+                                    a.click();
+                                }
+                            } else {
+                                window.location = downloadUrl;
+                            }
+                        }
+
+                    } catch (ex) {
+                        console.log(ex);
+                    }
                 }
-            }
+
         });
     });
+    $("#generate_tenancy_english_pdf{{$reservation->id}}").click(function(){
+        $('#exampleModal1').show();
+        $('selector').click(false);
+        $.ajax({
+            type: "GET",
+            url: '/admin/reservations/pdf/tenancy/english/'+{{$reservation->id}},
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response, status, xhr) {
+                $('#exampleModal1').hide();
+                $('selector').click(true);
+
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+
+                    if (disposition) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches !== null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+                    var linkelem = document.createElement('a');
+                    try {
+                        var blob = new Blob([response], {type: 'application/octet-stream'});
+
+                        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                            //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                            window.navigator.msSaveBlob(blob, filename);
+                        } else {
+                            var URL = window.URL || window.webkitURL;
+                            var downloadUrl = URL.createObjectURL(blob);
+
+                            if (filename) {
+                                // use HTML5 a[download] attribute to specify filename
+                                var a = document.createElement("a");
+
+                                // safari doesn't support this yet
+                                if (typeof a.download === 'undefined') {
+                                    window.location = downloadUrl;
+                                } else {
+                                    a.href = downloadUrl;
+                                    a.download = filename;
+                                    document.body.appendChild(a);
+                                    a.target = "_blank";
+                                    a.click();
+                                }
+                            } else {
+                                window.location = downloadUrl;
+                            }
+                        }
+
+                    } catch (ex) {
+                        console.log(ex);
+                    }
+                }
+
+        });
+    });
+
 </script>

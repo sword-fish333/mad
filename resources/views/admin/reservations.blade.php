@@ -7,7 +7,7 @@
             <h1 class="reservations_title">Reservations</h1>
             </div>
         </div>
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         @include('admin.parts.messages.success')
         @include('admin.parts.messages.error')
         @include('admin.parts.messages.custom_error')
@@ -61,7 +61,7 @@
                     <td>
                       {{$reservation->name}}
                     </td>
-                    <td>{{$reservation->created_at}}</td>
+                    <td>{{\Carbon\Carbon::parse($reservation->created_at)->format('d-M-Y h:m')}}</td>
                     <td>{{$reservation->email}}</td>
                     <td>{{$reservation->phone}}</td>
 
@@ -93,9 +93,9 @@
                             <p><strong>The Client  has no <br>  Image available</strong></p>
                         @endif
                     </td>
-                    <td> <strong>{{\Carbon\Carbon::parse($reservation->check_in)->format('Y-M-d')
+                    <td> <strong>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')
                    }}</strong></td>
-                    <td> <strong>{{\Carbon\Carbon::parse($reservation->check_out)->format('Y-M-d')}}</strong></td>
+                    <td> <strong>{{\Carbon\Carbon::parse($reservation->check_out)->format('d-M-Y')}}</strong></td>
                     <td><a href="/admin/reservations/status/{{$reservation->id}}" class="btn {{$reservation->status===1 ? 'btn-danger' :'btn-success'}}">{{$reservation->status===1 ? 'Deny' :'Accept'}}</a></td>
                     <td><!-- Button trigger modal for all charactristics -->
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#viewReservationDetails-{{$reservation->id}}">
@@ -131,12 +131,13 @@
             </tbody>
         </table>
         </div>
-
+        @include('admin.parts.modals.preloader')
         @include('admin.parts.modals.searchReservation')
         @include('admin.parts.modals.add.reservation')
     </section>
 
     @foreach($reservations as $reservation)
+        @include('admin.parts.modals.signature')
         @include('admin.parts.modals.caretaker')
         @include('admin.parts.modals.view.reservation_cost')
     @endforeach

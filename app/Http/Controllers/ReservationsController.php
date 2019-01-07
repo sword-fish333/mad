@@ -14,6 +14,7 @@ use App\ReservationCost;
 use App\ReservationPriceList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PDF;
 use Illuminate\Support\Facades\DB;
@@ -88,6 +89,7 @@ class ReservationsController extends Controller
             $reservation->check_in = $request->check_in;
             $reservation->check_out = $request->check_out;
             $reservation->schedule_check_in = $request->schedule_check_in;
+            $reservation->schedule_check_out = $request->schedule_check_out;
             $reservation->apartment_id = $request->apartment;
             $person->name = $holder->name;
             $person->document_type = 'holder';
@@ -121,6 +123,7 @@ class ReservationsController extends Controller
                 'main_nationality' => 'required',
                 'main_document_picture' => 'required',
                 'apartment' => 'required',
+                'language_id'=>'required'
 
             ];
             $this->validate($request, $rules);
@@ -137,7 +140,8 @@ class ReservationsController extends Controller
             $reservation->check_out = $request->check_out;
             $reservation->schedule_check_in = $request->schedule_check_in;
             $reservation->apartment_id = $request->apartment;
-
+            $reservation->languages_id=$request->language_id;
+            $reservation->save();
             $person = new Person();
             $person->name = $request->main_name;
             $person->document_type = $request->main_document_type;
@@ -154,7 +158,7 @@ class ReservationsController extends Controller
             $day = Carbon::parse($request->check_in);
             while ($day <= Carbon::parse($request->check_out)) {
                 $ap = Apartment::where('id', $reservation->apartment_id)->first();
-                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('check_in', '<=', $day)->where('check_out', '>=', $day)->first();
+                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('start_date', '<=', $day)->where('end_date', '>=', $day)->first();
 
                 if (!empty($ap_prices)) {
                     $reservation_price_list = new ReservationPriceList();
@@ -271,10 +275,12 @@ class ReservationsController extends Controller
             $reservation->check_in = $request->check_in;
             $reservation->check_out = $request->check_out;
         $reservation->schedule_check_in = $request->schedule_check_in;
+        $reservation->schedule_check_out = $request->schedule_check_out;
+
         $reservation->name = $request->main_client_name;
         $reservation->email = $request->main_client_email;
         $reservation->phone = $request->main_client_phone;
-
+        $reservation->languages_id = $request->language_id;
         $reservation->apartment_id = $request->apartment;
         $reservation->save();
         $main_client = Person::where('id', $reservation->persons_id)->first();
@@ -502,25 +508,54 @@ class ReservationsController extends Controller
             $reservation=Reservation::find($id);
             $reservation->caretaker_id=$request->caretaker;
                 $reservation->save();
-
+                $mail=new MailController();
+                $mail->sendCaretaker($reservation->id);
                 return back()->with('success', 'Caretaker added successfully');
     }
 
     public function pdfGeneratorTenancy($language, $id)
     {
         if($language==='spanish'){
+
             $reservation = Reservation::where('id', $id)->first();
 
             $apartment=Apartment::where('id', $reservation->apartment_id)->first();
             $client=Person::where('id', $reservation->persons_id)->first();
-            return view('admin.pdf.spanish_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
-            $pdf = PDF::loadView('admin.pdf.spanish_tenancy', array('reservation' => $reservation,));
-            return $pdf->download('invoice.pdf');
+         //   return view('admin.pdf.spanish_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            $pdf = PDF::loadView('admin.pdf.spanish_tenancy',array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            return $pdf->download('spanish_tenancy.pdf');
         }elseif ($language==='english'){
             $reservation = Reservation::where('id', $id)->first();
-            $pdf = PDF::loadView('admin.pdf.spanish_english', array('reservation' => $reservation));
+
+            $apartment=Apartment::where('id', $reservation->apartment_id)->first();
+            $client=Person::where('id', $reservation->persons_id)->first();
+
+         //   return view('admin.pdf.english_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+         $pdf = PDF::loadView('admin.pdf.english_tenancy',array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            return $pdf->download('english_tenancy.pdf');
+        }else{
+            $data=['error','Your message was not sent please try again or check the connection to the server'];
+            return $data;
         }
 
+    }
+
+    public function saveSignature($id, Request $request){
+
+
+        $reservation=Reservation::find($id);
+
+        $imagedata = base64_decode($request->img_data);
+        $filename = md5(date("dmYhisA"));
+        //Location to where you want to created sign image
+        $file_name = $filename.'.png';
+        Storage::disk('local')->put('public/signatures'.'/'.$file_name, $imagedata, 'public');
+        $result['status'] = 1;
+        $reservation->signature=$file_name;
+        $reservation->save();
+        $result['file_name'] = $file_name;
+            $result='Signature was saved successfully';
+        return json_encode($result);
     }
 
 }

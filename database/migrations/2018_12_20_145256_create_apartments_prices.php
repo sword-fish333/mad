@@ -16,8 +16,8 @@ class CreateApartmentsPrices extends Migration
         Schema::create('apartments_prices', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedDecimal('price');
-            $table->dateTime('check_in')->nullable();
-            $table->dateTime('check_out')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->unsignedInteger('apartment_id');
             $table->foreign('apartment_id')
                 ->references('id')->on('apartments')

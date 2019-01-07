@@ -9,11 +9,13 @@ Dear <i>{{ $name }}</i>,
     so please inform us well in advance of any change that may affect the time of arrival at the apartment.</p>
 
 <div>
-    <p><b>Persona de contacto Madreams Rent:</b>&nbsp;{{ $caretaker }}</p>
-    <p>Madreams Rent staff member:</p>
-    <b>{{$email}}</b>
+
+    <p><b>Madreams Rent staff member:</b></p>
+    <p><b>Name: </b>{{$name}}</p>
+    <p><b>Email: </b>{{$email}}</p>
+    <p><b>Phone: </b>{{$phone}}</p>
     <br>
-    <b>{{$phone}}</b>
+    <p><b>Scheduled check-in time: </b>{{$schedule_check_in}}</p>
     <p><b>* Maximum waiting time will be 30 minutes after the scheduled check-in hour. </b></p>
     <p><b>** In case you have not indicated the check-in time yet, please send us an e-mail
             providing the time of arrival and the flight number if you travel by plane.</b></p>

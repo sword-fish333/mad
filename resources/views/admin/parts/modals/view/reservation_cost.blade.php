@@ -76,7 +76,7 @@
                             }
                         @endphp
                         <td class="custom_head_cost">Total</td>
-                        <td colspan="5"><strong>{{$total_price}}</strong></td>
+                        <td colspan="5"><strong>{{number_format($total_price,2)}}</strong></td>
                     </tr>
                     </tbody>
                     </table>

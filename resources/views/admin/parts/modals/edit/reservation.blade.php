@@ -84,10 +84,18 @@
                         <p class="edit_reservation_info text-center">Current Profile Image of The Main Client</p>
                         <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail" style="width:130px !important; height: auto;">
                     </div>
-                    <div class="form-group col-md-5">
+                        <div class="col-md-5">
+                    <div class="form-group ">
                         <p class="edit_reservation_info">Choose another Image for his Profile </p>
                         <input type="file" name="main_profile_image" class="form-control">
                     </div>
+                            <div class="form-group  mt-5">
+                                <label for="language_id" class="language_label">Change language for messages you want</label>
+                                <br>
+                                <input type="radio" name="language_id" {{$reservation->languages_id===1 ? 'checked' : ''}} value="1"><b style="color: darkred" required>&nbsp;Spanish</b>
+                                <input type="radio" class="ml-5" name="language_id" value="2" {{$reservation->languages_id===2 ? 'checked' : ''}}><b style="color: darkred" >&nbsp;English</b>
+                            </div>
+                        </div>
                     </div>
                     @php
                         $clients=\App\Person::where('reservation_id' , $reservation->id)->get();
@@ -223,20 +231,26 @@
         <div class="tab-pane" id="reservation_period{{$reservation->id}}">
             <h4 class="clients_edit_title mt-4">Booking Check In & Check Out</h4>
             <div class="col-md-7  offset-2">
+                <p class="warning_info">If you do not enter they will remai the same</p>
                 <div class="form-group ">
-                    <label for=""><u>Check In <strong>(If you do not enter it , it will be the same. Mandatory with Check Out)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y h:m')}}"  readonly>
+                    <label for=""><u>Check In</u></label>
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y h:m')}}"  readonly>
                     <input type="datetime-local" name="check_in"  id="checkIn" class="form-control" autocomplete="off" >
                 </div>
                 <div class="form-group mt-4">
-                    <label for=""><u>Check Out <strong>(If you do not enter it , it will be the same. Mandatory with Check in)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('m-d-Y h:m')}}"  readonly>
+                    <label for=""><u>Check Out</u></label>
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->check_out)->format('d-M-Y h:m')}}"  readonly>
                     <input type="datetime-local" name="check_out"  class="form-control" autocomplete="off" id="checkOut">
                 </div>
                 <div class="form-group mt-4">
-                    <label for=""><u>Schedule Check In <strong>(If you do not enter it , it will be the same)</strong></u></label>
-                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->schedule_check_in)->format('m-d-Y h:m')}}"  readonly>
+                    <label for=""><u>Schedule Check In</u></label>
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->schedule_check_in)->format('d-M-Y h:m')}}"  readonly>
                     <input type="datetime-local" name="schedule_check_in"  class="form-control" autocomplete="off" id="checkOut">
+                </div>
+                <div class="form-group mt-4">
+                    <label for="schedule_check_out"><u>Schedule Check Out</u></label>
+                    <input type="text" class="form-control"  value="{{\Carbon\Carbon::parse($reservation->schedule_check_out)->format('d-M-Y h:m')}}"  readonly>
+                    <input type="datetime-local" name="schedule_check_out"  class="form-control" autocomplete="off" id="checkOut">
                 </div>
             </div>
 

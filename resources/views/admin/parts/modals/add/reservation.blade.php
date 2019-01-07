@@ -23,9 +23,20 @@
                         <div class="tab-pane active" id="main_client_add">
 
                             <h1 id="main_person_reservation_title">Main Person for which the reservation is made</h1>
+                            <div class="row " style="margin-left: 160px;">
+                                <div class="form-group">
+                                    <label for="language" class="language_label">Select language for reservation depending on which the messages will be send </label>
+                                    <br>
+                                    <input type="radio" name="language_id" value="1"><b style="color: darkred" required>&nbsp;Spanish</b>
+                                    <input type="radio" class="ml-5" name="language_id" value="2"><b style="color: darkred" >&nbsp;English</b>
+                                </div>
+                            </div>
                     <div class="row" style="margin-left: 100px">
                         <div class="form-group ml-5 col-md-11">
                             <p class="holder_reservation"><input type="checkbox" id="holder_reservation" name="holder" value="holder"> &nbsp;Check if the reservation is made for the holder of the apartment</p>
+                        </div>
+                        <div class="holder_message ml-5 col-md-11">
+
                         </div>
                         <div class="col-md-4 mt-3 offset-1">
                     <div class="form-group">
@@ -118,6 +129,10 @@
                         <label for="schedule_check_in" class="add_reservatio_info"><u>Schedule Check In</u></label>
                         <input type="datetime-local" name="schedule_check_in" class="form-control" autocomplete="off" required>
                     </div>
+                    <div class="form-group ">
+                        <label for="schedule_check_out" class="add_reservatio_info"><u>Schedule Check Out</u></label>
+                        <input type="datetime-local" name="schedule_check_out" class="form-control" autocomplete="off" required>
+                    </div>
                 </div>
                     </div>
                             <div class="form-group col-md-6 offset-3">
@@ -171,6 +186,7 @@
                 $('input[name=main_name]').prop("disabled", true);
                 $('input[name=main_document_type]').prop("disabled", true);
                 $('input[name=main_email]').prop("disabled", true);
+                $('input[name=language_id]').prop("disabled", true);
                 $('input[name=main_phone]').prop("disabled", true);
                 $('input[name=main_document_nr]').prop("disabled", true);
                 $('input[name=main_document_serial_nr]').prop("disabled", true);
@@ -178,12 +194,13 @@
                 $('input[name=main_document_picture]').prop("disabled", true);
                 $('#add_row').prop("disabled", true);
                 $('#remove_fields').prop("disabled", true);
-
+                $('.holder_message').append('<p class="holder_message_custom">All fields have been disabled!</p>');
 
             }else{
                 $('input[name=main_name]').prop("disabled", false);
                 $('input[name=main_document_type]').prop("disabled", false);
                 $('input[name=main_email]').prop("disabled", false);
+                $('input[name=language_id]').prop("disabled", false);
                 $('input[name=main_phone]').prop("disabled", false);
                 $('input[name=main_document_nr]').prop("disabled", false);
                 $('input[name=main_document_serial_nr]').prop("disabled", false);
@@ -191,6 +208,7 @@
                 $('input[name=main_document_picture]').prop("disabled", false);
                 $('#add_row').prop("disabled", false);
                 $('#remove_fields').prop("disabled", false);
+                $('.holder_message').empty();
             }
         });
                 @php
