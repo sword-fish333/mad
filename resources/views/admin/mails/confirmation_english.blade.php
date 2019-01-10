@@ -1,4 +1,4 @@
-<img src="{{asset('/images/madrent_logo.jpg')}}" style="width: 150px; height: auto">
+<img src="{{asset('images/madrent_logo.jpg')}}" style="width: 150px; height: auto">
 <h2><b>Dear</b> {{$client->name}}</h2>
 <p>We are writing in order to confirm your reservation under your name, for the dates stated below. In addition, you
     should read the check-in details in case you may have any queries.</p>
@@ -6,19 +6,19 @@
 <p><b>Name: </b>{{$client->name}}</p>
 <p><b>Identity card/passport: </b>{{$client->document_nr}}</p>
 <p><b>Nationality: </b>{{$client->nationality}}</p>
-<p><b>Address:  </b>{{$client->name}}</p>
-<p><b>Phone:  </b>{{$client->phone}}</p>
+<p><b>Address:  </b>{{$client->address}}</p>
+<p><b>Phone:  </b>{{$reservation->phone}}</p>
 <h3><b>Reservation details:</b></h3>
 <p><b>Apartment:</b>{{$apartment->name}}</p>
 <p><b>Location: </b>{{$apartment->location}}</p>
-<p><b>Check-in: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Check-out: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Check in time: </b></p>
-<p><b>Check out time: </b></p>
+<p><b>Check-in: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Check-out: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Check in time: </b>to confirm</p>
+<p><b>Check out time: </b>11 am</p>
 <p><b>Guests: </b>{{$guests_nr}}</p>
 <p><b>Reservation:</b></p>
 <p><b>Pending charges: </b></p>
-<p><b>Security deposit: </b></p>
+<p><b>Security deposit: </b>Provide us a valid credit card number</p>
 <h2 style="margin-left: 50px;"><b>Detailed instructions for check-in/-out:</b></h2>
 <h4>Before your arrival</h4>
 <p>A few days before your arrival we will be contacting you by email to require your arrival details and to indicate the

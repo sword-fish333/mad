@@ -1,4 +1,4 @@
-<img src="{{base_path().'public/images/madrent_logo.jpg'}}" style="margin-left: 100px; width: 150px; height: auto">
+<img src="{{asset('images/madrent_logo.jpg')}}" style="margin-left: 100px; width: 150px; height: auto">
 <h2><b>Estimado/a</b> {{$client->name}}</h2>
 <p>Con éste e-mail, le confirmamos que tiene una reserva a su nombre en las fechas más abajo indicadas. Así mismo, debe
     revisar las instrucciones de entrada para en su caso realizarnos cualquier consulta que pueda surgirle.</p>
@@ -11,14 +11,14 @@
 <h3><b>Datos de la reserva:</b></h3>
 <p><b>Apartamento:</b>{{$apartment->name}}</p>
 <p><b>Localización: </b>{{$apartment->location}}</p>
-<p><b>Fecha de entrada: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Fecha de salida: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Hora de entrada: </b></p>
-<p><b>Hora de salida: </b></p>
+<p><b>Fecha de entrada: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Fecha de salida: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Hora de entrada: </b>a confirmar</p>
+<p><b>Hora de salida: </b> 11:00</p>
 <p><b>Personas: {{$guests_nr}}</b></p>
-<p><b>Reserva</b></p>
+<p><b>Reserva:</b></p>
 <p><b>Pago pendiente: </b></p>
-<p><b>Fianza/depósito: </b></p>
+<p><b>Fianza/depósito: </b> Facilitando un número de tarjeta válida</p>
 <h2 style="margin-left: 50px;"><b>Instrucciones de entrada / salida:</b></h2>
 <h4>Antes de su llegada</h4>
 <p>Unos días antes de su llegada nos pondremos en contacto con usted por medio de e-mail para solicitarle la hora

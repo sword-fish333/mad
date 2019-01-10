@@ -31,8 +31,8 @@
                             <label for="password" class="admin_label">Password</label>
                             <input type="password" class="form-control" name="password" placeholder="..." required>
                         </div>
-                        <div class="form-group col-md-5">
-                            <label for="confirm_password" class="admin_label">Confirm Password</label>
+                        <div class="form-group col-md-5" style="top: -24px;">
+                            <label for="confirm_password" class="admin_label">Confirm Password <strong style="color: darkred">(The same with Password)</strong></label>
                             <input type="password" class="form-control" name="confirm_password" placeholder="..." required>
                         </div>
                         <div class="form-group col-md-5">

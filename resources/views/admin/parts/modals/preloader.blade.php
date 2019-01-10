@@ -1,6 +1,6 @@
 
 <!-- Modal -->
-<div  id="exampleModal1"   style="position: fixed; z-index: 111; display: none; top: 270px;margin-left: 360px;
+<div  id="exampleModal1"   style="position: absolute; z-index: 111; display: none; top: 270px;margin-left: 360px;
   margin-right: auto; background: white; width: 400px; border: 1px solid black;">
 
             <div class="bg_loader">

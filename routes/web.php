@@ -68,6 +68,13 @@ Route::group(['middleware' => ['admin']], function () {
 //Route for deleting fee with ajax
     Route::get('/admin/reservations/delete/fee/{id}', 'ReservationsFeeController@deleteFee');
 
+    //Route for adding schedule check in and check out date
+    Route::get('/admin/reservations/schedule/add/{id}', 'ReservationsController@AddScheduleDates');
+
+
+    //Route for adding card data
+    Route::get('/admin/reservations/card/add/{id}', 'ReservationsController@AddCard');
+
     //Route for searching in reservations Table
     Route::get('/admin/reservations/search','ReservationsController@search');
 
@@ -101,6 +108,9 @@ Route::group(['middleware' => ['admin']], function () {
 
     //Route for pdf tenancy
     Route::get('/admin/reservations/pdf/tenancy/{language}/{id}', 'ReservationsController@pdfGeneratorTenancy');
+
+    // Cron Job Route to send email reminder to the main client
+    Route::get('/admin/reminder_client/email', 'MailController@sendReminderMail');
 
 
 });

@@ -23,7 +23,7 @@ class ReservationsController extends Controller
 {
     public function showReservations()
     {
-        $reservations = Reservation::orderBy('created_at','desc')->get();
+        $reservations = Reservation::orderBy('created_at', 'desc')->get();
 
         return view('admin.reservations', compact('reservations'));
     }
@@ -47,10 +47,8 @@ class ReservationsController extends Controller
         if (Carbon::parse($request->check_in)->toDateTimeString() < Carbon::today() || Carbon::parse($request->check_out)->toDateTimeString() < Carbon::parse($request->check_in)->toDateTimeString()) {
             return back()->with('error', ' The check in may only start from today and the check out must be after the check in!');
         }
-        if(Carbon::parse($request->schedule_check_in)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
-            return back()->with('error', ' The Schedule check in may not be before the actuale check in!');
 
-        }
+
         $reservations = Reservation::where('apartment_id', $request->apartment)->get();
 
         $ok = 1;
@@ -86,10 +84,10 @@ class ReservationsController extends Controller
             $reservation->name = $holder->name;
             $reservation->email = $holder->email;
             $reservation->phone = $holder->phone;
+
             $reservation->check_in = $request->check_in;
             $reservation->check_out = $request->check_out;
-            $reservation->schedule_check_in = $request->schedule_check_in;
-            $reservation->schedule_check_out = $request->schedule_check_out;
+
             $reservation->apartment_id = $request->apartment;
             $person->name = $holder->name;
             $person->document_type = 'holder';
@@ -119,11 +117,12 @@ class ReservationsController extends Controller
                 'main_email' => 'required',
                 'main_phone' => 'required|digits_between:8,14',
                 'main_document_nr' => 'required',
-                'main_document_serial_nr' => 'required',
+                'main_address'=>'required',
+                'main_document_serial_nr' =>'string|max:255',
                 'main_nationality' => 'required',
                 'main_document_picture' => 'required',
                 'apartment' => 'required',
-                'language_id'=>'required'
+                'language_id' => 'required'
 
             ];
             $this->validate($request, $rules);
@@ -138,9 +137,10 @@ class ReservationsController extends Controller
             $reservation->phone = $request->main_phone;
             $reservation->check_in = $request->check_in;
             $reservation->check_out = $request->check_out;
-            $reservation->schedule_check_in = $request->schedule_check_in;
+
             $reservation->apartment_id = $request->apartment;
-            $reservation->languages_id=$request->language_id;
+            $reservation->languages_id = $request->language_id;
+            $reservation->address = $request->main_address;
             $reservation->save();
             $person = new Person();
             $person->name = $request->main_name;
@@ -149,6 +149,7 @@ class ReservationsController extends Controller
             $person->document_serial_nr = $request->main_document_serial_nr;
             $person->nationality = $request->main_nationality;
             $person->document_picture = $main_photo;
+            $person->address = $request->main_address;
             $person->reservation_id = $reservation->id;
             $person->save();
             $reservation->persons_id = $person->id;
@@ -222,7 +223,16 @@ class ReservationsController extends Controller
                 }
 
             }
-            return back()->with('success', 'The reservation has been saved successfully!');
+            $mail=new MailController();
+            $mail_status=[];
+            $mail_status[0]=$mail->sendConfirmationMail($reservation->languages_id, $reservation->id);
+            $mail_status[1]=$mail->sendReservationInfoMail($reservation->languages_id, $reservation->id);
+        if( count($mail_status[0])===0 ||count($mail_status[1])===0 ) {
+            return back()->with('success', 'The reservation has been saved successfully and a mail with the confirmation has been send to the client!');
+        }else{
+            return back()->with('error','The mail could not bee send but the reservation was made');
+        }
+
         }
     }
 
@@ -245,7 +255,9 @@ class ReservationsController extends Controller
                 return back()->with('error', 'You may choose only one type of ID');
             }
         }
-        $reservations = Reservation::where('apartment_id', $request->apartment)->get();
+
+        $reservations = Reservation::where('id', '!=', $id)->where('apartment_id', $request->apartment)->get();
+
         $ok = 1;
         $data = [];
         if ($reservations) {
@@ -267,13 +279,15 @@ class ReservationsController extends Controller
             $date['out'] = Carbon::parse($data['out'])->format('m-d-Y');
             return back()->with('error', 'The apartment has been taken between ' . $date['in'] . ' and ' . $date['out']);
         }
-        if(Carbon::parse($request->schedule_check_in)->toDateTimeString()<Carbon::parse($request->check_in)->toDateTimeString()){
+        if (Carbon::parse($request->schedule_check_in)->toDateTimeString() < Carbon::parse($request->check_in)->toDateTimeString()) {
             return back()->with('error', ' The Schedule check in may not be before the actuale check in!');
-
+        }
+        if (Carbon::parse($request->schedule_check_out)->toDateTimeString() < Carbon::parse($request->schedule_check_in)->toDateTimeString()) {
+            return back()->with('error', ' The Schedule check out may not be before the schedule check in!');
         }
         $reservation = Reservation::find($id);
-            $reservation->check_in = $request->check_in;
-            $reservation->check_out = $request->check_out;
+        $reservation->check_in = $request->check_in;
+        $reservation->check_out = $request->check_out;
         $reservation->schedule_check_in = $request->schedule_check_in;
         $reservation->schedule_check_out = $request->schedule_check_out;
 
@@ -282,9 +296,11 @@ class ReservationsController extends Controller
         $reservation->phone = $request->main_client_phone;
         $reservation->languages_id = $request->language_id;
         $reservation->apartment_id = $request->apartment;
+        $reservation->address=$request->main_address;
         $reservation->save();
         $main_client = Person::where('id', $reservation->persons_id)->first();
-        $main_client->name = $request->main_name;
+        $main_client->name =$request->main_client_name;
+        $main_client->address=$request->main_address;
         $main_client->document_type = $request->main_document_type;
         $main_client->document_nr = $request->main_document_nr;
         $main_client->document_serial_nr = $request->main_document_serial_nr;
@@ -297,7 +313,7 @@ class ReservationsController extends Controller
         $main_client->save();
 
 
-        $clients = Person::where('reservation_id', $id)->get();
+        $clients = Person::where('id','!=',$reservation->persons_id)->where('reservation_id', $id)->get();
 
         for ($i = 0; $i < count($clients); $i++) {
 
@@ -446,7 +462,7 @@ class ReservationsController extends Controller
             }
             $photos = \App\Http\Controllers\FilesController::uploadFile($request, 'new_client_photo', 'document_photos', array("jpg", "jpeg", "png", "gif"), true);
             for ($i = 0; $i < count($request->new_client_name); $i++) {
-                dd($request);
+
                 $client = new Person();
 
                 $client->name = $request->new_client_name[$i];
@@ -466,96 +482,131 @@ class ReservationsController extends Controller
     public function search(Request $request)
 
     {
-                $reservations=[];
+        $reservations = [];
         if ($request) {
             $reservations = Reservation::where('name', 'LIKE', '%' . $request->name . "%")
                 ->where('phone', 'LIKE', '%' . $request->phone . "%")
                 ->where('email', 'LIKE', '%' . $request->email . "%")
-
                 ->orderBy('id')->get();
         }
-        $result=[];
-        if($request->check_in && $request->check_out){
-            foreach ($reservations as $res){
-                if($res->check_in>Carbon::parse($request->check_in)->toDateString() &&
-                    $res->check_out<Carbon::parse($request->check_out)->toDateString()
-                ){
-                    array_push($result,$res);
+        $result = [];
+        if ($request->check_in && $request->check_out) {
+            foreach ($reservations as $res) {
+                if ($res->check_in > Carbon::parse($request->check_in)->toDateString() &&
+                    $res->check_out < Carbon::parse($request->check_out)->toDateString()
+                ) {
+                    array_push($result, $res);
                 }
             }
-            $reservations=$result;
-        }elseif($request->check_in){
-            foreach ($reservations as $res){
-                if($res->check_in>Carbon::parse($request->check_in)->toDateString()){
-                    array_push($result,$res);
+            $reservations = $result;
+        } elseif ($request->check_in) {
+            foreach ($reservations as $res) {
+                if ($res->check_in > Carbon::parse($request->check_in)->toDateString()) {
+                    array_push($result, $res);
                 }
             }
-            $reservations=$result;
-        }elseif($request->check_out){
-            foreach ($reservations as $res){
-                if($res->check_out<Carbon::parse($request->check_out)->toDateString()){
-                    array_push($result,$res);
+            $reservations = $result;
+        } elseif ($request->check_out) {
+            foreach ($reservations as $res) {
+                if ($res->check_out < Carbon::parse($request->check_out)->toDateString()) {
+                    array_push($result, $res);
                 }
             }
-            $reservations=$result;
+            $reservations = $result;
         }
 
-                  return view('admin.reservations', compact('reservations'))->with('success', 'The results of the search are');
+        return view('admin.reservations', compact('reservations'))->with('success', 'The results of the search are');
     }
 
-    public function selectCaretaker($id, Request $request){
+    public function selectCaretaker($id, Request $request)
+    {
 
-            $reservation=Reservation::find($id);
-            $reservation->caretaker_id=$request->caretaker;
-                $reservation->save();
-                $mail=new MailController();
-                $mail->sendCaretaker($reservation->id);
-                return back()->with('success', 'Caretaker added successfully');
+        $reservation = Reservation::find($id);
+        $reservation->caretaker_id = $request->caretaker;
+        $reservation->save();
+        $mail = new MailController();
+        return $mail->sendCaretaker($reservation->id);
+
     }
 
     public function pdfGeneratorTenancy($language, $id)
     {
-        if($language==='spanish'){
+        if ($language === 'spanish') {
 
             $reservation = Reservation::where('id', $id)->first();
 
-            $apartment=Apartment::where('id', $reservation->apartment_id)->first();
-            $client=Person::where('id', $reservation->persons_id)->first();
-         //   return view('admin.pdf.spanish_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
-            $pdf = PDF::loadView('admin.pdf.spanish_tenancy',array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            $apartment = Apartment::where('id', $reservation->apartment_id)->first();
+            $client = Person::where('id', $reservation->persons_id)->first();
+            //   return view('admin.pdf.spanish_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            $pdf = PDF::loadView('admin.pdf.spanish_tenancy', array('client' => $client, 'apartment' => $apartment, 'reservation' => $reservation));
             return $pdf->download('spanish_tenancy.pdf');
-        }elseif ($language==='english'){
+        } elseif ($language === 'english') {
             $reservation = Reservation::where('id', $id)->first();
 
-            $apartment=Apartment::where('id', $reservation->apartment_id)->first();
-            $client=Person::where('id', $reservation->persons_id)->first();
+            $apartment = Apartment::where('id', $reservation->apartment_id)->first();
+            $client = Person::where('id', $reservation->persons_id)->first();
 
-         //   return view('admin.pdf.english_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
-         $pdf = PDF::loadView('admin.pdf.english_tenancy',array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            //   return view('admin.pdf.english_tenancy', array('client'=>$client,'apartment'=>$apartment,'reservation'=>$reservation));
+            $pdf = PDF::loadView('admin.pdf.english_tenancy', array('client' => $client, 'apartment' => $apartment, 'reservation' => $reservation));
             return $pdf->download('english_tenancy.pdf');
-        }else{
-            $data=['error','Your message was not sent please try again or check the connection to the server'];
+        } else {
+            $data = ['error', 'Your message was not sent please try again or check the connection to the server'];
             return $data;
         }
 
     }
 
-    public function saveSignature($id, Request $request){
+    public function saveSignature($id, Request $request)
+    {
 
 
-        $reservation=Reservation::find($id);
+        $reservation = Reservation::find($id);
 
         $imagedata = base64_decode($request->img_data);
         $filename = md5(date("dmYhisA"));
         //Location to where you want to created sign image
-        $file_name = $filename.'.png';
-        Storage::disk('local')->put('public/signatures'.'/'.$file_name, $imagedata, 'public');
+        $file_name = $filename . '.png';
+        Storage::disk('local')->put('public/signatures' . '/' . $file_name, $imagedata, 'public');
         $result['status'] = 1;
-        $reservation->signature=$file_name;
+        $reservation->signature = $file_name;
         $reservation->save();
         $result['file_name'] = $file_name;
-            $result='Signature was saved successfully';
+        $result = 'Signature was saved successfully';
         return json_encode($result);
     }
 
+    public function AddScheduleDates($id, Request $request){
+
+        $reservation=Reservation::find($id);
+
+        if($request->schedule_check_in){
+            if($request->schedule_check_in<$reservation->check_in){
+                $data = ['error', 'Schedule check in can not be before the actual check in'];
+                return $data;
+
+            }else{
+                $reservation->schedule_check_in=$request->schedule_check_in;
+                $reservation->save();
+            }
+
+        }
+
+        if($request->schedule_check_out){
+            if($request->schedule_check_out<$reservation->check_out){
+                $data = ['error', 'Schedule check out can not be before the actual check out'];
+                return $data;
+            }else{
+                $reservation->schedule_check_out=$request->schedule_check_out;
+                $reservation->save();
+            }
+        }
+        $message = 'Dates where saved successfully. Refresh the page to see the changes';
+        return $message;
+
+    }
+
+    public  function AddCard($id, Request $request){
+        $reservation=Reservation::find($id);
+        dd();
+    }
 }

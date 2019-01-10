@@ -318,8 +318,9 @@
     font-size: 1rem;
 }
 
-.add_reservatio_info{
+.add_reservation_info{
     font-family: 'Catamaran', sans-serif;
     text-decoration: underline;
     font-size: 18px;
+    font-weight: bold;
 }

@@ -1,4 +1,4 @@
-<img src="{{base_path().'public/images/madrent_logo.jpg'}}" style="margin-left: 100px; width: 150px; height: auto">
+<img src="{{asset('public/images/madrent_logo.jpg')}}" style="margin-left: 100px; width: 150px; height: auto">
 <h2><b>Estimado/a </b> {{$client->name}}</h2>
 <p>Hemos recibido su petición en relación con su solicitud. Le recomendamos que consulte el detalle del apartamento en
     nuestra página web en https://www.madreamsrent.es/...(linkul cu apartamentul )........</p>
@@ -25,6 +25,6 @@
 <p><b>Fecha de entrada: </b>{{$reservation->check_in}}</p>
 <p><b>Fecha de salida: </b>{{$reservation->check_out}}</p>
 <p><b>Personas: </b>{{$guests_nr}}</p>
-<p><b>TPrecio alojamiento: </b>{{$total}}</p>
+<p><b>Precio alojamiento: </b>{{$total}}</p>
 <p>Para cualquier duda no hesite en contactarnos:  info@madreamsrent.com  </p>
 <h3><u>El equipo de Madreams Rent</u></h3>

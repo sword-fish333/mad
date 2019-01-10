@@ -43,7 +43,7 @@
                 <th class="w-25">Check In</th>
                 <th class="w-25">Check Out</th>
                 <th>Status</th>
-                <th>View  Resevation Information<br> and Send Email</th>
+                <th> Reservation Information & <br>Accurate Check In and Out</th>
                 <th>Clone Reservation</th>
                 <th>Edit Reservation</th>
                 <th>Cost</th>

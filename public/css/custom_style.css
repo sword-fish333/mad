@@ -298,12 +298,22 @@
     color: white;
 
 }
+.info_apartment_view{
+    font-family:'Saira', sans-serif ;
+    font-size: 16px;
+}
+
+.card_info{
+    font-family:'Noto Serif', sans-serif ;
+    font-size: 16px;
+}
+
 .title_apartment{
     text-align: center;
     margin-top: 30px;
     font-family:'Saira', sans-serif ;
     text-decoration: underline;
-    font-size:2rem;
+    font-size:1.2rem;
 }
 .custom_table_admin{
     font-family:'Saira', sans-serif ;
@@ -313,7 +323,7 @@
 .info_reservations{
     margin-left: 30px;
     font-family: 'Saira', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: underline;
 }
 .add_admin_title{
@@ -331,20 +341,35 @@
     font-size:22px;
 }
 
+.style_caretaker{
+    font-family: 'Noto Serif', sans-serif;
+    font-size: 17px;
+}
+
+.change_style{
+    font-family:'Noto Serif', sans-serif ;
+    color: darkred;
+    font-size: 16px;
+}
+
 .warning_info{
     font-family: 'Saira', sans-serif;
     color:darkred;
     font-size: 20px;
+}
+.schedule_data input {
+    font-family: 'Saira', sans-serif;
+    color: black !important;
 }
 
 .add_admin_header{
     background: #485460;
 }
 .data_reservation{
-    margin-top: 5px;
+    margin-top: 2px;
     font-family: 'Catamaran', sans-serif;
     margin-left: 10px;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .admin_label{
@@ -451,8 +476,9 @@
 }
 .add_reservation_info{
     font-family: 'Catamaran', sans-serif;
-    text-decoration: underline;
+
     font-size: 18px;
+    font-weight:bold;
 }
 .holder_reservation{
     font-family: 'Saira', sans-serif;
@@ -468,11 +494,7 @@
     font-size: 18px;
     color:darkred;
 }
-.language_label_style{
-    font-family: 'Saira', sans-serif;
-    font-size: 18px;
-    margin-left: 30px;
-}
+
 .clients_document_photos{
     font-family: 'Saira', sans-serif;
     color: darkgoldenrod;
@@ -583,7 +605,7 @@
 @media (min-width: 768px) {
     .modal-xl {
         width: 90%;
-        max-width:1300px !important;
+        max-width:1200px !important;
     }
 }
 
@@ -713,7 +735,7 @@
 
 
 .file-upload{display:block;text-align:center;font-family: Helvetica, Arial, sans-serif;font-size: 12px;}
-.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e !important;cursor:pointer;height:40px;line-height:40px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
 .file-upload .file-select .file-select-button{background:#dce4ec;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
 .file-upload .file-select .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
 .file-upload .file-select:hover{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}

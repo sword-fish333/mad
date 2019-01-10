@@ -111,7 +111,7 @@
                                 <div class="file-select">
                                     <div class="file-select-button" id="fileName">Choose File</div>
                                     <div class="file-select-name" id="noFile">No file chosen...</div>
-                                    <input type="file" name="apartment_photos[]" multiple id="chooseFile">
+                                    <input type="file" name="apartment_photos[]" id="chooseFile" multiple >
                                 </div>
                             </div>
 

@@ -1,4 +1,4 @@
-<img src="{{base_path().'public/images/madrent_logo.jpg'}}" style="margin-left: 100px; width: 150px; height: auto">
+<img src="{{asset('images/madrent_logo.jpg')}}" style="margin-left: 100px; width: 150px; height: auto">
 <h2><b>Estimado/a</b> {{$client->name}}</h2>
 <p>Con éste e-mail, le recordamos que tiene una reserva a su nombre en las fechas más abajo indicadas.
     <b>Tenga en cuenta que el edifico no dispone de </b>, por lo cual necesitamos saber su hora de llegada a la vivienda y asi asignarle el número de teléfono de la persona que le estará esperando para la entrega de las llaves.
@@ -13,10 +13,10 @@
 <h3><b>Datos de la reserva:</b></h3>
 <p><b>Apartamento:</b>{{$apartment->name}}</p>
 <p><b>Localización: </b>{{$apartment->location}}</p>
-<p><b>Fecha de entrada: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Fecha de salida: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('m-d-Y')}}</p>
-<p><b>Hora de entrada: </b></p>
-<p><b>Hora de salida: </b></p>
+<p><b>Fecha de entrada: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Fecha de salida: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+<p><b>Hora de entrada: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('h:m')}}</p>
+<p><b>Hora de salida: </b>{{\Carbon\Carbon::parse($reservation->check_in)->format('h:m')}}</p>
 <p><b>Personas: {{$guests_nr}}</b></p>
 <p><b>Reserva</b></p>
 <p><b>Pago pendiente: </b></p>

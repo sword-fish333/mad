@@ -26,13 +26,9 @@
                                 <img src="{{asset("storage/pages_image/$page->image")}}" class="img-thumbnail" style="width: 150px; height: auto;">
                               <div>
                                 <label for="title" class="label_add_page">Choose a new Image if you want</label>
-                                  <div class="file-upload">
-                                      <div class="file-select">
-                                          <div class="file-select-button" id="fileName">Choose File</div>
-                                          <div class="file-select-name" id="noFile">No file chosen...</div>
-                                          <input type="file" name="image" id="chooseFile">
-                                      </div>
-                                  </div>
+
+                                          <input type="file" name="image" class="form-control">
+
                               </div>
                             </div>
                         </div>

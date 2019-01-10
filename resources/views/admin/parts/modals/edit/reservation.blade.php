@@ -30,23 +30,23 @@
                     <div class="row">
                 <div class="ml-3 col-md-5 mt-3">
                    <div class="form-group">
-                    <label for="main_client_name" class="add_reservatio_info">Name</label>
+                    <label for="main_client_name" class="add_reservation_info">Name</label>
                     <input type="text" class="form-control" name="main_client_name" value="{{$reservation->name}}">
                    </div>
                     <div class="form-group mt-3">
-                        <label for="main_client_email" class="add_reservatio_info">Email</label>
+                        <label for="main_client_email" class="add_reservation_info">Email</label>
                         <input type="email" class="form-control" name="main_client_email" value="{{$reservation->email}}">
                     </div>
                     </div>
                         <div class=" mt-2 ml-3 col-md-5" >
-                            <p class="edit_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
+                            <p class="add_reservation_info ml-5">Change Apartment &nbsp;<i class="fas fa-home"></i></p>
                             {{--Slick dropdown for selecting Apartment--}}
                             <select class="edit_slick_apartments" name="apartment" ></select>
                         </div>
                     </div>
                             <div class="row">
                         <div class="form-group  col-md-5 ml-3">
-                        <label for="main_client_phone">Phone</label>
+                        <label class="add_reservation_info" for="main_client_phone">Phone</label>
                         <input type="text"  class="form-control" name="main_client_phone" value="{{$reservation->phone}}">
                     </div>
                     @php
@@ -54,7 +54,7 @@
                     $main_client=\App\Person::where('id', $reservation->persons_id)->first();
                     @endphp
                     <div class="form-group col-md-5">
-                        <p ><strong><u>Document Type</u></strong></p>
+                        <p  class="add_reservation_info">Document Type</p>
                         <input type="radio"  class="ml-3" name="main_document_type" value="id_card"
                                 {{$main_client->document_type==='id_card' ? 'checked': ''}}>&nbsp;Id Card
                         <input type="radio" class="ml-3"  name="main_document_type" value="passport"
@@ -65,18 +65,21 @@
                             </div>
                     <div class="row">
                     <div class="form-group ml-3 col-md-5">
-                        <label class="add_reservatio_info mt-3">Document Nr:</label>
+                        <label class="add_reservation_info mt-3">Document Nr:</label>
                         <input type="text"  class="form-control" name="main_document_nr" value="{{$main_client->document_nr}}">
                     </div>
                     <div class="form-group mt-3 col-md-5">
-                    <label for="" class="add_reservatio_info">Document Serial Nr:</label>
+                    <label for="" class="add_reservation_info">Document Serial Nr:</label>
                     <input type="text"  class="form-control" name="main_document_serial_nr" value="{{$main_client->document_serial_nr}}">
                     </div>
                         <div class="form-group mt-3 col-md-5 ml-3">
-                        <label class="add_reservatio_info">Nationality:</label>
+                        <label class="add_reservation_info">Nationality:</label>
                         <input type="text"  class="form-control" name="main_nationality" value="{{$main_client->nationality}}">
                         </div>
-
+                        <div class="form-group mt-3 col-md-5">
+                            <label for="" class="add_reservation_info">Address of the main Client:</label>
+                            <input type="text"  class="form-control" name="main_address" value="{{$main_client->address}}">
+                        </div>
 
                     </div>
                     <div class="row my-4 ml-5">
@@ -86,8 +89,10 @@
                     </div>
                         <div class="col-md-5">
                     <div class="form-group ">
-                        <p class="edit_reservation_info">Choose another Image for his Profile </p>
-                        <input type="file" name="main_profile_image" class="form-control">
+                        <p class="add_reservation_info">Choose another Image for his Profile </p>
+
+                        <input type="file" name="main_profile_image"  class="form-control" >
+
                     </div>
                             <div class="form-group  mt-5">
                                 <label for="language_id" class="language_label">Change language for messages you want</label>
@@ -111,11 +116,11 @@
                         <h4 class="ml-4 mt-2 client_nr"><u>{{$client_nr}}.</u></h4>
                     <div class="row ml-3">
                         <div class="form-group col-md-5">
-                            <label class="add_reservatio_info">Client name:</label>
+                            <label class="add_reservation_info">Client name:</label>
                             <input type="text"  class="form-control" name="client_name[]" value="{{$client->name}}">
                         </div>
                         <div class="form-group col-md-6">
-                            <p ><strong><u>Document Type(You may choose only one)</u></strong></p>
+                            <p  class="add_reservation_info">Document Type(You may choose only one)</p>
                             <input type="checkbox"  class="ml-3" name="document_type[]" value="id_card"
                                     {{$client->document_type==='id_card' ? 'checked': ''}}>&nbsp;Id Card
                             <input type="checkbox" class="ml-3"  name="document_type[]" value="passport"
@@ -124,15 +129,15 @@
                                     {{$client->document_type==='other' ? 'checked': ''}}>&nbsp;Other
                         </div>
                         <div class="form-group col-md-5">
-                            <label class="add_reservatio_info">Client Document Nr:</label>
+                            <label class="add_reservation_info">Client Document Nr:</label>
                             <input type="text"  class="form-control" name="client_document_nr[]" value="{{$client->document_nr}}">
                         </div>
                         <div class="form-group col-md-5">
-                            <label class="add_reservatio_info">Client Document Serial Nr:</label>
+                            <label class="add_reservation_info">Client Document Serial Nr:</label>
                             <input type="text"  class="form-control" name="client_document_serial_nr[]" value="{{$client->document_serial_nr}}">
                         </div>
                         <div class="form-group col-md-5">
-                            <label for="nationality" class="add_reservatio_info">Nationality:</label>
+                            <label for="nationality" class="add_reservation_info">Nationality:</label>
                             <input type="text"  class="form-control" name="nationality[]" value="{{$client->nationality}}">
                         </div>
                     </div>
@@ -193,7 +198,7 @@
                     <div class=" mt-2 ml-1 col-md-11" style="overflow-y: scroll; height: 400px;">
                         <div class="message_fee" style="display: none;">
                             <div class="  message_fees{{$reservation->id}}  alert  alert-dismissible fade show" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
