@@ -1,5 +1,10 @@
 @extends('client.layouts.master')
 @section('content')
+    <style>
+        .ui-datepicker{
+            top:280px !important;
+        }
+    </style>
     <div class="search_area">
         <div class="go_bot_div">
             <p class="sem">Vezi mai multe despre MadreamsRent</p>
@@ -12,27 +17,33 @@
                 <div class="actual_search">
                     <div class="div_inp_left">
                         <img src="{{asset('images/site_images/city-solid.png')}}" class="img_city">
-                        <input type="text" class="input_srr" placeholder="Oras..." value="Madrid" disabled>
+                        <input type="text" class="input_srr" placeholder="Oras..." value="Madrid" disabled style="background: grey; text-align: center; font-weight: bold; color: white; font-size: 22px; border-bottom-left-radius: 10px;margin-top:1px; border-top-left-radius: 10px;">
+                    </div>
+                    <form action="/clients/search" id="search_form" method="post">
+                        @csrf
+                    <div class="div_inp">
+                        <i class="far fa-calendar-alt inp_icon"></i>
+                        <input type="text" class="input_srr datepicker" name="check_in" autocomplete="off" placeholder="Data check-in">
                     </div>
                     <div class="div_inp">
                         <i class="far fa-calendar-alt inp_icon"></i>
-                        <input type="text" class="input_srr" placeholder="Data check-in">
-                    </div>
-                    <div class="div_inp">
-                        <i class="far fa-calendar-alt inp_icon"></i>
-                        <input type="text" class="input_srr" placeholder="Data check-out">
+                        <input type="text" class="input_srr datepicker" name="check_out" autocomplete="off"  placeholder="Data check-out">
                     </div>
                     <div class="div_inp">
                         <i class="fas fa-users inp_icon"></i>
-                        <input type="text" class="input_srr" placeholder="Nr. persoane">
+                        <input type="text" class="input_srr" name="persons_nr" placeholder="Nr. persoane">
                     </div>
-                    <a href="afisare_rezultate.html">
+                    <a id="search_button">
                         <div class="div_inp_right">
-                            <button type="button" class="button_sr">Cauta acum</button>
+                            <button type="button" class="button_sr" >Cauta acum</button>
                         </div>
                     </a>
+                    </form>
                 </div>
             </div>
+            @include('admin.parts.messages.success')
+            @include('admin.parts.messages.error')
+            @include('admin.parts.messages.custom_error')
         </div>
     </div>
 
@@ -129,4 +140,16 @@
         @foreach($offers as $offer)
             @include('client.layouts.modals.view.offer')
         @endforeach
+    <script>
+        $('#search_button').click(function () {
+            $('form#search_form').submit();
+        });
+
+        $( function() {
+            $( ".datepicker" ).datepicker({
+                minDate: 0,
+
+            });
+        } );
+    </script>
 @endsection
