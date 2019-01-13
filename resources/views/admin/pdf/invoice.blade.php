@@ -34,7 +34,7 @@
     @endphp
 
     @while($day <= $reservation->check_out)
-        <div style=" margin-top: 50px;">
+        <div style=" margin-top: 10px;">
 
             <div>
                 <table style="margin-top: 10px;">

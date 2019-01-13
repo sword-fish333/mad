@@ -17,8 +17,8 @@
 <h3><b>Details:</b></h3>
 <h4><b>BUDGET:</b></h4>
 <p><b>Name: </b>{{$client->name}}</p>
-<p><b>Phone: </b>{{$client->phone}}</p>
-<p><b>Email: </b>{{$client->email}}</p>
+<p><b>Phone: </b>{{$reservation->phone}}</p>
+<p><b>Email: </b>{{$reservation->email}}</p>
 <h3><b>Request details: </b></h3>
 <p><b>Apartment: </b>{{$apartment->name}}</p>
 <p><b>Check-In: </b>{{$reservation->check_in}}</p>

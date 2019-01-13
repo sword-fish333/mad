@@ -73,13 +73,13 @@ Route::group(['middleware' => ['admin']], function () {
 
 
     //Route for adding card data
-    Route::get('/admin/reservations/card/add/{id}', 'ReservationsController@AddCard');
+    Route::get('/admin/reservations/card/add/{id}', 'ReservationsController@AddCardData');
 
     //Route for searching in reservations Table
-    Route::get('/admin/reservations/search','ReservationsController@search');
+    Route::get('/admin/reservations/search', 'ReservationsController@search');
 
     //Route for caretaker
-    Route::post('/admin/reservations/caretaker/{id}','ReservationsController@selectCaretaker');
+    Route::post('/admin/reservations/caretaker/{id}', 'ReservationsController@selectCaretaker');
 //Routes Apartment Holders
     Route::get('/admin/holders', 'ApartmentHolderController@showHolders');
     Route::post('/admin/holders/add', 'ApartmentHolderController@addHolder');
@@ -111,8 +111,21 @@ Route::group(['middleware' => ['admin']], function () {
 
     // Cron Job Route to send email reminder to the main client
     Route::get('/admin/reminder_client/email', 'MailController@sendReminderMail');
+    //Route for managing offers
+    Route::get('/admin/offers', 'OffersController@index');
+    Route::post('/admin/offers/add', 'OffersController@addOffer');
+    Route::post('/admin/offers/edit/{id}', 'OffersController@editOffer');
+    Route::get('/admin/offers/delete/{id}', 'OffersController@deleteOffer');
 
+    //Routes for simulating payments
+    Route::get('/admin/reservations/payment/full/{id}', 'ReservationsController@correctPayment');
+    Route::get('/admin/reservations/payment/incorrect/{id}', 'ReservationsController@incorrectPayment');
 
 });
+            //Client route for single Blog
+        Route::get('/clients/index', 'ClientsController@index');
+        Route::get('/clients/blog/{id}', 'ClientsController@viewSinglePost');
+        Route::get('/clients/blog', 'ClientsController@allPosts');
+
 
 

@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,27 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+          integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Dashboard 1 Page CSS -->
     <link href="{{asset('dist/css/pages/dashboard1.css')}}" rel="stylesheet">
     <link href="{{asset('css_login/pages/login-register-lock.css')}}" rel="stylesheet">
     <link href="{{asset('css_login/style.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
     <link rel="stylesheet" href="{{asset('css/custom_style.css')}}">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+
+
     <title>FullCalendar!</title>
 </head>
 <style>
-    .fc-agendaDay-button{
-        display: none !important;
-    }
-    .fc-today-button{
+    .fc-agendaDay-button {
         display: none !important;
     }
 
-    h2{
+    .fc-today-button {
+        display: none !important;
+    }
+
+    h2 {
         font-family: 'Share Tech Mono', monospace;
         text-decoration: underline;
         font-size: 38px;
@@ -39,7 +49,7 @@
 
 <div class="jumbotron calendar_parallax">
     <div class="calendar_titles">
-    <h1 class="calendar_main_title">Full Calendar of reservations</h1>
+        <h1 class="calendar_main_title">Full Calendar of reservations</h1>
     </div>
 </div>
 
@@ -47,12 +57,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default mb-5">
-                <a href="/admin/dashboard" class="btn btn-success">Back to DashBoard &nbsp;<i class="far fa-hand-point-left"></i></a>
+                <a href="/admin/dashboard" class="btn btn-success">Back to DashBoard &nbsp;<i
+                            class="far fa-hand-point-left"></i></a>
                 @include('admin.parts.messages.success')
                 @include('admin.parts.messages.error')
                 @include('admin.parts.messages.custom_error')
-                <div class="panel-heading calendar_second_title"><u> Reservations Calendar & The Customers</u> &nbsp;<i class="fas fa-calendar-check"></i></div>
-               <p class="attention_calendar">Click on reservation to see all details</p>
+                <div class="panel-heading calendar_second_title"><u> Reservations Calendar & The Customers</u> &nbsp;<i
+                            class="fas fa-calendar-check"></i></div>
+                <p class="attention_calendar">Click on reservation to see all details</p>
                 <div class="panel-body">
 
                     {!! $calendar->calendar() !!}
@@ -62,7 +74,7 @@
     </div>
 </div>
 @php
-$reservations=\App\Reservation::all()
+    $reservations=\App\Reservation::all()
 @endphp
 
 @foreach($reservations as $reservation)
@@ -76,7 +88,7 @@ $reservations=\App\Reservation::all()
 
 
 
-    var ddData=[
+    var ddData = [
                     @foreach($apartments as $apartment)
                     @php
                         $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
@@ -108,17 +120,22 @@ $reservations=\App\Reservation::all()
     });
 
 </script>
-
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{{asset('js/ddslick.js')}}"></script>
+
 @include('admin.parts.modals.add.reservation')
 @php
 
@@ -128,8 +145,6 @@ $reservations=\App\Reservation::all()
     @include('admin.parts.modals.edit.reservation')
 @endforeach
 {!! $calendar->script() !!}
-
-
 
 </body>
 </html>

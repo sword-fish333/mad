@@ -54,7 +54,7 @@
                     $main_client=\App\Person::where('id', $reservation->persons_id)->first();
                     @endphp
                     <div class="form-group col-md-5">
-                        <p  class="add_reservation_info">Document Type</p>
+                        <p ><strong><u>Document Type</u></strong></p>
                         <input type="radio"  class="ml-3" name="main_document_type" value="id_card"
                                 {{$main_client->document_type==='id_card' ? 'checked': ''}}>&nbsp;Id Card
                         <input type="radio" class="ml-3"  name="main_document_type" value="passport"
@@ -92,7 +92,8 @@
                         <p class="add_reservation_info">Choose another Image for his Profile </p>
 
                         <input type="file" name="main_profile_image"  class="form-control" >
-
+                            </div>
+                        </div>
                     </div>
                             <div class="form-group  mt-5">
                                 <label for="language_id" class="language_label">Change language for messages you want</label>
@@ -303,6 +304,7 @@
             @endphp
             var ddData=[
                     @foreach($apartments as $apartment)
+                        @if($apartment->status != 'blocked')
                     @php
                         $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
                     @endphp
@@ -315,6 +317,7 @@
                 imageSrc: "{{asset("storage/apartments_photos/$apartment_photo->filename")}}"
                 @endif
             },
+                @endif
                 @endforeach
         ];
 

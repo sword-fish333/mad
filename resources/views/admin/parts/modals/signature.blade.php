@@ -16,7 +16,7 @@
                 @if($reservation->signature)
                     <div class="col-md-10">
                     <p class="warning_info">There is already a signature for this reservation in the database.
-                        <br><b><u>If you want you can override it</u></b>
+                        <br><b style="color:#000;"><u>If you want you can override it</u></b>
                     </p>
                     </div>
                     @endif

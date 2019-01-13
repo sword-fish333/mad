@@ -21,7 +21,7 @@
                         @while($day <= $reservation->check_out)
                         <div class="card">
                             <div class="card-header bg-dark text-white">
-                             {{$day_nr}}.   {{\Carbon\Carbon::parse($day)->format('d-m-Y')}}
+                             {{$day_nr}}.   {{\Carbon\Carbon::parse($day)->format('d-M-Y')}}
                             </div>
                         <div class="card-body">
                     <table class="table table-hover table-bordered">

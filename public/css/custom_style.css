@@ -118,6 +118,20 @@
 }
 
 
+.offers_parallax{
+    /* The image used */
+    background-image: url("../images/offers.jpeg");
+
+    /* Set a specific height */
+    height: 400px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 .apartments_title{
     text-align: center;
@@ -306,6 +320,17 @@
 .card_info{
     font-family:'Noto Serif', sans-serif ;
     font-size: 16px;
+}
+.info_card{
+    font-family:'Noto Serif', sans-serif ;
+    font-size: 20px;
+    color: darkred;
+    text-decoration: underline;
+}
+
+.card_data input {
+    font-family:'Noto Serif', sans-serif !important;
+    color: black !important;
 }
 
 .title_apartment{
@@ -720,6 +745,15 @@
 }
 .page_add_header{
     background: rgba(222, 184, 135, 0.7);
+}
+.offer_add_header{
+    background: rgba(195,158,100, 0.7);
+
+}
+
+.offer_edit_header{
+    background: rgba(30,158,100, 0.7);
+
 }
 
 .label_add_page{

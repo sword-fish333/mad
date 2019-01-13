@@ -3,17 +3,17 @@
         El resultado del pago ha sido: <b style="color: red">PAGO INCORRECTO</b></p>
     <h3>Datos de la reserva</h3>
     <h4>Cliente</h4>
-    <p><b>Nombre:</b></p>
-    <p><b>NIF / DNI / Pasaporte:</b></p>
-    <p><b>Teléfono:</b></p>
-    <p><b>E-mail: </b></p>
+    <p><b>Nombre:</b>{{$client->name}}</p>
+    <p><b>NIF / DNI / Pasaporte:</b>{{$client->document_nr}}</p>
+    <p><b>Teléfono:</b>{{$reservation->phone}}</p>
+    <p><b>E-mail: </b>{{$reservation->email}}</p>
     <p><b>Comentarios: </b></p>
     <h4 style="margin-top: 15px">Reserva</h4>
-    <p><b>Apartamento:</b></p>
-    <p><b>Check-In:</b></p>
-    <p><b>Check-Out:</b></p>
-    <p><b>Personas:</b></p>
-    <p>Se ha creado una reserva <b>AWAITING PAYMENT</b> en la zona de administración.Igualmente SE HA ENVIADO POR MAIL
+    <p><b>Apartamento:</b>{{$apartment->name}}</p>
+    <p><b>Check-In:</b>{{\Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y')}}</p>
+    <p><b>Check-Out:</b>{{\Carbon\Carbon::parse($reservation->check_out)->format('d-M-Y')}}</p>
+    <p><b>Personas:</b>{{$guests_nr}}</p>
+    <p>Se ha creado una reserva <b style="color:red;">AWAITING PAYMENT</b> en la zona de administración.Igualmente SE HA ENVIADO POR MAIL
         AL INQUILINO UNA COPIA.</p>
     <p>Este es un correo automático desde la Web MadreamsRent.com</p>
 </div>

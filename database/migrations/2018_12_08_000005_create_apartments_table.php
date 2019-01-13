@@ -27,6 +27,7 @@ class CreateApartmentsTable extends Migration
             $table->string('name', 190)->nullable();
             $table->string('surface', 190)->nullable();
             $table->string('location', 190)->nullable();
+            $table->string('status', 190)->nullable();
             $table->text('description')->nullable();
             $table->integer('stars')->nullable();
             $table->double('price')->nullable();

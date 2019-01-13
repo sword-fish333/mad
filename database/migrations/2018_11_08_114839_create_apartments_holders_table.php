@@ -18,7 +18,7 @@ class CreateApartmentsHoldersTable extends Migration
             $table->string('name',195);
             $table->string('email', 195);
             $table->string('phone',195);
-            $table->text('document_photo');
+            $table->text('document_photo')->nullable();
             $table->text('cnp')->nullable();
             $table->text('address');
             $table->timestamps();

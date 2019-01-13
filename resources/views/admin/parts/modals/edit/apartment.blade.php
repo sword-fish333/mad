@@ -148,7 +148,7 @@
                         <div class="tab-pane" id="apartment_prices_edit{{$apartment->id}}">
                             <h1 class="new_apartment_label mt-5"><center><u>Apartment Prices for a given period</u></center></h1>
                             <button type="button" class="btn btn-info ml-4 my-3" data-toggle="modal" data-target="#addApartmentCost{{$apartment->id}}">
-                                &nbsp;Add Apartment fee <i class="far fa-money-bill-alt"></i>
+                                &nbsp;Add Price for The Apartment <i class="far fa-money-bill-alt"></i>
                             </button>
                             @php
                                 $apartment_costs=\App\ApartmentCost::where('apartment_id', $apartment->id)->get();
@@ -158,7 +158,7 @@
                             }
                             @endphp
                             <div class="message_price" style="display: none;">
-                                <div class=" @if(!empty($ap_id)) message_prices{{$ap_id->id}} @endif alert  alert-dismissible fade show" role="alert">
+                                <div class=" @if(!empty($ap_id)) message_prices{{$ap_id->id}} @endif alert col-md-8 offset-2  alert-dismissible fade show" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

@@ -28,17 +28,17 @@ class ReservationsController extends Controller
         return view('admin.reservations', compact('reservations'));
     }
 
-    public function changeStatus($id)
+    public function changeStatus($id, Request $request)
     {
-        $resarvation = Reservation::find($id);
-        if ($resarvation->status === 1) {
-            $resarvation->status = 0;
-        } else {
-            $resarvation->status = 1;
-        }
+        $reservation = Reservation::find($id);
+        $reservation->status=$request->status;
 
-        $resarvation->save();
-        return back()->with('success', 'Status has been updated!');
+            $reservation->save();
+
+            $message = 'Status has been saved successfully';
+            return $message;
+
+
     }
 
     public function addReservation(Request $request)
@@ -117,8 +117,8 @@ class ReservationsController extends Controller
                 'main_email' => 'required',
                 'main_phone' => 'required|digits_between:8,14',
                 'main_document_nr' => 'required',
-                'main_address'=>'required',
-                'main_document_serial_nr' =>'string|max:255',
+                'main_address' => 'required',
+                'main_document_serial_nr' => 'string|max:255',
                 'main_nationality' => 'required',
                 'main_document_picture' => 'required',
                 'apartment' => 'required',
@@ -159,11 +159,11 @@ class ReservationsController extends Controller
             $day = Carbon::parse($request->check_in);
             while ($day <= Carbon::parse($request->check_out)) {
                 $ap = Apartment::where('id', $reservation->apartment_id)->first();
-                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->where('start_date', '<=', $day)->where('end_date', '>=', $day)->first();
+                $ap_prices = ApartmentCost::where('apartment_id', $ap->id)->whereDate('start_date', '<=',$day)->whereDate('end_date', '>=',$day)->first();
 
                 if (!empty($ap_prices)) {
                     $reservation_price_list = new ReservationPriceList();
-                    $reservation_price_list->name = 'Apartment price';
+                    $reservation_price_list->name = 'Apartment price per day';
                     $reservation_price_list->price = $ap_prices->price;
                     $reservation_price_list->day = $day;
                     $reservation_price_list->reservation_id = $reservation->id;
@@ -192,7 +192,6 @@ class ReservationsController extends Controller
                 }
                 $day->addDays(1);
             }
-
 
             if ($request->client_name) {
                 $this->validate($request, [
@@ -223,15 +222,17 @@ class ReservationsController extends Controller
                 }
 
             }
-            $mail=new MailController();
-            $mail_status=[];
-            $mail_status[0]=$mail->sendConfirmationMail($reservation->languages_id, $reservation->id);
-            $mail_status[1]=$mail->sendReservationInfoMail($reservation->languages_id, $reservation->id);
-        if( count($mail_status[0])===0 ||count($mail_status[1])===0 ) {
-            return back()->with('success', 'The reservation has been saved successfully and a mail with the confirmation has been send to the client!');
-        }else{
-            return back()->with('error','The mail could not bee send but the reservation was made');
-        }
+            $mail = new MailController();
+            $mail_status = [];
+            $mail_status[0] = $mail->sendConfirmationMail($reservation->languages_id, $reservation->id);
+            $mail_status[1] = $mail->sendPaymentStatus('full', $reservation->id);
+
+            if (!count($mail_status[0]) === null || !count($mail_status[1]) === null) {
+
+                return back()->with('error','Message could not be sent');
+            }
+            return back()->with('success','Reservation saved successfully');
+
 
         }
     }
@@ -296,11 +297,11 @@ class ReservationsController extends Controller
         $reservation->phone = $request->main_client_phone;
         $reservation->languages_id = $request->language_id;
         $reservation->apartment_id = $request->apartment;
-        $reservation->address=$request->main_address;
+        $reservation->address = $request->main_address;
         $reservation->save();
         $main_client = Person::where('id', $reservation->persons_id)->first();
-        $main_client->name =$request->main_client_name;
-        $main_client->address=$request->main_address;
+        $main_client->name = $request->main_client_name;
+        $main_client->address = $request->main_address;
         $main_client->document_type = $request->main_document_type;
         $main_client->document_nr = $request->main_document_nr;
         $main_client->document_serial_nr = $request->main_document_serial_nr;
@@ -313,7 +314,7 @@ class ReservationsController extends Controller
         $main_client->save();
 
 
-        $clients = Person::where('id','!=',$reservation->persons_id)->where('reservation_id', $id)->get();
+        $clients = Person::where('id', '!=', $reservation->persons_id)->where('reservation_id', $id)->get();
 
         for ($i = 0; $i < count($clients); $i++) {
 
@@ -575,28 +576,29 @@ class ReservationsController extends Controller
         return json_encode($result);
     }
 
-    public function AddScheduleDates($id, Request $request){
+    public function AddScheduleDates($id, Request $request)
+    {
 
-        $reservation=Reservation::find($id);
+        $reservation = Reservation::find($id);
 
-        if($request->schedule_check_in){
-            if($request->schedule_check_in<$reservation->check_in){
+        if ($request->schedule_check_in) {
+            if ($request->schedule_check_in < $reservation->check_in) {
                 $data = ['error', 'Schedule check in can not be before the actual check in'];
                 return $data;
 
-            }else{
-                $reservation->schedule_check_in=$request->schedule_check_in;
+            } else {
+                $reservation->schedule_check_in = $request->schedule_check_in;
                 $reservation->save();
             }
 
         }
 
-        if($request->schedule_check_out){
-            if($request->schedule_check_out<$reservation->check_out){
+        if ($request->schedule_check_out) {
+            if ($request->schedule_check_out < $reservation->check_out) {
                 $data = ['error', 'Schedule check out can not be before the actual check out'];
                 return $data;
-            }else{
-                $reservation->schedule_check_out=$request->schedule_check_out;
+            } else {
+                $reservation->schedule_check_out = $request->schedule_check_out;
                 $reservation->save();
             }
         }
@@ -605,8 +607,95 @@ class ReservationsController extends Controller
 
     }
 
-    public  function AddCard($id, Request $request){
+    public function AddCardData($id, Request $request)
+    {
+
+        $rules = [
+            'card_name' => 'required|string|max:255',
+            'card_nr' => 'required|integer|min:0|digits:16',
+            'card_secure_code' => 'required|integer|min:0|digits:3',
+            'card_expire_date' => 'required',
+            'type_of_card' => 'required',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            $message = ['error', 'The data for the card was incorrect please try again.All fields are required. The card number has to have 16 integer digits, and the card security code has to have 3 integer digits'];
+            return $message;
+        }
+        $dateMonthArray = preg_split('/\s+/', $request->card_expire_date);
+        $month = $dateMonthArray[0];
+
+        $year = $dateMonthArray[1];
+        if (Carbon::createFromDate( $year,$month,1) < Carbon::now()->format('m-Y') || Carbon::createFromDate($year,$month,1)  > Carbon::createFromDate(2100, 1,1)){
+            $message = ['error', 'The Expire date of the card is invalid please try again'];
+            return $message;
+        }
+            $reservation = Reservation::find($id);
+        $reservation->card_name = encrypt($request->card_name);
+        $reservation->card_nr = encrypt($request->card_nr);
+        $reservation->card_expire_date = encrypt($request->card_expire_date);
+        $reservation->card_secure_code = encrypt($request->card_secure_code);
+        $reservation->type_of_card = encrypt($request->type_of_card);
+        $test_save = $reservation->save();
+        if (!$test_save || $reservation = null) {
+            $message = ['error', 'Card data could not be save please see if the reservation was saved correctly'];
+            return $message;
+        } else {
+            return 'Card data was saved successfully';
+        }
+    }
+
+    public function correctPayment( $id){
+
+            $reservation=Reservation::find($id);
+            $apartment=Apartment::where('id', $reservation->apartment_id)->first();
+            $apartment->status='blocked';
+            $reservation->payment_status='full';
+            $reservation->save();
+            $mail = new MailController();
+            $mail_status = [];
+            $mail_status[0] = $mail->sendConfirmationMail($reservation->languages_id, $reservation->id);
+            $mail_status[1] = $mail->sendPaymentStatus('full', $reservation->id);
+
+            if (!count($mail_status[0]) === null || !count($mail_status[1]) === null) {
+
+                return back()->with('error','Message could not be sent');
+            }
+        return back()->with('success','Payment made successfully');
+
+    }
+
+    public function partialPayment( $id){
+
         $reservation=Reservation::find($id);
-        dd();
+        $reservation->payment_status='partial';
+        $reservation->save();
+        $mail = new MailController();
+        $mail_status = [];
+        $mail_status[0] = $mail->sendConfirmationMail($reservation->languages_id, $reservation->id);
+        $mail_status[1] = $mail->sendPaymentStatus('partial', $reservation->id);
+        if (!count($mail_status[0]) === null || !count($mail_status[1]) === null) {
+
+            return back()->with('error','Message could not be sent');
+        }
+        return back()->with('success','Partial payment made successfully');
+    }
+
+    public  function incorrectPayment( $id){
+        $reservation=Reservation::find($id);
+        $reservation->payment_status='stand by';
+        $reservation->save();
+        $mail = new MailController();
+        $mail_status = [];
+        $mail_status[0] = $mail->sendReservationInfoMail($reservation->languages_id, $reservation->id);
+        $mail_status[1] = $mail->sendPaymentStatus('stand by', $reservation->id);
+
+        if (!count($mail_status[0]) === null || !count($mail_status[1]) === null) {
+
+            return back()->with('error','Message could not be sent');
+        }
+        return back()->with('success','Payment made successfully');
     }
 }

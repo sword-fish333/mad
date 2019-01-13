@@ -18,8 +18,8 @@
 <h3><b>Detalle:</b></h3>
 <h4><b>PRESUPUESTO:</b></h4>
 <p><b>Nombre: </b>{{$client->name}}</p>
-<p><b>Tel: </b>{{$client->phone}}</p>
-<p><b>E-mail: </b>{{$client->email}}</p>
+<p><b>Tel: </b>{{$reservation->phone}}</p>
+<p><b>E-mail: </b>{{$reservation->email}}</p>
 <h3><b>Datos de la solicitud: </b></h3>
 <p><b>Apartamento: </b>{{$apartment->name}}</p>
 <p><b>Fecha de entrada: </b>{{$reservation->check_in}}</p>

@@ -1,23 +1,7 @@
 @extends('admin.layouts.master')
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <style>
 
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            margin-left: 100px;
-            margin-top: 20px;
-            height: 300px;
-            width: 500px;
-        }
-        .edit_map{
-            margin-left: 100px;
-            margin-top: 20px;
-            height: 300px;
-            width: 500px;
-        }
-    </style>
     <section>
         <div class="jumbotron pages_parallax">
             <div class="dashboard_titles">

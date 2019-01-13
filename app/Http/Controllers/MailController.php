@@ -33,7 +33,7 @@ class MailController extends Controller
                 $data = ['error', 'Your message was not sent please try again or check the connection to the server'];
                 return $data;
             }
-            $message = 'The mail was sent successfully';
+            $message = 'The mail was sent successfully to the client';
 
             return $message;
         } else {
@@ -149,24 +149,33 @@ class MailController extends Controller
         }
     }
 
-    public function sendPaymentStatus($id)
+    public function sendPaymentStatus($payment_status, $id)
     {
         $reservation = Reservation::find($id);
 
-        $apartment = Apartment::where('id', $reservation->apartment_id)->first();
-        $client = Person::where('id', $reservation->persons_id)->first();
-        $to_name = $reservation->name;
-        $to_email = $reservation->email;
-        $guests_nr = Person::where('reservation_id', $reservation->id)->count();
-
+            $apartment = Apartment::where('id', $reservation->apartment_id)->first();
+            $client = Person::where('id', $reservation->persons_id)->first();
+            $to_name = $reservation->name;
+            $to_email = $reservation->email;
+            $guests_nr = Person::where('reservation_id', $reservation->id)->count();
         $data = array('guests_nr' => $guests_nr, 'client' => $client, 'apartment' => $apartment, 'reservation' => $reservation);
 
-        Mail::send('admin.mails.reminder_spanish', $data, function ($message) use ($to_name, $to_email) {
-            $message->to('ghiurcaalin@gmail.com')
-                ->subject('www.madreamsrent.com: Recordatorio de su reserva para el piso ');
-            $message->from('ghiurcaalin@gmail.com');
-        });
+        if($payment_status==='full') {
+                Mail::send('admin.mails.confirm_payment_spanish', $data, function ($message) use ($to_name, $to_email) {
+                    $message->to('ghiurcaalin@gmail.com')
+                        ->subject('www.madreamsrent.com: Reserva hecha para el piso ');
+                    $message->from('ghiurcaalin@gmail.com');
+                });
+                    return Mail::failures();
+            }else{
+                Mail::send('admin.mails.rejected_payment_spanish', $data, function ($message) use ($to_name, $to_email) {
+                    $message->to('ghiurcaalin@gmail.com')
+                        ->subject('www.madreamsrent.com: Reserva rechazada para el piso ');
+                    $message->from('ghiurcaalin@gmail.com');
+                });
 
+                return Mail::failures();
+            }
 
     }
 }

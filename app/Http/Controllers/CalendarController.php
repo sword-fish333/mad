@@ -23,7 +23,7 @@ class CalendarController extends Controller
                     $title,
                     true,
                     new \DateTime($value->check_in),
-                    new \DateTime($value->check_out ),
+                    new \DateTime($value->check_out),
                     $value->id,
                     // Add color and link on event
 

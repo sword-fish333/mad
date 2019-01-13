@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="editPage{{$page->id}}" tabindex="-1" role="dialog" aria-labelledby="addStaticPage" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header page_add_header">
                 <h5 class="modal-title add_page_title_modal" id="exampleModalLabel">Edit Page &nbsp;<i class="fas fa-highlighter"></i></h5>
@@ -62,7 +62,7 @@
                 text: "{{$category->name}}",
                 value:{{$category->id}},
                 selected:false,
-                description: "{{str_limit($category->content,200,'...')}}",
+                description: "{!!str_limit($category->content,200,'...')!!}",
                     @if($category->image)
                     imageSrc: "{{asset("storage/pages_image/$category->image")}}"
                     @endif

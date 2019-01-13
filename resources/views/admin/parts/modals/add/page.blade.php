@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="addStaticPage" tabindex="-1" role="dialog" aria-labelledby="addStaticPage" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header page_add_header">
                 <h5 class="modal-title add_page_title_modal" id="exampleModalLabel">Add Page &nbsp;<i class="fas fa-plus-square"></i></h5>
@@ -38,7 +38,7 @@
                             <select id="slick_categories" name="parent_category"  required></select>
                             <div class="form-group mt-3 ml-1">
                                 <label for="content" class="label_add_page">Content</label>
-                                <textarea cols="20" rows="10" class="form-control wysiwyg" placeholder="..." required name="page_content" ></textarea>
+                                <textarea cols="20" rows="10" class="form-control wysiwyg" name="page_content" placeholder="..."   ></textarea>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 text: "{{$category->name}}",
                 value:{{$category->id}},
                 selected: false,
-                description: "{{str_limit($category->content,200,'...')}}",
+                description:"{!! str_limit($category->content,200,'...')!!}",
                     @if($category->image)
                     imageSrc: "{{asset("storage/pages_image/$category->image")}}"
                     @endif

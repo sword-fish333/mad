@@ -20,19 +20,22 @@
 
 
                 </ul>
-                <form action="/admin/reservations/add" method="post" id="save_reservation_form" enctype="multipart/form-data">
+                <form action="/admin/reservations/add" method="post" id="save_reservation_form"
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="tab-content">
                         <div class="tab-pane active" id="main_client_add">
 
                             <h1 id="main_person_reservation_title">Main Person for which the reservation is made</h1>
                             <div class="row " style="margin-left: 160px;">
-                                <p class="warning_info"><i class="fas fa-exclamation-triangle fa-2x"></i>&nbsp;&nbsp;All fields are required . If you miss one the reservation will not be made</p>
+                                <p class="warning_info"><i class="fas fa-exclamation-triangle fa-2x"></i>&nbsp;&nbsp;All
+                                    fields are required . If you miss one the reservation will not be made</p>
                                 <div class="form-group">
                                     <label for="language" class="language_label">Select language for reservation
                                         depending on which the messages will be send: </label>
 
-                                    <input type="radio" name="language_id" class="ml-3" value="1"><b style="color: darkred" required>&nbsp;Spanish</b>
+                                    <input type="radio" name="language_id" class="ml-3" value="1"><b
+                                            style="color: darkred" required>&nbsp;Spanish</b>
                                     <input type="radio" class="ml-2" name="language_id" checked="checked" value="2"><b
                                             style="color: darkred">&nbsp;English</b>
                                 </div>
@@ -48,7 +51,8 @@
                                 </div>
                                 <div class="col-md-4 mt-3 offset-1">
                                     <div class="form-group">
-                                        <label class="add_reservation_info mb-4">Person for which the reservation will be
+                                        <label class="add_reservation_info mb-4">Person for which the reservation will
+                                            be
                                             made</label>
                                         <input type="text" name="main_name" class="form-control" placeholder="..."
                                                required>
@@ -58,20 +62,20 @@
                                 {{--Slick dropdown for selecting Apartment--}}
                                 <div class=" mt-2 ml-5 col-md-5">
                                     <label class="add_reservation_info mb-4">Choose apartment for which you want to make
-                                            reservation</label>
+                                        reservation</label>
                                     <select id="slick_apartments" name="apartment" required></select>
                                 </div>
 
                             </div>
                             <div class="row" style="margin-left: 100px;">
                                 <div class="offset-1">
-                                    <p class="mt-3 ml-4 add_reservation_info" > Document Type</p>
+                                    <p class="mt-3 ml-4 add_reservation_info"> Document Type</p>
                                     <input type="radio" name="main_document_type" class="ml-3" value="id_card"
                                            placeholder="..." required>ID Card
                                     <input type="radio" name="main_document_type" class="ml-3" value="passport"
-                                           placeholder="..." >Passport
+                                           placeholder="..." required>Passport
                                     <input type="radio" name="main_document_type" class="ml-3" value="other"
-                                           placeholder="..." >Other
+                                           placeholder="..." required>Other
                                 </div>
                                 <div class="form-group col-md-4 mt-4" style="margin-left: 130px;">
                                     <label for="main_email" class="add_reservation_info">Email</label>
@@ -92,7 +96,7 @@
                                     <label for="main_document_serial_nr" class="add_reservation_info">Document Serial
                                         Nr</label>
                                     <input type="number" name="main_document_serial_nr" min="0" class="form-control"
-                                           placeholder="..." >
+                                           placeholder="...">
                                 </div>
                                 <div class="form-group col-md-4 ml-4">
                                     <label for="main_nationality" class="add_reservation_info">Nationality of The main
@@ -101,7 +105,8 @@
                                            required>
                                 </div>
                                 <div class="form-group col-md-4 offset-1">
-                                    <label for="main_nationality" class="add_reservation_info">Address of the Main Client</label>
+                                    <label for="main_nationality" class="add_reservation_info">Address of the Main
+                                        Client</label>
                                     <input type="text" name="main_address" class="form-control" placeholder="..."
                                            required>
                                 </div>
@@ -109,11 +114,11 @@
                                     <label for="main_document_picture" class="add_reservation_info">Document
                                         Picture</label>
                                     <div class="file-upload">
-                                    <div class="file-select">
-                                        <div class="file-select-button" id="fileName">Choose File</div>
-                                        <div class="file-select-name" id="noFile">No file chosen...</div>
-                                    <input type="file" name="main_document_picture"  id="chooseFile"  required>
-                                    </div>
+                                        <div class="file-select">
+                                            <div class="file-select-button" id="fileName">Choose File</div>
+                                            <div class="file-select-name" id="noFile">No file chosen...</div>
+                                            <input type="file" name="main_document_picture" id="chooseFile" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -147,27 +152,30 @@
                         </div>
                         <div class="tab-pane" id="check_in_out">
                             <h1 id="main_person_reservation_title">Reservation Period</h1>
-                            <div class="col-md-10 offset-2 " >
-                                <p class="warning_info"><i class="fas fa-exclamation-triangle fa-2x"></i>&nbsp;&nbsp;An email will be send to the client with the reservation details</p>
+                            <div class="col-md-10 offset-2 ">
+                                <p class="warning_info"><i class="fas fa-exclamation-triangle fa-2x"></i>&nbsp;&nbsp;An
+                                    email will be send to the client with the reservation details</p>
                             </div>
                             <div class="row  mt-5">
 
                                 <div class="col-md-6 offset-3">
                                     <div class="form-group ">
                                         <label for="check_in" class="add_reservation_info"><u>Check In</u></label>
-                                        <input type="datetime-local" name="check_in" class="form-control"
+                                        <input type="text" name="check_in" class="form-control check_date"
                                                autocomplete="off" required>
                                     </div>
                                     <div class="form-group ">
                                         <label for="check_out" class="add_reservation_info"><u>Check Out</u></label>
-                                        <input type="datetime-local" name="check_out" class="form-control"
+                                        <input type="text" name="check_out" class="form-control check_date"
                                                autocomplete="off" required>
                                     </div>
 
                                 </div>
                             </div>
                             <div class="form-group col-md-6 offset-3">
-                                <button type="submit" class="btn btn-primary btn-block " id="save_reservation_button">Save Data  And Send mail to client with reservation details&nbsp; <i class="fas fa-envelope"></i></button>
+                                <button type="submit" class="btn btn-primary btn-block " id="save_reservation_button">
+                                    Save Data And Send mail to client with reservation details&nbsp; <i
+                                            class="fas fa-envelope"></i></button>
                             </div>
                         </div>
                     </div>
@@ -181,10 +189,17 @@
     </div>
 
     <script>
+        $( function() {
+            $( ".check_date" ).datepicker({
 
-        function testInputs(){
-            var inputs=$('form#save_reservation_form :input').filter('[required]:visible');
-            for(var i=0;i<inputs.length;i++){
+                format:'DD/MM/YYYY',
+                minDate:0
+
+            });
+        } );
+        function testInputs() {
+            var inputs = $('form#save_reservation_form :input').filter('[required]:visible');
+            for (var i = 0; i < inputs.length; i++) {
                 if (inputs.eq(i).val() === "") {
                     return false;
                 }
@@ -194,14 +209,14 @@
             return true;
         }
 
-        $("#save_reservation_button").click(function(e){
+        $("#save_reservation_button").click(function (e) {
 
 
-            if(testInputs() === false){
+            if (testInputs() === false) {
                 alert('You did not fill out one of the fields');
-               e.preventDefault();
-            }else {
-                console.log(1);
+                e.preventDefault();
+            } else {
+
                 $('#exampleModal1').show();
                 setTimeout(function () {
                     $('#exampleModal1').hide();
@@ -272,10 +287,12 @@
             }
         });
                 @php
-                    $apartments=\App\Apartment::all()
+                    $apartments=\App\Apartment::all();
+
                 @endphp
         var ddData = [
                         @foreach($apartments as $apartment)
+                        @if($apartment->status !='blocked')
                         @php
                             $apartment_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
                         @endphp
@@ -289,7 +306,7 @@
                         @endif
                 },
 
-
+                    @endif
                     @endforeach
             ];
         $('#slick_apartments').ddslick({

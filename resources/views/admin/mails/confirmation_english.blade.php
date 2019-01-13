@@ -1,7 +1,7 @@
 <img src="{{asset('images/madrent_logo.jpg')}}" style="width: 150px; height: auto">
 <h2><b>Dear</b> {{$client->name}}</h2>
 <p>We are writing in order to confirm your reservation under your name, for the dates stated below. In addition, you
-    should read the check-in details in case you may have any queries.</p>
+    should read the check-in details in case you may have any questions.</p>
 <h3><b>Customer:</b></h3>
 <p><b>Name: </b>{{$client->name}}</p>
 <p><b>Identity card/passport: </b>{{$client->document_nr}}</p>

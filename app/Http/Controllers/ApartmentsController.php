@@ -19,7 +19,7 @@ class ApartmentsController extends Controller
     public function showApartmentsTable()
     {
         $features = Feature::all();
-        $apartments = Apartment::all();
+        $apartments = Apartment::orderBy('created_at', 'desc')->get();
 
         return view('admin.apartments', array('apartments' => $apartments, 'features' => $features));
     }
@@ -61,7 +61,7 @@ class ApartmentsController extends Controller
                 'holder_name'=>'required|string|max:255',
                 'holder_address'=>'required|string|max:20000',
                 'holder_email'=>'required|email',
-                'holder_phone'=>'required|numeric'
+                'holder_phone'=>'required|numeric',
             ]);
 
             $holder=new ApartmentHolder();
@@ -69,6 +69,10 @@ class ApartmentsController extends Controller
             $holder->address=$request->holder_address;
             $holder->email=$request->holder_email;
             $holder->phone=$request->holder_phone;
+            if ($request->document_photo) {
+                $document_photo = \App\Http\Controllers\FilesController::uploadFile($request, 'document_photo', 'apartments_photos', array("jpg", "jpeg", "png", "gif"), false);
+            }
+            $holder->document_photo=$document_photo;
             $holder->save();
             $apartment->holder_id=$holder->id;
         }else if(!empty($request->holder)) {
@@ -88,6 +92,10 @@ class ApartmentsController extends Controller
             }
 
             for($i=0; $i<count($request->fee_name);$i++) {
+                if(!is_numeric($request->fee_value[$i])){
+                    return back()->with('error' ,'You have enter a invalid value for the price of the apartment!');
+
+                }
                 $apartment_fee = new ApartmentFee();
                 $apartment_fee->name = $request->fee_name[$i];
                 $apartment_fee->description = $request->fee_description[$i];
@@ -111,7 +119,10 @@ class ApartmentsController extends Controller
 
                     return back()->with('error' ,' The start date of the price ca not be before today and the end date can not be after the start date!');
                 }
+                if(!is_numeric($request->price_value[$i])){
+                    return back()->with('error' ,'You have enter a invalid value for the price of the apartment!');
 
+                }
                 $apartment_price = new ApartmentCost();
                 $apartment_price->price = $request->price_value[$i];
                     $apartment_price->start_date=Carbon::parse($request->start_date[$i])->toDateString();

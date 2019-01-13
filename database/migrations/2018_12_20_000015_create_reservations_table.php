@@ -31,6 +31,12 @@ class CreateReservationsTable extends Migration
             $table->text('address')->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
+            $table->string('card_name',255)->nullable();
+            $table->string('card_nr',255)->nullable();
+            $table->string('card_expire_date',255)->nullable();
+            $table->string('card_secure_code',255)->nullable();
+            $table->string('type_of_card',255)->nullable();
+            $table->string('payment_status',190)->nullable();
             $table->dateTime('schedule_check_in')->nullable();
             $table->dateTime('schedule_check_out')->nullable();
             $table->unsignedInteger('languages_id')->nullable();

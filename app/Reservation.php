@@ -9,6 +9,8 @@ class Reservation extends Model
     protected $table='reservations';
     protected $guarded=[];
 
+
+
     public function contract(){
         return $this->hasMany('App\Contract','reservations_id','id');
     }

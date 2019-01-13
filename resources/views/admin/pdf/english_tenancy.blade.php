@@ -168,6 +168,6 @@
 </ol>
 <p><b>NAME AND LAST NAME:&nbsp;{{$client->name}}</b></p>
 <p><b>SIGNATURE:</b></p>
-<img src="{{base_path().'/storage/app/public/signatures/'.$reservation->signature}}" style="margin-left: 10px; width: 150px; height: auto">
+<img src="{{base_path().'/storage/app/public/signatures/'.$reservation->signature}}" style="margin-left: 10px; width: 200px; height: auto">
 </body>
 </html>
