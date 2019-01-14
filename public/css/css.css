@@ -502,12 +502,14 @@ hr.hr_header2{
     margin-bottom:4px;
 }
 img.img_blog_post{
-   width:auto;
-    height: 400px;
+   max-width:600px;
+    max-height: 600px;
+    margin: auto;
     margin-top:20px;
     margin-bottom:20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 div.element_cautare{
     width:100%;
     background-color:#fafafa;
@@ -561,6 +563,11 @@ p.loc_ttt{
 }
 i.el_ic{
     color:#23a4ea;
+}
+.form_info{
+    font-family: 'Roboto', 'sans-serif';
+    color: black;
+    font-size: 12px;
 }
 .sr_rght{
     background-color:#0b0c9a;

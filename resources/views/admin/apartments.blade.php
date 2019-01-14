@@ -77,7 +77,7 @@
                         @endif
                     </td>
                     <td>{{$apartment->location}}</td>
-                    <td>{{str_limit($apartment->description,250,'...')}}</td>
+                    <td>{!! str_limit($apartment->description,250,'...')!!}</td>
                     <td>{{$apartment->surface}}</td>
                     @php
                         $apartments_features=\App\ApartmentFeature::where('apartments_id', $apartment->id)->pluck('features_id');

@@ -6,7 +6,7 @@
 <p><b>Name: </b>{{$client->name}}</p>
 <p><b>Identity card/passport: </b>{{$client->document_nr}}</p>
 <p><b>Nationality: </b>{{$client->nationality}}</p>
-<p><b>Address:  </b>{{$client->address}}</p>
+<p><b>Email:  </b>{{$client->address}}</p>
 <p><b>Phone:  </b>{{$reservation->phone}}</p>
 <h3><b>Reservation details:</b></h3>
 <p><b>Apartment:</b>{{$apartment->name}}</p>

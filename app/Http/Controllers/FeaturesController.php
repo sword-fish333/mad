@@ -20,8 +20,7 @@ class FeaturesController extends Controller
 
         $feature=new Feature();
         $feature->name=$request->name;
-        $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'icon', 'features_images', array("jpg", "jpeg", "png", "gif"));
-        $feature->icon=$photo;
+        $feature->icon=$request->icon;
         $feature->save();
 
         return back()->with('success','Feature added successfully!');

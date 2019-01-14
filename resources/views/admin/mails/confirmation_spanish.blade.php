@@ -6,7 +6,7 @@
 <p><b>Nombre: </b>{{$client->name}}</p>
 <p><b>NIF / DNI / Pasaporte: </b>{{$client->document_nr}}</p>
 <p><b>Nacionalidad: </b>{{$client->nationality}}</p>
-<p><b>Dirección:  </b>{{$client->name}}</p>
+<p><b>Email:  </b>{{$client->name}}</p>
 <p><b>Tel:  </b>{{$client->phone}}</p>
 <h3><b>Datos de la reserva:</b></h3>
 <p><b>Apartamento:</b>{{$apartment->name}}</p>

@@ -41,7 +41,7 @@
                 <tr>
                     <td>{{$increment}}</td>
                     <td>{{$page->name}}</td>
-                    <td>{{$page->content}}</td>
+                    <td>{!! $page->content!!}</td>
                     <td>
                         @if($page->image)
                         <img src="{{asset("storage/pages_image/$page->image")}}" class="" style="width:120px !important; height: auto;">

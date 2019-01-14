@@ -14,7 +14,7 @@
                         <p class="date_bl">{{\Carbon\Carbon::parse($blog->created_at)->format('d-m-Y')}}</p>
                         <hr class="hr_header">
                         <p class="blog_text">
-                            {{wordwrap($blog->content,2000,'<br><br>')}}
+                            {!! wordwrap($blog->content,2000,'<br><br>')!!}
 
                         </p>
                         <img src="{{asset("storage/pages_image/$blog->image")}}" class="img_blog_post">

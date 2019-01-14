@@ -39,21 +39,14 @@
                     @endforeach
 
 
-                    <div class="paginare">
-                        <div class="suport_paginare"><i class="fas fa-angle-left ic_pag"></i></div>
-                        <div class="suport_paginare"><p class="text_pag">1</p></div>
-                        <div class="suport_paginare"><p class="text_pag">2</p></div>
-                        <div class="suport_paginare"><p class="text_pag">3</p></div>
-                        <div class="suport_paginare"><p class="text_pag">4</p></div>
-                        <div class="suport_paginare"><i class="fas fa-angle-right ic_pag"></i></div>
-                    </div>
+
                 </div>
                 <div class="col-md-4">
                     <div class="sr_rght">
                         <p class="titl_sr_rg">Fa o cautare noua</p>
                         <hr class="hr_white">
-                        <form action="/clients/search" method="post">
-                            @csrf
+                        <form action="/clients/search" method="get">
+
                         <div class="input_suport">
                             <i class="far fa-calendar-alt inp_icon"></i>
 
@@ -78,6 +71,9 @@
     @foreach($apartments as $apartment)
         @include('client.layouts.modals.view.apartment')
     @endforeach
+    <div class="offset-5 mt-3">
+        {{$apartments->links('client.layouts.parts.pagination')}}
+    </div>
     <script>
         $( function() {
             $( ".datepicker" ).datepicker({

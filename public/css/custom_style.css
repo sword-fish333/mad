@@ -158,8 +158,14 @@
 
 .new_apartment_label{
     font-family: 'Noto Serif', sans-serif;
-    font-size: 22px;
+    font-size: 16px;
 }
+
+.flex-group {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 . price_label{
     font-family: 'Noto Serif', sans-serif;
@@ -192,15 +198,15 @@
 
 .info_apartment{
     font-family: 'Saira', sans-serif;
-    font-size: 22px;
+    font-size:18px;
     color: black;
     text-decoration: underline;
-    font-weight: bold;
+
 }
 
 .apartment_data{
     font-family: 'Catamaran', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .custom_background{
@@ -767,6 +773,9 @@
     color: darkred;
 }
 
+.el_ic{
+    color:#23a4ea;
+}
 
 .file-upload{display:block;text-align:center;font-family: Helvetica, Arial, sans-serif;font-size: 12px;}
 .file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e !important;cursor:pointer;height:40px;line-height:40px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}

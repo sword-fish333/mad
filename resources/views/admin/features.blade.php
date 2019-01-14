@@ -23,7 +23,7 @@
             <tr class="bg-dark custom_apartments_table_head  text-center"  >
                 <th>#</th>
                 <th>Name</th>
-                <th>Image</th>
+                <th>Icon</th>
                 <th>Apartments that have this feature</th>
                 <th>Edit Feature</th>
                 <th>Delete Feature</th>
@@ -34,9 +34,9 @@
                 <tr>
                     <td><strong style="font-size: 20px;">{{$feature->id}}</strong></td>
                    <td>{{$feature->name}}</td>
-                    <td>
+                    <td class="text-center">
                         @if($feature->icon)
-                            <img src="{{asset("storage/features_images/$feature->icon")}}" class="" style="width:150px !important; height: auto;">
+                            <i class="fas {{$feature->icon}} fa-3x el_ic"></i>
                         @else
                             <p>There is no Image available</p>
                         @endif

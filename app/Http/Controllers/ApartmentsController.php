@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\FilesController;
 use Validator;
+
 class ApartmentsController extends Controller
 {
     public function showApartmentsTable()
@@ -30,6 +31,7 @@ class ApartmentsController extends Controller
         $this->validate($request, [
             'lat' => 'required',
             'lng' => 'required',
+            'apartment_name' => 'required',
             'address' => 'required|string|max:2000',
             'stars' => 'required',
             'surface' => 'required|numeric',
@@ -37,6 +39,16 @@ class ApartmentsController extends Controller
             'price' => 'required|numeric',
             'increment_price' => 'required|numeric',
             'price_type' => 'required',
+            'nr_guests' => 'required',
+            'floor' => 'required|integer|min:0',
+            'nr_bedrooms'=> 'required|integer|min:0',
+            'nr_bathrooms'=> 'required|integer|min:0',
+            'nr_single_beds'=> 'required|integer|min:0',
+            'nr_double_beds'=> 'required|integer|min:0',
+            'elevator'=>'nullable|boolean'
+
+
+
 
         ]);
         $apartment = new Apartment();
@@ -51,83 +63,91 @@ class ApartmentsController extends Controller
         $apartment->increment_price = $request->increment_price;
         $apartment->kind_increment_price = $request->price_type;
 
+        $apartment->nr_guests = $request->nr_guests;
+        $apartment->floor = $request->floor;
+        $apartment->bedrooms = $request->nr_bedrooms;
+        $apartment->bathrooms = $request->nr_bathrooms;
+        $apartment->nr_single_beds = $request->nr_single_beds;
+        $apartment->nr_double_beds = $request->nr_double_beds;
+        $apartment->elevator = $request->elevator;
 
 
-        if(!empty($request->holder_name) && !empty($request->holder)){
+        if (!empty($request->holder_name) && !empty($request->holder)) {
 
-            return back()->with('error','You can not choose a holder and enter one at the same time!');
-        }else if(!empty($request->holder_name)){
-            $this->validate($request,[
-                'holder_name'=>'required|string|max:255',
-                'holder_address'=>'required|string|max:20000',
-                'holder_email'=>'required|email',
-                'holder_phone'=>'required|numeric',
+            return back()->with('error', 'You can not choose a holder and enter one at the same time!');
+        } else if (!empty($request->holder_name)) {
+            $this->validate($request, [
+                'holder_name' => 'required|string|max:255',
+                'holder_address' => 'required|string|max:20000',
+                'holder_email' => 'required|email',
+                'holder_phone' => 'required|numeric',
             ]);
 
-            $holder=new ApartmentHolder();
-            $holder->name=$request->holder_name;
-            $holder->address=$request->holder_address;
-            $holder->email=$request->holder_email;
-            $holder->phone=$request->holder_phone;
+            $holder = new ApartmentHolder();
+            $holder->name = $request->holder_name;
+            $holder->address = $request->holder_address;
+            $holder->email = $request->holder_email;
+            $holder->phone = $request->holder_phone;
             if ($request->document_photo) {
                 $document_photo = \App\Http\Controllers\FilesController::uploadFile($request, 'document_photo', 'apartments_photos', array("jpg", "jpeg", "png", "gif"), false);
             }
-            $holder->document_photo=$document_photo;
+            $holder->document_photo = $document_photo;
             $holder->save();
-            $apartment->holder_id=$holder->id;
-        }else if(!empty($request->holder)) {
-            $apartment->holder_id=$request->holder;
-        }else{
-            $apartment->holder_id=NULL;
+            $apartment->holder_id = $holder->id;
+        } else if (!empty($request->holder)) {
+            $apartment->holder_id = $request->holder;
+        } else {
+            $apartment->holder_id = NULL;
         }
 
 
         $apartment->save();
 
-        if(!empty($request->fee_name)) {
+        if (!empty($request->fee_name)) {
 
 
             if (count($request->fee_name) != count($request->fee_description) || count($request->fee_name) != count($request->fee_value) || count($request->fee_name) != count($request->type_of_value)) {
                 return back()->with('error', 'You have to complete all fields for a new fee');
             }
 
-            for($i=0; $i<count($request->fee_name);$i++) {
-                if(!is_numeric($request->fee_value[$i])){
-                    return back()->with('error' ,'You have enter a invalid value for the price of the apartment!');
+            for ($i = 0; $i < count($request->fee_name); $i++) {
+                if (!is_numeric($request->fee_value[$i])) {
+                    return back()->with('error', 'You have enter a invalid value for the price of the apartment!');
 
                 }
                 $apartment_fee = new ApartmentFee();
                 $apartment_fee->name = $request->fee_name[$i];
                 $apartment_fee->description = $request->fee_description[$i];
                 $apartment_fee->value = $request->fee_value[$i];
-                $apartment_fee->type_of_value = $request->type_of_value[$i][$i+1];
+                $apartment_fee->type_of_value = $request->type_of_value[$i][$i + 1];
                 $apartment_fee->apartment_id = $apartment->id;
                 $apartment_fee->save();
             }
 
         }
-        if(!empty($request->price_value)) {
+        if (!empty($request->price_value)) {
 
 
             if (count($request->price_value) != count($request->start_date) || count($request->price_value) != count($request->end_date) || count($request->end_date) != count($request->start_date)) {
                 return back()->with('error', 'You have to complete all fields for a new price');
             }
 
-            for($i=0; $i<count($request->price_value);$i++) {
-                if(Carbon::parse($request->start_date[$i])->toDateString()>Carbon::parse($request->end_date[$i])->toDateString() ||
-                Carbon::parse($request->start_date[$i])->toDateString()<Carbon::today()){
+            for ($i = 0; $i < count($request->price_value); $i++) {
+                if (Carbon::parse($request->start_date[$i])->toDateString() > Carbon::parse($request->end_date[$i])->toDateString() ||
+                    Carbon::parse($request->start_date[$i])->toDateString() < Carbon::today()
+                ) {
 
-                    return back()->with('error' ,' The start date of the price ca not be before today and the end date can not be after the start date!');
+                    return back()->with('error', ' The start date of the price ca not be before today and the end date can not be after the start date!');
                 }
-                if(!is_numeric($request->price_value[$i])){
-                    return back()->with('error' ,'You have enter a invalid value for the price of the apartment!');
+                if (!is_numeric($request->price_value[$i])) {
+                    return back()->with('error', 'You have enter a invalid value for the price of the apartment!');
 
                 }
                 $apartment_price = new ApartmentCost();
                 $apartment_price->price = $request->price_value[$i];
-                    $apartment_price->start_date=Carbon::parse($request->start_date[$i])->toDateString();
-                    $apartment_price->end_date=Carbon::parse($request->end_date[$i])->toDateString();
-                $apartment_price->apartment_id=$apartment->id;
+                $apartment_price->start_date = Carbon::parse($request->start_date[$i])->toDateString();
+                $apartment_price->end_date = Carbon::parse($request->end_date[$i])->toDateString();
+                $apartment_price->apartment_id = $apartment->id;
                 $apartment_price->save();
             }
 
@@ -172,7 +192,15 @@ class ApartmentsController extends Controller
             'description' => 'required|max:200000',
             'price' => 'required|numeric',
             'increment_price' => 'required|numeric',
-            'price_type' => 'required'
+            'price_type' => 'required',
+            'nr_guests' => 'integer|min:0',
+            'floor' => 'integer|min:0',
+            'nr_bedrooms'=> 'integer|min:0',
+            'nr_bathrooms'=> 'integer|min:0',
+            'nr_single_beds'=> 'integer|min:0',
+            'nr_double_beds'=> 'integer|min:0',
+            'elevator'=>'nullable|boolean'
+
         ]);
         $apartment = Apartment::find($id);
         $apartment->name = $request->apartment_name;
@@ -182,54 +210,60 @@ class ApartmentsController extends Controller
         $apartment->lng = $request->lng_2;
         $apartment->description = $request->description;
         $apartment->price = $request->price;
-        $apartment->stars=$request->edit_stars;
+        $apartment->stars = $request->edit_stars;
         $apartment->increment_price = $request->increment_price;
         $apartment->kind_increment_price = $request->price_type;
 
+        $apartment->nr_guests = $request->nr_guests;
+        $apartment->floor = $request->floor;
+        $apartment->bedrooms = $request->nr_bedrooms;
+        $apartment->bathrooms = $request->nr_bathrooms;
+        $apartment->nr_single_beds = $request->nr_single_beds;
+        $apartment->nr_double_beds = $request->nr_double_beds;
+        $apartment->elevator = $request->elevator;
 
-        if(!empty($request->holder_name) && !empty($request->holder)){
+        if (!empty($request->holder_name) && !empty($request->holder)) {
 
-            return back()->with('error','You can not choose a holder and enter one at the same time!');
-        }
-        else if(!empty($request->holder_name)){
-            $this->validate($request,[
-                'holder_name'=>'required|string|max:255',
-                'holder_address'=>'required|string|max:20000',
-                'holder_email'=>'required|email',
-                'holder_phone'=>'required|numeric'
+            return back()->with('error', 'You can not choose a holder and enter one at the same time!');
+        } else if (!empty($request->holder_name)) {
+            $this->validate($request, [
+                'holder_name' => 'required|string|max:255',
+                'holder_address' => 'required|string|max:20000',
+                'holder_email' => 'required|email',
+                'holder_phone' => 'required|numeric'
             ]);
 
-            $holder=new ApartmentHolder();
-            $holder->name=$request->holder_name;
-            $holder->address=$request->holder_address;
-            $holder->email=$request->holder_email;
-            $holder->phone=$request->holder_phone;
-            if($request->cnp) {
-                $rules=[
-                    'cnp'=>'numeric|digits:13'
+            $holder = new ApartmentHolder();
+            $holder->name = $request->holder_name;
+            $holder->address = $request->holder_address;
+            $holder->email = $request->holder_email;
+            $holder->phone = $request->holder_phone;
+            if ($request->cnp) {
+                $rules = [
+                    'cnp' => 'numeric|digits:13'
                 ];
 
-                $customMsg=[
-                    'digits'=>'If you enter CNP it has to have exactly 13 digits'
+                $customMsg = [
+                    'digits' => 'If you enter CNP it has to have exactly 13 digits'
                 ];
 
                 $this->validate($request, $rules, $customMsg);
                 $holder->cnp = $request->cnp;
-            }else{
-                $holder->cnp =NULL;
+            } else {
+                $holder->cnp = NULL;
             }
-            if($request->document_photo) {
+            if ($request->document_photo) {
                 $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'document_photo', 'apartment_holders', array("jpg", "jpeg", "png", "gif"), false);
-                $holder->document_photo=$photo;
-            }else{
-                $holder->document_photo=NULL;
+                $holder->document_photo = $photo;
+            } else {
+                $holder->document_photo = NULL;
             }
             $holder->save();
-            $apartment->holder_id=$holder->id;
-        }else if(!empty($request->holder)) {
-            $apartment->holder_id=$request->holder;
-        }else{
-            $apartment->holder_id=NULL;
+            $apartment->holder_id = $holder->id;
+        } else if (!empty($request->holder)) {
+            $apartment->holder_id = $request->holder;
+        } else {
+            $apartment->holder_id = NULL;
         }
 
 
@@ -259,76 +293,81 @@ class ApartmentsController extends Controller
         return back()->with('success', 'The Apartment has been edited successfully!');
     }
 
-    public function deleteApartmentEditPhoto($id){
+    public function deleteApartmentEditPhoto($id)
+    {
         Picture::find($id)->delete();
     }
 
-    public function deleteApartment($id){
+    public function deleteApartment($id)
+    {
         Apartment::find($id)->delete();
         ApartmentFeature::where('apartments_id', $id)->delete();
         Picture::where('apartments_id', $id)->delete();
 
-        return back()->with('success','Apartment and related data have beeen deleted successfully!');
+        return back()->with('success', 'Apartment and related data have beeen deleted successfully!');
     }
 
-    public function addFee($id, Request $request){
+    public function addFee($id, Request $request)
+    {
         $validator = Validator::make($request->all(), [
-               'name'=>'required|string|max:255',
-                'description'=>'required|string|max:2000',
-                'value'=>'required|numeric|min:0',
-                'type_of_value'=>'required'
-            ]);
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:2000',
+            'value' => 'required|numeric|min:0',
+            'type_of_value' => 'required'
+        ]);
 
-            if($validator->fails()){
-                $message=[];
-                $message['status']='error';
-                $message['info_error']='You need to insert value that is bigger than  0 and all fields are required';
+        if ($validator->fails()) {
+            $message = [];
+            $message['status'] = 'error';
+            $message['info_error'] = 'You need to insert value that is bigger than  0 and all fields are required';
 
-                $message=json_encode($message);
-                return $message;
-            }
+            $message = json_encode($message);
+            return $message;
+        }
 
-        $apartment_fee=new ApartmentFee();
-        $apartment_fee->name=$request->name;
-        $apartment_fee->description=$request->description;
-        $apartment_fee->value=$request->value;
-        $apartment_fee->type_of_value=$request->type_of_value;
-        $apartment_fee->apartment_id=$id;
+        $apartment_fee = new ApartmentFee();
+        $apartment_fee->name = $request->name;
+        $apartment_fee->description = $request->description;
+        $apartment_fee->value = $request->value;
+        $apartment_fee->type_of_value = $request->type_of_value;
+        $apartment_fee->apartment_id = $id;
         $apartment_fee->save();
 
 
-
-        $message=[];
-        $message['status']='success';
+        $message = [];
+        $message['status'] = 'success';
         $message['info_success'] = 'Fee was added successfully';
         $message = json_encode($message);
         return $message;
     }
 
-    public function viewFees($id){
-        $apartment_fees=ApartmentFee::where('apartment_id',$id)->get();
+    public function viewFees($id)
+    {
+        $apartment_fees = ApartmentFee::where('apartment_id', $id)->get();
 
-        $apartment_fees=json_encode($apartment_fees);
+        $apartment_fees = json_encode($apartment_fees);
 
         return $apartment_fees;
 
     }
 
-    public function deleteFee($id){
+    public function deleteFee($id)
+    {
 
         ApartmentFee::find($id)->delete();
     }
 
-    public function editFee($id, Request $request){
+    public function editFee($id, Request $request)
+    {
 
-        if($request->value<0){
-            $message=[];
-            $message['status']='error';
-            $message['info_error']='You need to insert value that is bigger than  0';
+        if ($request->value < 0) {
+            $message = [];
+            $message['status'] = 'error';
+            $message['info_error'] = 'You need to insert value that is bigger than  0';
 
-            $message=json_encode($message);
+            $message = json_encode($message);
             return $message;
-        }else {
+        } else {
             $apartment_fee = ApartmentFee::find($id);
             $apartment_fee->name = $request->name;
             $apartment_fee->description = $request->description;
@@ -336,8 +375,8 @@ class ApartmentsController extends Controller
             $apartment_fee->type_of_value = $request->type_of_value;
 
             $apartment_fee->save();
-            $message=[];
-            $message['status']='success';
+            $message = [];
+            $message['status'] = 'success';
             $message['info_success'] = 'Edit was successfull';
             $message = json_encode($message);
             return $message;

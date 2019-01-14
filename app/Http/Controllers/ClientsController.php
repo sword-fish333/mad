@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Apartment;
 use App\Blog;
+use App\Country;
+use App\Language;
 use App\Offer;
 use Carbon\Carbon;
 use foo\bar;
@@ -27,8 +29,8 @@ class ClientsController extends Controller
 
     public function allPosts()
     {
-        $blogs = Blog::all();
-        return view('client.blog', array('blogs' => $blogs));
+        $articles = Blog::paginate(5);
+        return view('client.blog', array('articles' => $articles));
     }
 
     public function viewForm()
@@ -55,5 +57,25 @@ class ClientsController extends Controller
         }
 
         return view('client.search_results', array('apartments' => $apartments, 'check_in' => $request->check_in, 'check_out' => $request->check_out, 'nr_persons'=>$nr_p));
+    }
+
+    public function viewApartment($id){
+        $apartment=Apartment::find($id);
+
+        return view('client.apartment_info', array('apartment'=>$apartment));
+    }
+
+    public function viewReservation($id){
+        $apartment=Apartment::find($id);
+        $languages=Language::all();
+        $countries=Country::all();
+        return view('client.reservation', array('apartment'=>$apartment, 'languages'=>$languages, 'countries'=>$countries));
+    }
+
+    public function newReservation(Request $request){
+        if($request->terms !=1){
+            return back()->with('error', 'The terms and conditions must be checked in order for your reservation to submit');
+        }
+        return 1;
     }
 }

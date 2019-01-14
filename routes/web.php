@@ -127,8 +127,11 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('/clients/blog/{id}', 'ClientsController@viewSinglePost');
         Route::get('/clients/blog', 'ClientsController@allPosts');
 
-        Route::get('/clients/reservation', 'ClientsController@viewForm');
-        Route::post('/clients/search', 'ClientsController@searchApartments');
+
+        Route::get('/clients/search', 'ClientsController@searchApartments');
+        Route::get('/clients/apartment/{id}', 'ClientsController@viewApartment');
+        Route::get('/clients/reservation/{id}', 'ClientsController@viewReservation');
+        Route::post('/clients/new/reservation', 'ClientsController@newReservation');
 
 
 

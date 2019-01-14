@@ -19,8 +19,8 @@
                         <img src="{{asset('images/site_images/city-solid.png')}}" class="img_city">
                         <input type="text" class="input_srr" placeholder="Oras..." value="Madrid" disabled style="background: grey; text-align: center; font-weight: bold; color: white; font-size: 22px; border-bottom-left-radius: 10px;margin-top:1px; border-top-left-radius: 10px;">
                     </div>
-                    <form action="/clients/search" id="search_form" method="post">
-                        @csrf
+                    <form action="/clients/search" id="search_form" method="get">
+
                     <div class="div_inp">
                         <i class="far fa-calendar-alt inp_icon"></i>
                         <input type="text" class="input_srr datepicker" name="check_in" autocomplete="off" placeholder="Data check-in">
@@ -112,11 +112,11 @@
                                 <a href="/clients/blog/{{$blog->id}}">
                                 <div class="blog_post">
                                     <img src="{{asset("storage/pages_image/$blog->image")}}" class="img_blog">
-                                    <div class="right_part_blg">
+                                    <div class="right_part_blg" style="padding-left: 25px;">
                                         <p class="date_bl">{{\Carbon\Carbon::parse($blog->created_at)->format('d-m-Y')}}</p>
                                         <p class="blog_title">{{$blog->name}}</p>
                                         <p class="blog_text">
-                                            {{str_limit($blog->content, 1000, '...')}}
+                                            {!!  str_limit($blog->content, 1000, '...')!!}
                                         </p>
                                         <p class="all_blog">Citeste tot articolul...</p>
                                     </div>
@@ -145,11 +145,6 @@
             $('form#search_form').submit();
         });
 
-        $( function() {
-            $( ".datepicker" ).datepicker({
-                minDate: 0,
 
-            });
-        } );
     </script>
 @endsection

@@ -31,6 +31,13 @@ class CreateApartmentsTable extends Migration
             $table->text('description')->nullable();
             $table->integer('stars')->nullable();
             $table->double('price')->nullable();
+            $table->unsignedInteger('floor')->nullable();
+            $table->unsignedInteger('bedrooms')->nullable();
+            $table->unsignedInteger('bathrooms')->nullable();
+            $table->boolean('elevator')->nullable();
+            $table->unsignedInteger('nr_single_beds')->nullable();
+            $table->unsignedInteger('nr_double_beds')->nullable();
+            $table->unsignedInteger('nr_guests')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
             $table->double('increment_price')->nullable();

@@ -31,11 +31,11 @@
                             </div>
                             <div class="row">
                                 <div class="form-group ml-5 col-md-5">
-                                    <label for="lat" class="ml-5 new_apartment_label"><u>Latitude</u></label>
+                                    <label for="lat" class=" new_apartment_label"><u>Latitude</u></label>
                                     <input type="text" id="latbox" name="lat" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group ml-3 col-md-5">
-                                    <label for="lng" class="ml-5 new_apartment_label"><u>Longitude</u></label>
+                                    <label for="lng" class=" new_apartment_label"><u>Longitude</u></label>
                                     <input type="text" id="lngbox" name="lng" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group ml-5 col-md-5">
@@ -78,61 +78,85 @@
             <label class="label_item" for="radio5"> &#9734 </label>
         </span>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-5 mt-4">
                                     <p class="ml-5  new_apartment_label"><u>Surface</u></p>
                                     <div class="input-group ml-5  ">
-                                        <input type="number" step="0.01" min="0" name="surface" class="form-control"
+                                        <input type="number" step="0.01" min="0" name="surface" class="form-control col-md-4"
                                                aria-describedby="square" placeholder="..." required>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="square">m<sup>2</sup></span>
                                         </div>
                                     </div>
                                 </div>
-                                <label for="surface" class="ml-5 mt-4 col-md-8 new_apartment_label"><u>Features of the
+                                <div class="col-md-5">
+                                <label for="features" class="ml-5 mt-4 new_apartment_label"><u>Features of the
                                         Apartment</u></label>
-                                <div class=" mt-2 ml-5 col-md-12">
-                                    <div style="overflow: auto; height: 250px; width:350px; " class="mb-5">
+                                <div class=" mt-2 ml-5 ">
+                                    <div style="overflow: auto; height: 350px; width:250px; " class="mb-5">
 
                                         @foreach($features as $feature)
                                             <div class="form-check">
                                                 <label class="form-check-label">
 
                                                     <input type="checkbox" name="features[]" value="{{$feature->id}}"
-                                                           class="form-check-input">{{$feature->name}}
+                                                    >&nbsp;&nbsp;{{$feature->name}}
 
-                                                    <img src='{{asset("storage/features_images/$feature->icon")}}'
-                                                         style="width: 100px; right: 0; height: auto"
-                                                         class="ml-5 img-thumbnail">
-                                                    <hr>
+                                                    <i class="fas mt-5 ml-3 {{$feature->icon}} fa-3x el_ic"></i>
                                                 </label>
+                                                <hr>
                                             </div>
                                         @endforeach
                                     </div>
                                 </div>
-
+                                </div>
+                                    <div class="col-md-5 " style="margin-top: 28px">
+                                        <div class="form-group " >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Elevator:</u></label>
+                                            <input type="checkbox" class="mt-2 ml-3 " name="elevator" value="1" >
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u>Maximum Number of Guests:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3 ml-3 " name="nr_guests" required placeholder="...">
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Number of Bedrooms:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_bedrooms" placeholder="..." style="float: right">
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Number of Bathrooms:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3  float-right" name="nr_bathrooms" placeholder="...">
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Floor:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3 " name="floor" placeholder="...">
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Number of single Beds:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_single_beds" placeholder="...">
+                                        </div>
+                                        <div class="form-group flex-group" >
+                                            <label   for="" class="new_apartment_label mt-1"><u> Number of double Beds:</u></label>
+                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_double_beds" placeholder="...">
+                                        </div>
+                                    </div>
                                 <div class="form-group col-md-8 ml-5">
                                     <label for="description" class="  new_apartment_label"><u>Description of the
                                             Apartment</u></label>
-                                    <textarea name="description" id="" cols="30" rows="10" class="form-control"
-                                              required></textarea>
+                                    <textarea name="description" id="" cols="30" rows="10" class="form-control wysiwyg"
+                                              ></textarea>
                                 </div>
                                 <div class="form-group col-md-3 ml-5">
-                                    <label for="price" class=" price_label"><u>Price of the apartment</u></label>
+                                    <label for="price" class=" new_apartment_label"><u>Price of the apartment</u></label>
                                     <div class="input-group">
                                         <input type="number" min="0" name="price" step="0.01" class="form-control"
                                                aria-describedby="currency" required>
                                         <span class="input-group-text" id="currency">{{env('CURRENCY')}}</span>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-5">
-                                    <label for="photos_apartment">Photos for the apartment</label>
-                                    <div class="file-upload">
-                                        <div class="file-select">
-                                            <div class="file-select-button" id="fileName">Choose File</div>
-                                            <div class="file-select-name" id="noFile">No file chosen...</div>
-                                            <input type="file" name="apartment_photos[]" id="chooseFile" multiple>
-                                        </div>
-                                    </div>
+                                <div class="form-group col-md-5 ml-4">
+                                    <label for="photos_apartment" class="new_apartment_label">Photos for the apartment</label>
+                                            <input type="file" name="apartment_photos[]" class="form-control" multiple>
+
 
                                 </div>
                                 <div class="form-group col-md-6 ml-5">
@@ -144,7 +168,7 @@
                                 <div class="form-group " style="margin-top: 65px;">
                                     <fieldset>
                                         <input type="radio" name="price_type" value="%" class="lead">%
-                                        <input type="radio" name="price_type" value="u.m." class="lead ml-4">u.m.
+                                        <input type="radio" name="price_type" value="u.m." class="lead ml-4">&nbsp; u.m.
                                     </fieldset>
                                 </div>
 
