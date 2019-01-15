@@ -7,7 +7,7 @@
             <div class="col-md-9">
                 <div class="mg_tp">
                     <p class="text_inf_nav"><i class="fas fa-phone"></i>  +40 777 777 777</p>
-                    <p class="text_inf_nav"><i class="far fa-envelope"></i>  info@madreamsrent.com</p>
+                    <a href="/clients/contact"><p class="text_inf_nav"><i class="far fa-envelope"></i>  info@madreamsrent.com</p></a>
                     <select class="select_lang">
                         <option>Romana</option>
                         <option>Spaniola</option>

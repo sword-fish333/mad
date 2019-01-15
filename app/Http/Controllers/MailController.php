@@ -16,13 +16,13 @@ class MailController extends Controller
 {
     public function sendCaretaker($id)
     {
+
         $reservation = Reservation::find($id);
+        $apartment = Apartment::where('id', $reservation->apartment_id)->first();
+        $to_name = $reservation->name;
+        $to_email = $reservation->email;
+        $caretaker = Admin::where('id', $reservation->caretaker_id)->first();
         if ($reservation->languages_id === 1) {
-            $reservation = Reservation::find($id);
-            $apartment = Apartment::where('id', $reservation->apartment_id)->first();
-            $to_name = $reservation->name;
-            $to_email = $reservation->email;
-            $caretaker = Admin::where('id', $reservation->caretaker_id)->first();
             $data = array('apartment_name' => $apartment->name, 'location' => $apartment->location, 'schedule_check_in' => $reservation->schedule_check_in, 'check_in' => Carbon::parse($reservation->check_in)->format('m-d-Y'), 'check_out' => Carbon::parse($reservation->check_out)->format('m-d-Y'), 'name' => $reservation->name, 'caretaker' => $caretaker->name, 'email' => $caretaker->email, 'phone' => $caretaker->phone);
             Mail::send('admin.mails.caretaker_spanish', $data, function ($message) use ($to_name, $to_email) {
                 $message->to('ghiurcaalin@gmail.com')
@@ -37,12 +37,6 @@ class MailController extends Controller
 
             return $message;
         } else {
-
-            $apartment = Apartment::where('id', $reservation->apartment_id)->first();
-            $to_name = $reservation->name;
-            $to_email = $reservation->email;
-            $caretaker = Admin::where('id', $reservation->caretaker_id)->first();
-
             $data = array('apartment_name' => $apartment->location, 'location' => $apartment->location, 'schedule_check_in' => $reservation->schedule_check_in, 'check_in' => Carbon::parse($reservation->check_in)->format('m-d-Y'), 'check_out' => Carbon::parse($reservation->check_out)->format('m-d-Y'), 'name' => $reservation->name, 'caretaker' => $caretaker->name, 'email' => $caretaker->email, 'phone' => $caretaker->phone);
             Mail::send('admin.mails.caretaker_english', $data, function ($message) use ($to_name, $to_email) {
                 $message->to('ghiurcaalin@gmail.com')

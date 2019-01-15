@@ -174,7 +174,8 @@
 </ol>
 <p><b>NOMBRE Y APELLIDO:{{$client->name}}</b></p>
 <p><b>FIRMA:</b></p>
+@if(!empty($reservation->signature))
 <img src="{{base_path().'/storage/app/public/signatures/'.$reservation->signature}}" style="margin-left: 10px; width: 200px; height: auto">
-
+@endif
 </body>
 </html>

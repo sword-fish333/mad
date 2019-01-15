@@ -91,7 +91,7 @@
                             $client=\App\Person::where('id',$reservation->persons_id)->first();
                         @endphp
                         <td>
-                            @if($client->document_picture)
+                            @if(!empty($client->document_picture))
                                 <img src="{{asset("storage/document_photos/$client->document_picture")}}" class=""
                                      style="width:110px !important; height: auto;">
                             @else

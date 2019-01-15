@@ -1,5 +1,6 @@
+
 @if(session()->has('success'))
-    <div class="alert alert-success text-center alert-dismissible fade show" role="alert">
+    <div class="alert alert-success text-center alert-dismissible  show" role="alert">
         <strong>Success!</strong>
             {{session()->get('success')}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

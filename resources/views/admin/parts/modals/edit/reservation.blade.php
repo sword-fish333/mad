@@ -85,7 +85,9 @@
                     <div class="row my-4 ml-5">
                     <div class="col-md-5">
                         <p class="edit_reservation_info text-center">Current Profile Image of The Main Client</p>
+                        @if(!empty($client->document_picture))
                         <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail" style="width:130px !important; height: auto;">
+                        @endif
                     </div>
                         <div class="col-md-5">
                     <div class="form-group ">
@@ -163,7 +165,9 @@
                     <div class="col-md-5 ml-5">
                         <p class="client_edit_name ml-4">{{$client->name}}</p>
                         <p>Current Profile Image</p>
+                        @if(!empty($client->document_picture))
                         <img src="{{asset("storage/document_photos/$client->document_picture")}}" class="img-thumbnail" style="width:110px !important; height: auto;">
+                    @endif
                     </div>
 
                         <div class="col-md-5">

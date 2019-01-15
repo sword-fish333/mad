@@ -10,6 +10,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                    @include('client.layouts.messages.success')
+                    @include('client.layouts.messages.error')
+                    @include('client.layouts.messages.custom_error')
                     <p class="date_bl">{{count($apartments).'  results'}}</p>
                     <hr class="hr_header">
                     @foreach($apartments as $apartment)
@@ -18,22 +21,22 @@
                         @endphp
                     <div class="element_cautare" data-toggle="modal" data-target="#modalApartment{{$apartment->id}}">
                         @if($apartment_photo)
-                        <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="img_element_ct">
+                        <img src="{{asset("storage/apartments_photos/$apartment_photo->filename")}}" class="img_element_ct ">
                        @else
 
                             <img src="" alt="Apartment Image" class="img_element_ct">
 
                         @endif
-                        <div class="content_el_ct">
+                        <div class="content_el_ct ">
                                 @if($apartment->name)
-                                <p class="title_el_ct">{{$apartment->name}}</p>
+                                <p class="title_el_ct ml-3">{{$apartment->name}}</p>
                             @else
-                                <p class="title_el_ct">No name Available</p>
+                                <p class="title_el_ct ml-3">No name Available</p>
                                     @endif
-                            <p class="loc_tt"><i class="far fa-compass el_ic"></i> {{$apartment->location}}</p>
-                            <p class="loc_tt">
-                               {{str_limit($apartment->description, 250, '....')}}
-                            </p>
+                            <p class="loc_tt ml-3">  &nbsp;@for($x=1;$x<=(int)$apartment->stars;$x++) <i class="fas fa-star el_ic"></i>@endfor</p>
+                            <div class="loc_tt ml-3">
+                               {!! str_limit($apartment->description, 250, '....')!!}
+                            </div>
                         </div>
                     </div>
                     @endforeach

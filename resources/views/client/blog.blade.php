@@ -3,13 +3,15 @@
 
         <div class="header_title_blue">
             <div class="inner_titl">
-                <p class="text_title">Blogul MadreamsRent</p>
+                <p class="text_title"> MadreamsRent Blog</p>
             </div>
         </div>
 
         <div class="content_w_title">
             <div class="container">
                 <div class="row">
+                    @include('admin.parts.messages.success')
+                    @include('admin.parts.messages.error')
                     @foreach($articles as $article)
                     <div class="col-md-6">
                         <a href="/clients/blog/{{$article->id}}">
@@ -27,11 +29,10 @@
                         </a>
                     </div>
                         @endforeach
-
+                </div>
+                <div class="row">
+                    {{ $articles->links('client.layouts.parts.pagination') }}
                 </div>
             </div>
-        </div>
-        <div class="offset-5 mt-5">
-        {{ $articles->links('client.layouts.parts.pagination') }}
         </div>
     @endsection

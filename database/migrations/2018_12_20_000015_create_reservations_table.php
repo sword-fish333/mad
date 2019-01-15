@@ -31,6 +31,7 @@ class CreateReservationsTable extends Migration
             $table->text('address')->nullable();
             $table->dateTime('check_in')->nullable();
             $table->dateTime('check_out')->nullable();
+            $table->unsignedInteger('guests_nr')->nullable();
             $table->string('card_name',255)->nullable();
             $table->string('card_nr',255)->nullable();
             $table->string('card_expire_date',255)->nullable();
@@ -42,6 +43,8 @@ class CreateReservationsTable extends Migration
             $table->unsignedInteger('languages_id')->nullable();
             $table->unsignedInteger('persons_id')->nullable();
             $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('newsletter')->nullable();
+
             $table->text('token')->nullable();
             $table->unsignedInteger('caretaker_id')->nullable();
             $table->index(["apartment_id"], 'fk_reservations_apartments1_idx');

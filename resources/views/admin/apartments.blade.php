@@ -117,7 +117,7 @@
                         Check Out:{{\Carbon\Carbon::parse($reservation->check_out)->format('d-M-y h:m')}}
                             @endif
                         @else
-                            <strong>Free apartment</strong>
+                            <strong>Available apartment</strong>
                             @endif
                     </td>
                     <td>{{$apartment->price}}</td>

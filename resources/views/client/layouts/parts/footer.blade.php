@@ -12,10 +12,10 @@
             <div class="col-md-9">
                 <div class="mg_tp">
                     <p class="text_inf_nav">Termeni si conditii</p>
-                    <a href="contact.html"><p class="text_inf_nav">Contact</p></a>
+                    <a href="/clients/contact"><p class="text_inf_nav">Contact</p></a>
                     <a href="contact.html"><p class="text_inf_nav">Despre MadreamsRent</p></a>
-                    <p class="text_inf_nav">Blog</p>
-                    <p class="text_inf_nav">Home</p>
+                    <a href="/clients/blog"><p class="text_inf_nav">Blog</p></a>
+                    <a href=""><p class="text_inf_nav">Home</p></a>
                 </div>
             </div>
         </div>

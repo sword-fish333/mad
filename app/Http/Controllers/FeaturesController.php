@@ -36,8 +36,7 @@ class FeaturesController extends Controller
         $feature=Feature::find($id);
         $feature->name=$request->name;
         if($request->icon) {
-            $photo = \App\Http\Controllers\FilesController::uploadFile($request, 'icon', 'features_images', array("jpg", "jpeg", "png", "gif"));
-            $feature->icon = $photo;
+            $feature->icon = $request->icon;
         }
         $feature->save();
 

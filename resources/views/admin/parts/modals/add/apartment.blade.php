@@ -81,72 +81,85 @@
                                 <div class="col-md-5 mt-4">
                                     <p class="ml-5  new_apartment_label"><u>Surface</u></p>
                                     <div class="input-group ml-5  ">
-                                        <input type="number" step="0.01" min="0" name="surface" class="form-control col-md-4"
+                                        <input type="number" step="0.01" min="0" name="surface"
+                                               class="form-control col-md-4"
                                                aria-describedby="square" placeholder="..." required>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="square">m<sup>2</sup></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                <label for="features" class="ml-5 mt-4 new_apartment_label"><u>Features of the
-                                        Apartment</u></label>
-                                <div class=" mt-2 ml-5 ">
-                                    <div style="overflow: auto; height: 350px; width:250px; " class="mb-5">
+                                <div class="col-md-5" >
+                                    <label for="features" class="ml-5 mt-4 new_apartment_label"><u>Features of the
+                                            Apartment</u></label>
+                                    <div class=" mt-2 ml-5 " style=" border: 1px solid black; border-radius: 30px;">
+                                        <div style="overflow: auto; height: 330px; width:250px; " class="mt-3 mb-3 ">
 
-                                        @foreach($features as $feature)
-                                            <div class="form-check">
-                                                <label class="form-check-label">
+                                            @foreach($features as $feature)
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
 
-                                                    <input type="checkbox" name="features[]" value="{{$feature->id}}"
-                                                    >&nbsp;&nbsp;{{$feature->name}}
+                                                        <input type="checkbox" name="features[]"
+                                                               value="{{$feature->id}}"
+                                                        >&nbsp;&nbsp;{{$feature->name}}
 
-                                                    <i class="fas mt-5 ml-3 {{$feature->icon}} fa-3x el_ic"></i>
-                                                </label>
-                                                <hr>
-                                            </div>
-                                        @endforeach
+                                                        <i class="fas  ml-3 {{$feature->icon}} fa-3x el_ic "></i>
+                                                    </label>
+                                                    <hr>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                                    <div class="col-md-5 " style="margin-top: 28px">
-                                        <div class="form-group " >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Elevator:</u></label>
-                                            <input type="checkbox" class="mt-2 ml-3 " name="elevator" value="1" >
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u>Maximum Number of Guests:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3 ml-3 " name="nr_guests" required placeholder="...">
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Number of Bedrooms:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_bedrooms" placeholder="..." style="float: right">
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Number of Bathrooms:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3  float-right" name="nr_bathrooms" placeholder="...">
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Floor:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3 " name="floor" placeholder="...">
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Number of single Beds:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_single_beds" placeholder="...">
-                                        </div>
-                                        <div class="form-group flex-group" >
-                                            <label   for="" class="new_apartment_label mt-1"><u> Number of double Beds:</u></label>
-                                            <input type="number" step="1" min="0" class="form-control col-md-3  " name="nr_double_beds" placeholder="...">
-                                        </div>
+                                <div class="col-md-5 " style="margin-top: 28px; margin-left: 20px;">
+                                    <div class="form-group ">
+                                        <label for="" class="new_apartment_label mt-1"><u> Elevator:</u></label>
+                                        <input type="checkbox" class="mt-2 ml-3 " name="elevator" value="1">
                                     </div>
-                                <div class="form-group col-md-8 ml-5">
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u>Maximum Number of Guests:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3 ml-3 "
+                                               name="nr_guests" required placeholder="...">
+                                    </div>
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u> Number of
+                                                Bedrooms:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3  "
+                                               name="nr_bedrooms" placeholder="..." style="float: right">
+                                    </div>
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u> Number of
+                                                Bathrooms:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3  float-right"
+                                               name="nr_bathrooms" placeholder="...">
+                                    </div>
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u> Floor:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3 "
+                                               name="floor" placeholder="...">
+                                    </div>
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u> Number of single
+                                                Beds:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3  "
+                                               name="nr_single_beds" placeholder="...">
+                                    </div>
+                                    <div class="form-group flex-group">
+                                        <label for="" class="new_apartment_label mt-1"><u> Number of double
+                                                Beds:</u></label>
+                                        <input type="number" step="1" min="0" class="form-control col-md-3  "
+                                               name="nr_double_beds" placeholder="...">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8 ml-5 mt-4">
                                     <label for="description" class="  new_apartment_label"><u>Description of the
                                             Apartment</u></label>
                                     <textarea name="description" id="" cols="30" rows="10" class="form-control wysiwyg"
-                                              ></textarea>
+                                    ></textarea>
                                 </div>
                                 <div class="form-group col-md-3 ml-5">
-                                    <label for="price" class=" new_apartment_label"><u>Price of the apartment</u></label>
+                                    <label for="price" class=" new_apartment_label"><u>Price of the
+                                            apartment</u></label>
                                     <div class="input-group">
                                         <input type="number" min="0" name="price" step="0.01" class="form-control"
                                                aria-describedby="currency" required>
@@ -154,8 +167,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-5 ml-4">
-                                    <label for="photos_apartment" class="new_apartment_label">Photos for the apartment</label>
-                                            <input type="file" name="apartment_photos[]" class="form-control" multiple>
+                                    <label for="photos_apartment" class="new_apartment_label">Photos for the
+                                        apartment</label>
+                                    <input type="file" name="apartment_photos[]" class="form-control" multiple>
 
 
                                 </div>
@@ -228,9 +242,9 @@
                             <h1 class="new_apartment_label mt-5">
                                 <center><u>Apartment Holder</u></center>
                             </h1>
-                            <p class="holder_warning "><u>You can either choose an existing holder or you can add a new
-                                    one</u></p>
-                            <p class="holder_warning "><u>If you choose a holder you can not enter another one</u></p>
+                            <p class="holder_warning ">You can either choose an existing holder or you can add a new
+                                one</p>
+                            <p class="holder_warning ">If you choose a holder you can not enter another one</p>
                             <ul class="nav nav-tabs" id="tabContent">
                                 <li class="active nav-item"><a class="nav-link" href="#choose_holder" data-toggle="tab">
                                         Choose Holders</a></li>

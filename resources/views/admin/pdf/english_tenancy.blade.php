@@ -168,6 +168,8 @@
 </ol>
 <p><b>NAME AND LAST NAME:&nbsp;{{$client->name}}</b></p>
 <p><b>SIGNATURE:</b></p>
+@if(!empty($reservation->signature))
 <img src="{{base_path().'/storage/app/public/signatures/'.$reservation->signature}}" style="margin-left: 10px; width: 200px; height: auto">
+    @endif
 </body>
 </html>

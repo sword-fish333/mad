@@ -10,6 +10,8 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
+                        @include('admin.parts.messages.success')
+                        @include('admin.parts.messages.error')
                         <p class="blog_title">{{$blog->name}}</p>
                         <p class="date_bl">{{\Carbon\Carbon::parse($blog->created_at)->format('d-m-Y')}}</p>
                         <hr class="hr_header">

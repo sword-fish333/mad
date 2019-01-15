@@ -7,17 +7,17 @@
     </style>
     <div class="search_area">
         <div class="go_bot_div">
-            <p class="sem">Vezi mai multe despre MadreamsRent</p>
+            <p class="sem">Find Out More</p>
             <i class="fas fa-angle-double-down downarr"></i>
         </div>
         <div class="container">
-            <p class="title_hm">Cauta apartamentul potrivit pentru nevoile tale cu <span style="font-weight: 900">MadreamsRent</span>
+            <p class="title_hm">Find the right apartment for your needs with  <span style="font-weight: 900">MadreamsRent</span>
             </p>
             <div class="search_support">
                 <div class="actual_search">
                     <div class="div_inp_left">
                         <img src="{{asset('images/site_images/city-solid.png')}}" class="img_city">
-                        <input type="text" class="input_srr" placeholder="Oras..." value="Madrid" disabled style="background: grey; text-align: center; font-weight: bold; color: white; font-size: 22px; border-bottom-left-radius: 10px;margin-top:1px; border-top-left-radius: 10px;">
+                        <input type="text" class="input_srr" placeholder="City..." value="Madrid" disabled style="background: grey; text-align: center; font-weight: bold; color: white; font-size: 22px; border-bottom-left-radius: 10px;margin-top:1px; border-top-left-radius: 10px;">
                     </div>
                     <form action="/clients/search" id="search_form" method="get">
 
@@ -41,17 +41,17 @@
                     </form>
                 </div>
             </div>
-            @include('admin.parts.messages.success')
-            @include('admin.parts.messages.error')
-            @include('admin.parts.messages.custom_error')
+            @include('client.layouts.messages.success')
+            @include('client.layouts.messages.error')
+            @include('client.layouts.messages.custom_error')
         </div>
     </div>
 
     <div class="container">
         <div class="content">
             <div class="oferte_si_beneficii">
-                <p class="big_title">OFERTE SI BENEFICII</p>
-                <p class="sub_big_title">Lorem ipsum dolor sit amen, consecteur adipiscing elit.</p>
+                <p class="big_title">Offers and benefits</p>
+                <p class="sub_big_title">Special offers for our valuable customers</p>
                 <div class="benefit_div">
                     <div class="row">
                         <div class="col-md-8" style="overflow-y: auto; height: 450px;">
@@ -89,16 +89,16 @@
                 </div>
             </div>
             <div class="phone_area">
-                <p class="big_title">Aplicatia MadreamsRent este disponibila pe:</p>
+                <p class="big_title">The MadreamsRent application is available on:</p>
                 <div class="inliner">
                     <img src="{{asset('images/site_images/appstore.pn')}}g" class="img_phone">
                     <img src="{{asset('images/site_images/android.png')}}" class="img_phone">
                 </div>
-                <p class="sub_big_title">Descarca acum aplicatia pe dispozitivul tau!</p>
+                <p class="sub_big_title">Download the application now on your device!</p>
             </div>
             <hr class="hr_blue">
             <div class="blog_area">
-                <p class="big_title lf">Postari din blogul Madreams</p>
+                <p class="big_title lf"> Madreams Posts</p>
                 <div class="row">
                         @php
                             $i=1;
@@ -131,8 +131,8 @@
 
             </div>
             </div>
-                <div class="row offset-4">
-                    <a href="/clients/blog"><p class="link_to">Du-ma la blog pentru a vedea toate articolele</p></a>
+                <div class="row offset-5">
+                    <a href="/clients/blog"><p class="link_to" style="font-size: 22px;">See all articles &nbsp;<i class="fas fa-arrow-right"></i></p></a>
                 </div>
         </div>
     </div>

@@ -37,6 +37,9 @@
 .bg_loader{
     background: #FFE4C4;
 }
+.stars_ap{
+    color: darkred;
+}
 .dashboard_subtitle{
     text-align: center;
     font-family: 'Catamaran';
@@ -149,7 +152,7 @@
 
 .custom_modal_title{
     font-family: 'Catamaran', sans-serif;
-    text-decoration: underline;
+
     margin-top: 10px;
     font-weight: bold;
     color: white;
@@ -200,13 +203,18 @@
     font-family: 'Saira', sans-serif;
     font-size:18px;
     color: black;
-    text-decoration: underline;
+
 
 }
 
 .apartment_data{
     font-family: 'Catamaran', sans-serif;
     font-size: 16px;
+    color: darkred;
+}
+
+.view_features{
+ color: #3c6382;
 }
 
 .custom_background{
@@ -248,7 +256,7 @@
 }
 
 .custom_head_modal_feature{
-    background-color: rgba(60, 118, 198, 0.8);
+    background-color: #079992;
 }
 
 .feature_label{
@@ -256,6 +264,11 @@
     font-size: 19px;
     color:black;
     text-decoration: underline;
+}
+
+.feature_info{
+    ont-family: 'Merriweather', sans-serif;
+    font-size: 14px;
 }
 
 .reservations_parallax{

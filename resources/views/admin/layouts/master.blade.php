@@ -46,6 +46,8 @@
     <script src="{{asset('js/jquery.signaturepad.js')}}"></script>
     <script src="{{asset('js/json2.min.js')}}"></script>
     <script src="{{asset('js/numeric.min.js')}}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 </head>
 
 <body class="skin-default-dark fixed-layout">
@@ -121,6 +123,8 @@
         $('.data_table').DataTable({ responsive: true});
     });
 </script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- Bootstrap popper Core JavaScript -->
 <script src="{{asset('assets/node_modules/popper/popper.min.js')}}"></script>
 <script src="{{asset('assets/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>

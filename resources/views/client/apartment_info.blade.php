@@ -10,6 +10,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                    @include('admin.parts.messages.success')
+                    @include('admin.parts.messages.error')
                     @php
                         $apartment_photos=\App\Picture::where('apartments_id', $apartment->id)->get();
                             $first_ap_photo=\App\Picture::where('apartments_id', $apartment->id)->first();
@@ -135,6 +137,6 @@
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key={{env('api_key')}}&libraries=places
-                    &callback=initMap">
+                    &callback=initMap"></script>
 
 @endsection

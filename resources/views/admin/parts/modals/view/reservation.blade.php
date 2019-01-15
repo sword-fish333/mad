@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white view_reservation_modal_header">
-                <h5 class="modal-title">View Reservations Details &nbsp; <i class="fas fa-signal"></i></h5>
+                <h5 class="modal-title">View Reservations Details &nbsp; <i class="fas fa-ticket-alt"></i></h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -120,11 +120,11 @@
                         @php
                             $client=\App\Person::where('id',$reservation->persons_id)->first();
                         @endphp
-                        @if($client->document_picture)
+                        @if(!empty($client->document_picture))
                             <img src="{{asset("storage/document_photos/$client->document_picture")}}"
                                  class="img-thumbnail ml-5" style="height:150px; width: auto;">
                         @else
-                            <p><strong>The Client has no <br> Image available</strong></p>
+                            <p class="ml-5"><strong>The Client has no <br> Image available</strong></p>
                         @endif
                         <div class=" mt-5 ">
                             <button type="button" class="btn btn-primary ml-5" data-toggle="modal"
@@ -274,9 +274,9 @@
 
                         @endif
                     </div>
-                    <div class="col-md-3 offset-3">
+                    <div class="col-md-4 offset-2">
                         <p><span class="info_reservations">Stars:&nbsp;</span>{{$apartment->stars}}&nbsp;<span
-                                    style="color:darkred !important;"><i class="fas fa-star"></i></span></p>
+                                    style="color:darkred !important;">@for($x=1;$x<=(int)$apartment->stars;$x++) <i class="fas fa-star"></i>@endfor</span></p>
                     </div>
                 </div>
 
@@ -284,7 +284,7 @@
                 @if(!empty($apartment))
                     <div class="row ">
                         <div class="col-md-10">
-                            <p><span class="info_reservations">Description:&nbsp;</span>{{$apartment->description}}</p>
+                            <p><span class="info_reservations">Description:&nbsp;</span>{!! $apartment->description!!}</p>
 
                         </div>
 
@@ -403,7 +403,7 @@
     });
 
     $('#send_mail{{$reservation->id}}').on('click', function () {
-        if (confirm('Are you sure you want to send an Email to the Client ? An email was alread y send when the caretaker was choosen.')) {
+        if (confirm('Are you sure you want to send an Email to the Client ? An email was already send when the caretaker was chosen.')) {
             $.ajax({
                 type: "GET",
                 url: '/admin/mail/caretaker/' +{{$reservation->id}},

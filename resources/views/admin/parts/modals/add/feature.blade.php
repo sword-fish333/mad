@@ -3,8 +3,8 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header custom_head_modal_feature">
-                <h5 class="modal-title custom_modal_title" id="addApartment">Add Feature to database </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title custom_modal_title" id="addApartment"><u>Add Feature for Apartments</u> &nbsp; <i class="fas fa-plus"></i></h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -12,11 +12,12 @@
                 <form action="/admin/features/add" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="form-group col-md-5" >
+                        <div class="form-group col-md-5">
                             <label for="name" class="feature_label">Name of the feature</label>
                             <input type="text" name="name" class="form-control" placeholder="..." required>
+                            <p class="mt-3 feature_info">Insert a feature and choose a icon for that feature in order to make it available for a new apartment.</p>
                         </div>
-                        <div class="ml-5 col-md-6 row " >
+                        <div class="ml-5 col-md-6 row ">
                             <label for="icon" class="feature_label mb-3">Select an icon for the feature <strong>(Mandatory)</strong></label>
                             <input type="radio" class="col-md-3" value="fas fa-fire " name="icon" required>&nbsp;<i
                                     class="fas fa-fire el_ic"></i><br>
@@ -84,7 +85,30 @@
                                     class="fab fa-ethereum el_ic"></i><br>
                             <input type="radio" class="col-md-3" value="fas fa-concierge-bell" name="icon" required>&nbsp;<i
                                     class="fas fa-concierge-bell el_ic"></i><br>
-
+                            <input type="radio" class="col-md-3" value="fas fa-notes-medical" name="icon" required>&nbsp;<i
+                                    class="fas fa-notes-medical el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-user-md" name="icon" required>&nbsp;<i
+                                    class="fas fa-user-md el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-music" name="icon" required>&nbsp;<i
+                                    class="fas fa-music el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-volume-mute" name="icon"
+                                   required>&nbsp;<i class="fas fa-volume-mute el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-book-reader" name="icon"
+                                   required>&nbsp;<i class="fas fa-book-reader el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-book" name="icon" required>&nbsp;<i
+                                    class="fas fa-book el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-chess-rook" name="icon" required>&nbsp;<i
+                                    class="fas fa-chess-rook el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-user-secret" name="icon"
+                                   required>&nbsp;<i class="fas fa-user-secret el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-beer" name="icon" required>&nbsp;<i
+                                    class="fas fa-beer el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-coffee" name="icon" required>&nbsp;<i
+                                    class="fas fa-coffee el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-wine-bottle" name="icon"
+                                   required>&nbsp;<i class="fas fa-wine-bottle el_ic"></i><br>
+                            <input type="radio" class="col-md-3" value="fas fa-wine-glass" name="icon" required>&nbsp;<i
+                                    class="fas fa-wine-glass el_ic"></i><br>
                         </div>
                     </div>
             </div>
